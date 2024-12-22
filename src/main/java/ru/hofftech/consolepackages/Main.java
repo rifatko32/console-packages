@@ -5,9 +5,9 @@ import ru.hofftech.consolepackages.controller.ConsoleController;
 import ru.hofftech.consolepackages.service.PackageFromFilePlaceService;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
 import ru.hofftech.consolepackages.service.report.PackagePlaceReportEngineFactory;
-import ru.hofftech.consolepackages.service.report.impl.PackagePlaceStringReportEngine;
+import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
 import ru.hofftech.consolepackages.util.PackageFileReader;
-import ru.hofftech.consolepackages.util.ReportToConsoleWriter;
+import ru.hofftech.consolepackages.service.report.outputchannel.impl.ReportToConsoleWriter;
 
 @Slf4j
 public class Main {
@@ -22,7 +22,7 @@ public class Main {
                         new PackageFileReader(),
                         new PackagePlaceAlgorithmFactory(),
                         new PackagePlaceReportEngineFactory()),
-                new ReportToConsoleWriter());
+                new ReportWriterFactory());
         consoleController.listen();
     }
 }

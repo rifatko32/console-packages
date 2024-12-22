@@ -12,6 +12,7 @@ public class PackagePlaceStringReportEngine implements PackagePlaceReportEngine 
     private static final String TRUCK_BACK_SIDE = "++++++++";
     private static final String TRUCK_SIDE = "+";
 
+    @Override
     public PackagePlaceStringReport generateReport(List<Truck> trucks) {
         var report = new PackagePlaceStringReport();
 
@@ -20,9 +21,9 @@ public class PackagePlaceStringReportEngine implements PackagePlaceReportEngine 
         }
 
         for (Truck truck : trucks) {
-            report.getReportStrings().add(TRUCK_DELIMiTER);
+            report.addReportString(TRUCK_DELIMiTER);
             var truckStrings = createTruckReportStrings(truck);
-            report.getReportStrings().addAll(truckStrings);
+            report.addReportStrings(truckStrings);
         }
 
         return report;
