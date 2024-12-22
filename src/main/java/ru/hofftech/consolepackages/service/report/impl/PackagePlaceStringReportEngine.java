@@ -1,11 +1,13 @@
-package ru.hofftech.consolepackages.service.report;
+package ru.hofftech.consolepackages.service.report.impl;
 
+import ru.hofftech.consolepackages.service.report.PackagePlaceReportEngine;
+import ru.hofftech.consolepackages.service.report.PackagePlaceStringReport;
 import ru.hofftech.consolepackages.service.truck.Truck;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PackagePlaceStringReportEngine {
+public class PackagePlaceStringReportEngine implements PackagePlaceReportEngine {
     private static final String TRUCK_DELIMiTER = "-------------------------------------------";
     private static final String TRUCK_BACK_SIDE = "++++++++";
     private static final String TRUCK_SIDE = "+";
