@@ -6,5 +6,5 @@ import ru.hofftech.consolepackages.service.truck.Truck;
 import java.util.List;
 
 public interface PackagePlaceAlgorithm {
-    List<Truck> placePackages(List<Package> packages);
+    List<Truck> placePackages(List<Package> packages, Integer availableTruckCount);
 }

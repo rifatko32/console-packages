@@ -15,7 +15,7 @@ public class PackagePlaceByWidthAlgorithm implements PackagePlaceAlgorithm {
     private final static int TRUCK_BACK_HEIGHT = 6;
 
     @Override
-    public List<Truck> placePackages(List<ru.hofftech.consolepackages.service.packageitem.Package> packages) {
+    public List<Truck> placePackages(List<ru.hofftech.consolepackages.service.packageitem.Package> packages, Integer availableTruckCount) {
 
         if (packages.isEmpty()) {
             return new ArrayList<>();
@@ -27,15 +27,17 @@ public class PackagePlaceByWidthAlgorithm implements PackagePlaceAlgorithm {
                 .sorted(Comparator.comparing(ru.hofftech.consolepackages.service.packageitem.Package::getWidth).reversed())
                 .toList();
 
-        return placeSortedPackages(sortedPackages);
+        return placeSortedPackages(sortedPackages, availableTruckCount);
     }
 
-    private List<Truck> placeSortedPackages(List<ru.hofftech.consolepackages.service.packageitem.Package> packages) {
+    private List<Truck> placeSortedPackages(List<ru.hofftech.consolepackages.service.packageitem.Package> packages,Integer availableTruckCount) {
         var trucks = new ArrayList<Truck>();
 
         var placedPackagesIds = new HashSet<UUID>();
 
         do {
+            checkIsCurrentTruckCountLessThenAvailable(availableTruckCount, trucks);
+
             var truck = new Truck(TRUCK_BACK_WIDTH, TRUCK_BACK_HEIGHT);
 
             for (ru.hofftech.consolepackages.service.packageitem.Package record : packages) {
@@ -49,6 +51,12 @@ public class PackagePlaceByWidthAlgorithm implements PackagePlaceAlgorithm {
         while ((long) packages.size() != (long) placedPackagesIds.size());
 
         return trucks;
+    }
+
+    private static void checkIsCurrentTruckCountLessThenAvailable(Integer availableTruckCount, ArrayList<Truck> trucks) {
+        if (trucks.size() >= availableTruckCount) {
+            throw new RuntimeException(String.format("Too many packages for %d truck count", availableTruckCount));
+        }
     }
 
     private boolean tryPlacePackage(ru.hofftech.consolepackages.service.packageitem.Package packageItem, Truck truck) {

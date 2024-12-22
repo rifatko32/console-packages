@@ -17,7 +17,6 @@ public class ReportToJsonFileWriter implements ReportWriter {
     private final static String FOLDER_NAME = "reports";
 
     private void writeReportToFile(PackagePlaceStringReport report) {
-        createReportsFolder();
 
         var fileName = String.format(
                 "%s/%s_%s%s",
@@ -27,6 +26,7 @@ public class ReportToJsonFileWriter implements ReportWriter {
                 FILE_EXTENSION);
 
         try (FileWriter writer = new FileWriter(fileName)) {
+            createReportsFolder();
             writer.write(report.getReportStrings().getFirst());
             log.info("Report was successfully written to {}", fileName);
         } catch (IOException e) {
@@ -35,13 +35,14 @@ public class ReportToJsonFileWriter implements ReportWriter {
     }
 
     private static void createReportsFolder() {
-        // Создаем объект File
         var directory = new File(FOLDER_NAME);
 
-        if (!directory.exists()) {
-            if (!directory.mkdir()) {
-                throw new RuntimeException("Error while creating directory");
-            }
+        if (directory.exists()) {
+            return;
+        }
+
+        if (!directory.mkdir()) {
+            throw new RuntimeException("Error while creating directory");
         }
     }
 

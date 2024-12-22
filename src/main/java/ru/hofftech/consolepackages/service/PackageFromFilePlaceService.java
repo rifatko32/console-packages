@@ -24,7 +24,8 @@ public class PackageFromFilePlaceService {
     public PackagePlaceStringReport placePackages(
             String filePath,
             PackagePlaceAlgorithmType packagePlaceEngineType,
-            ReportEngineType reportEngineType) {
+            ReportEngineType reportEngineType,
+            Integer truckCount) {
         try {
             List<String> packages = fileReader.readPackages(filePath);
             if (packages.isEmpty()) {
@@ -36,7 +37,7 @@ public class PackageFromFilePlaceService {
 
             var packagePlaceEngine = placeEngineFactory.createPackagePlaceEngine(packagePlaceEngineType);
             var packageRecords = mapToPackages(packages);
-            var trucks = packagePlaceEngine.placePackages(packageRecords);
+            var trucks = packagePlaceEngine.placePackages(packageRecords, truckCount);
 
             var reportEngine = reportEngineFactory.createReportEngine(reportEngineType);
             return reportEngine.generateReport(trucks);

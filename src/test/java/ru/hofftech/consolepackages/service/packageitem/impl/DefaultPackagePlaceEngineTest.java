@@ -30,7 +30,7 @@ public class DefaultPackagePlaceEngineTest {
         }
 
         // Act
-        var result = engine.placePackages(packages);
+        var result = engine.placePackages(packages, 5);
         var truck = result.stream().findFirst().orElse(null);
 
         // Assert
@@ -45,7 +45,7 @@ public class DefaultPackagePlaceEngineTest {
         var engine = new PackagePlaceByWidthAlgorithm();
 
         // Act
-        var result = engine.placePackages(packages);
+        var result = engine.placePackages(packages, 6);
 
         // Assert
         assertThat(result).isNotNull();
