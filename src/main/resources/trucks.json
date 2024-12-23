@@ -1,0 +1,174 @@
+[
+  {
+    "backTruckSlots": [
+      [
+        0,
+        0,
+        4,
+        4,
+        4,
+        4
+      ],
+      [
+        0,
+        0,
+        4,
+        4,
+        4,
+        4
+      ],
+      [
+        0,
+        0,
+        4,
+        4,
+        4,
+        4
+      ],
+      [
+        0,
+        0,
+        4,
+        4,
+        4,
+        4
+      ],
+      [
+        2,
+        2,
+        7,
+        7,
+        7,
+        1
+      ],
+      [
+        2,
+        2,
+        7,
+        7,
+        7,
+        7
+      ]
+    ],
+    "width": 6,
+    "height": 6,
+    "packages": [
+      {
+        "id": "b3b305c7-3cd7-48fb-9d20-491d28e6293f",
+        "descriptionNumber": 7,
+        "width": 4,
+        "height": 2
+      },
+      {
+        "id": "3811be0a-fbd8-4ade-b3b0-f9a0010d996a",
+        "descriptionNumber": 4,
+        "width": 4,
+        "height": 1
+      },
+      {
+        "id": "d886aaf1-d643-4b59-9871-368af9590bda",
+        "descriptionNumber": 4,
+        "width": 4,
+        "height": 1
+      },
+      {
+        "id": "55164031-9f17-4fcd-91b6-7b4b24a3ffae",
+        "descriptionNumber": 4,
+        "width": 4,
+        "height": 1
+      },
+      {
+        "id": "88f6aafd-4be4-4b0e-99f4-b5a569889b9f",
+        "descriptionNumber": 4,
+        "width": 4,
+        "height": 1
+      },
+      {
+        "id": "995f3931-d56a-4963-89d2-32d6ecdb6596",
+        "descriptionNumber": 2,
+        "width": 2,
+        "height": 1
+      },
+      {
+        "id": "0acd2925-5714-4304-a53d-fa4dd526ca05",
+        "descriptionNumber": 2,
+        "width": 2,
+        "height": 1
+      },
+      {
+        "id": "91a8bb92-a920-471d-af55-f2774210b090",
+        "descriptionNumber": 1,
+        "width": 1,
+        "height": 1
+      }
+    ]
+  },
+  {
+    "backTruckSlots": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        9,
+        9,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        9,
+        9,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        9,
+        9,
+        3,
+        3,
+        3
+      ]
+    ],
+    "width": 6,
+    "height": 6,
+    "packages": [
+      {
+        "id": "45aae324-c275-444f-a86d-c970bbde4340",
+        "descriptionNumber": 3,
+        "width": 3,
+        "height": 1
+      },
+      {
+        "id": "6b00c386-549a-42d7-96cf-e325259d57fc",
+        "descriptionNumber": 9,
+        "width": 3,
+        "height": 3
+      }
+    ]
+  }
+]

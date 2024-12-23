@@ -1,5 +1,6 @@
 package ru.hofftech.consolepackages.service.report.outputchannel.impl;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.hofftech.consolepackages.service.report.PackagePlaceStringReport;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriter;
@@ -11,23 +12,30 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Slf4j
-public class ReportToJsonFileWriter implements ReportWriter {
+@RequiredArgsConstructor
+public class ReportToFileWriter implements ReportWriter {
     private final static String FILE_NAME_TEMPLATE = "report";
-    private final static String FILE_EXTENSION = ".json";
     private final static String FOLDER_NAME = "reports";
 
+    private final String fileExtension;
+
     private void writeReportToFile(PackagePlaceStringReport report) {
+        if (report == null || report.getReportStrings().isEmpty()) {
+            throw new IllegalArgumentException("Report is null or empty");
+        }
 
         var fileName = String.format(
                 "%s/%s_%s%s",
                 FOLDER_NAME,
                 FILE_NAME_TEMPLATE,
                 new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date()),
-                FILE_EXTENSION);
+                fileExtension);
 
         try (FileWriter writer = new FileWriter(fileName)) {
             createReportsFolder();
-            writer.write(report.getReportStrings().getFirst());
+            for(var reportString : report.getReportStrings()) {
+                writer.write(reportString);
+            }
             log.info("Report was successfully written to {}", fileName);
         } catch (IOException e) {
             log.error("Error while writing file", e);

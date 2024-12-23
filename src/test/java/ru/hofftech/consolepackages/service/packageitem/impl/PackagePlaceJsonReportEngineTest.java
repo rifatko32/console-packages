@@ -1,9 +1,8 @@
 package ru.hofftech.consolepackages.service.packageitem.impl;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import ru.hofftech.consolepackages.service.packageitem.Package;
-import ru.hofftech.consolepackages.service.report.impl.PackagePlaceJsonReportEngine;
+import ru.hofftech.consolepackages.service.report.packageitem.impl.PackagePlaceJsonReportEngine;
 import ru.hofftech.consolepackages.service.truck.Truck;
 
 import java.util.List;

@@ -1,7 +1,7 @@
-package ru.hofftech.consolepackages.service.report.impl;
+package ru.hofftech.consolepackages.service.report.packageitem.impl;
 
 import com.google.gson.GsonBuilder;
-import ru.hofftech.consolepackages.service.report.PackagePlaceReportEngine;
+import ru.hofftech.consolepackages.service.report.packageitem.PackagePlaceReportEngine;
 import ru.hofftech.consolepackages.service.report.PackagePlaceStringReport;
 import ru.hofftech.consolepackages.service.truck.Truck;
 
