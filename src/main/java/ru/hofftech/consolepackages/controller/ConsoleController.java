@@ -20,10 +20,11 @@ public class ConsoleController {
     private final TruckToPackagesService truckToPackagesService;
     private final static Integer DEFAULT_TRUCK_COUNT = 10;
     private final static String EXIT_COMMAND = "exit";
-    private final Pattern TRUCK_COUNT_PATTERN = Pattern.compile("\\d+$");
-    private final Pattern IMPORT_TXT_TO_CONSOLE_COMMAND_PATTERN = Pattern.compile("import_txt_to_console (.+\\.txt) \\d*");
-    private final Pattern IMPORT_TXT_TO_JSON_COMMAND_PATTERN = Pattern.compile("import_txt_to_json (.+\\.txt) \\d*");
+    private final Pattern TRUCK_COUNT_PATTERN = Pattern.compile("\\d+");
+    private final Pattern IMPORT_TXT_TO_CONSOLE_COMMAND_PATTERN = Pattern.compile("import_txt_to_console (.+\\.txt) \\d* [a-zA-Z]*$");
+    private final Pattern IMPORT_TXT_TO_JSON_COMMAND_PATTERN = Pattern.compile("import_txt_to_json (.+\\.txt) \\d* [a-zA-Z]*$");
     private final Pattern IMPORT_JSON_TRUCKS_TO_TXT_PACKAGES_COMMAND_PATTERN = Pattern.compile("import_json_trucks_to_txt_packages (.+\\.json)");
+    private final Pattern PLACING_ALGORITHM_NAME_PATTERN = Pattern.compile("[a-zA-Z]+$");
     private final ReportWriterFactory reportWriterFactory;
 
     public void listen() {
@@ -41,17 +42,19 @@ public class ConsoleController {
 
             var truckCount = readTruckCount(strCommand);
 
+            var algorithmType = readAlgorithmName(strCommand);
+
             if (txtMatcher.matches()) {
                 executePlaceCommand(
                         txtMatcher,
-                        PackagePlaceAlgorithmType.PACKAGE_PLACE_BY_WIDTH,
+                        algorithmType,
                         ReportEngineType.STRING,
                         ReportOutputChannelType.CONSOLE,
                         truckCount);
             } else if (txtToJsonMatcher.matches()) {
                 executePlaceCommand(
                         txtToJsonMatcher,
-                        PackagePlaceAlgorithmType.PACKAGE_PLACE_BY_WIDTH,
+                        algorithmType,
                         ReportEngineType.JSON,
                         ReportOutputChannelType.JSONFILE,
                         truckCount);
@@ -64,6 +67,20 @@ public class ConsoleController {
                 log.error("Invalid command: {}", strCommand);
             }
         }
+    }
+
+    private PackagePlaceAlgorithmType readAlgorithmName(String strCommand) {
+        var algorithmName =  "";
+        var algorithmNameMatcher = PLACING_ALGORITHM_NAME_PATTERN.matcher(strCommand);
+        if (algorithmNameMatcher.find()) {
+            algorithmName = algorithmNameMatcher.group(0);
+        }
+
+        return switch (algorithmName) {
+            case "equal" -> PackagePlaceAlgorithmType.EQUAL_DISTRIBUTION;
+            case "single" -> PackagePlaceAlgorithmType.SINGLE_PACKAGE_PER_TRUCK;
+            default -> PackagePlaceAlgorithmType.PACKAGE_PLACE_BY_WIDTH;
+        };
     }
 
     private Integer readTruckCount(String command) {

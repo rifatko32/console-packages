@@ -1,4 +1,4 @@
-package ru.hofftech.consolepackages.service.packageitem.impl;
+package ru.hofftech.consolepackages.service.packageitem.engine.impl;
 
 import org.junit.jupiter.api.Test;
 import ru.hofftech.consolepackages.service.packageitem.Package;
@@ -9,9 +9,10 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class DefaultPackagePlaceEngineTest {
+public class PackagePlaceByWidthAlgorithmTest {
+    //generateReport_givenTruckList_shouldReturnReport
     @Test
-    public void when_has_packages_should_return_filled_truck() {
+    public void placePackages_givenPackages_shouldReturnFilledTruck() {
         // Arrange
         var packageStrings = List.of("1", "22");
         var engine = new PackagePlaceByWidthAlgorithm();
@@ -39,7 +40,7 @@ public class DefaultPackagePlaceEngineTest {
     }
 
     @Test
-    public void when_does_not_have_packages_should_return_empty_truck_list() {
+    public void placePackages_givenEmptyListOfPackages_shouldReturnFilledTruck() {
         // Arrange
         var packages = new ArrayList<Package>();
         var engine = new PackagePlaceByWidthAlgorithm();
