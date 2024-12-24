@@ -30,7 +30,7 @@ public class PackagePlaceByWidthAlgorithm implements PackagePlaceAlgorithm {
         return placeSortedPackages(sortedPackages, availableTruckCount);
     }
 
-    private List<Truck> placeSortedPackages(List<ru.hofftech.consolepackages.service.packageitem.Package> packages,Integer availableTruckCount) {
+    private List<Truck> placeSortedPackages(List<ru.hofftech.consolepackages.service.packageitem.Package> packages, Integer availableTruckCount) {
         var trucks = new ArrayList<Truck>();
 
         var placedPackagesIds = new HashSet<UUID>();

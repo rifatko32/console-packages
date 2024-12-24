@@ -13,7 +13,6 @@ public class PackagePlaceAlgorithmFactory {
             case SINGLE_PACKAGE_PER_TRUCK -> {
                 return new SinglePackagePerTruckPlaceAlgorithm();
             }
-
             case EQUAL_DISTRIBUTION -> {
                 return new EqualDistributionPlaceAlgorithm();
             }

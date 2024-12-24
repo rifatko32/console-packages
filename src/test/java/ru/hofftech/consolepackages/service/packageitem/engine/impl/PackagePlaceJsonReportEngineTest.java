@@ -20,7 +20,7 @@ public class PackagePlaceJsonReportEngineTest {
                 new Package("5")
         );
         var truck = new Truck(6, 6);
-        for(var packageItem : packages) {
+        for (var packageItem : packages) {
             truck.loadPackage(packageItem);
         }
         var reportEngine = new PackagePlaceJsonReportEngine();

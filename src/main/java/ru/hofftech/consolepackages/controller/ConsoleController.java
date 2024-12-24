@@ -40,24 +40,18 @@ public class ConsoleController {
             Matcher txtToJsonMatcher = IMPORT_TXT_TO_JSON_COMMAND_PATTERN.matcher(strCommand);
             Matcher jsonTrucksToTxtPackagesMatcher = IMPORT_JSON_TRUCKS_TO_TXT_PACKAGES_COMMAND_PATTERN.matcher(strCommand);
 
-            var truckCount = readTruckCount(strCommand);
-
-            var algorithmType = readAlgorithmName(strCommand);
-
             if (txtMatcher.matches()) {
                 executePlaceCommand(
                         txtMatcher,
-                        algorithmType,
                         ReportEngineType.STRING,
                         ReportOutputChannelType.CONSOLE,
-                        truckCount);
+                        strCommand);
             } else if (txtToJsonMatcher.matches()) {
                 executePlaceCommand(
                         txtToJsonMatcher,
-                        algorithmType,
                         ReportEngineType.JSON,
                         ReportOutputChannelType.JSONFILE,
-                        truckCount);
+                        strCommand);
             } else if (jsonTrucksToTxtPackagesMatcher.matches()) {
                 executeTruckReadingCommand(
                         jsonTrucksToTxtPackagesMatcher,
@@ -79,7 +73,8 @@ public class ConsoleController {
         return switch (algorithmName) {
             case "equal" -> PackagePlaceAlgorithmType.EQUAL_DISTRIBUTION;
             case "single" -> PackagePlaceAlgorithmType.SINGLE_PACKAGE_PER_TRUCK;
-            default -> PackagePlaceAlgorithmType.PACKAGE_PLACE_BY_WIDTH;
+            case "width" -> PackagePlaceAlgorithmType.PACKAGE_PLACE_BY_WIDTH;
+            default -> throw new IllegalStateException("Unexpected value: " + algorithmName);
         };
     }
 
@@ -94,17 +89,18 @@ public class ConsoleController {
 
     private void executePlaceCommand(
             Matcher matcher,
-            PackagePlaceAlgorithmType packagePlaceAlgorithmType,
             ReportEngineType reportEngineType,
             ReportOutputChannelType reportOutputChannelType,
-            Integer truckCount) {
+            String strCommand) {
+        var truckCount = readTruckCount(strCommand);
+        var algorithmType = readAlgorithmName(strCommand);
 
         var filePath = matcher.group(1);
         log.info("Start of handling file: {}", filePath);
 
         var packagePlaceReport = packagePlaceService.placePackages(
                 filePath,
-                packagePlaceAlgorithmType,
+                algorithmType,
                 reportEngineType,
                 truckCount);
 

@@ -1,8 +1,11 @@
-посылки в  в консоль с ограничением по 6 машинам
-import_txt_to_console packages.txt 6 single
+посылки в консоль с ограничением по 20 машинам c single алгоритмом
+import_txt_to_console packages.txt 20 single
+
+посылки в консоль с ограничением по 6 машинам c width алгоритмом
+import_txt_to_console packages.txt 6 width
 
 посылки в json с ограничением по 6 машинам
 import_txt_to_json packages.txt 6 equal
 
-грузовики из json в txt
+грузовики из json файла в txt
 import_json_trucks_to_txt_packages trucks.json

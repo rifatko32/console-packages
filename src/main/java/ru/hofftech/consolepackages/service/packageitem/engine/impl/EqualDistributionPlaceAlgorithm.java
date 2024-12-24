@@ -72,7 +72,7 @@ public class EqualDistributionPlaceAlgorithm implements PackagePlaceAlgorithm {
             }
 
             currentTruckIndex++;
-            if(currentTruckIndex >= availableTruckCount) {
+            if (currentTruckIndex >= availableTruckCount) {
                 currentTruckIndex = 0;
             }
         }
@@ -81,7 +81,7 @@ public class EqualDistributionPlaceAlgorithm implements PackagePlaceAlgorithm {
     private static ArrayList<Truck> generateTrucks(Integer availableTruckCount) {
         var trucks = new ArrayList<Truck>(availableTruckCount);
 
-        for(var i = 0; i < availableTruckCount; i++) {
+        for (var i = 0; i < availableTruckCount; i++) {
             var truck = new Truck(TRUCK_BACK_WIDTH, TRUCK_BACK_HEIGHT);
             trucks.add(truck);
         }
