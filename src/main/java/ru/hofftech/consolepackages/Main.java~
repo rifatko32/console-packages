@@ -28,7 +28,8 @@ public class Main {
                 new TruckToPackagesService(
                         new TruckJsonFileReader(),
                         new TruckUnloadingReportEngineFactory(),
-                        new TruckUnloadingAlgorithm()
+                        new TruckUnloadingAlgorithm(),
+                        new ReportWriterFactory()
                 ),
                 new ReportWriterFactory());
         consoleController.listen();

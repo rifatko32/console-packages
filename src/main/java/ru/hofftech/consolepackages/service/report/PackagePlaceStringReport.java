@@ -12,4 +12,12 @@ public class PackagePlaceStringReport {
     public PackagePlaceStringReport() {
         reportStrings = new ArrayList<>();
     }
+
+    public void addReportString(String reportString) {
+        reportStrings.add(reportString);
+    }
+
+    public void addReportStrings(List<String> reportStrings) {
+        this.reportStrings.addAll(reportStrings);
+    }
 }

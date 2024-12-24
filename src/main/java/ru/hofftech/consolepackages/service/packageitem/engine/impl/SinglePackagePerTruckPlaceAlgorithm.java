@@ -12,25 +12,33 @@ public class SinglePackagePerTruckPlaceAlgorithm implements PackagePlaceAlgorith
     private final int TRUCK_BACK_HEIGHT = 6;
 
     @Override
-    public List<Truck> placePackages(List<ru.hofftech.consolepackages.service.packageitem.Package> packages) {
+    public List<Truck> placePackages(List<ru.hofftech.consolepackages.service.packageitem.Package> packages, Integer availableTruckCount) {
 
         if (packages.isEmpty()) {
             return new ArrayList<>();
         }
 
-        return placePackageRecords(packages);
+        return placePackageRecords(packages, availableTruckCount);
     }
 
-    private List<Truck> placePackageRecords(List<ru.hofftech.consolepackages.service.packageitem.Package> packages) {
+    private List<Truck> placePackageRecords(List<ru.hofftech.consolepackages.service.packageitem.Package> packages, Integer availableTruckCount) {
         var trucks = new ArrayList<Truck>();
 
         for (var packageRecord : packages) {
+            checkIsCurrentTruckCountLessThenAvailable(availableTruckCount, trucks);
+
             var truck = new Truck(TRUCK_BACK_WIDTH, TRUCK_BACK_HEIGHT);
             tryPlacePackage(packageRecord, truck);
             trucks.add(truck);
         }
 
         return trucks;
+    }
+
+    private static void checkIsCurrentTruckCountLessThenAvailable(Integer availableTruckCount, ArrayList<Truck> trucks) {
+        if (trucks.size() >= availableTruckCount) {
+            throw new RuntimeException(String.format("Too many packages for %d truck count", availableTruckCount));
+        }
     }
 
     private void tryPlacePackage(Package packageRecord, Truck truck) {

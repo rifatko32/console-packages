@@ -15,7 +15,7 @@ public class Truck {
     private final int width; //кол-во столбцов координата x
     @Getter
     private final int height; //кол-во строк координата y
-
+    @Getter
     private final List<Package> packages;
 
     public Truck(int width, int height) {
