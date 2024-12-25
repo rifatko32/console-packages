@@ -1,5 +1,6 @@
 package ru.hofftech.consolepackages;
 
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import ru.hofftech.consolepackages.controller.ConsoleController;
 import ru.hofftech.consolepackages.service.PackageFromFilePlaceService;
@@ -26,7 +27,9 @@ public class Main {
                         new PackagePlaceAlgorithmFactory(),
                         new PackagePlaceReportEngineFactory()),
                 new TruckToPackagesService(
-                        new TruckJsonFileReader(),
+                        new TruckJsonFileReader(
+                                new Gson()
+                        ),
                         new TruckUnloadingReportEngineFactory(),
                         new TruckUnloadingAlgorithm()
                 ),

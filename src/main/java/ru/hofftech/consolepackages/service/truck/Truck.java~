@@ -7,12 +7,15 @@ import ru.hofftech.consolepackages.service.packageitem.Package;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-public class Truck {
-    private final int[][] backTruckSlots; // координаты ячеек в кузове
-    private final int width; //кол-во столбцов координата x
-    private final int height; //кол-во строк координата y
 
+public class Truck {
+    @Getter
+    private final int[][] backTruckSlots; // координаты ячеек в кузове
+    @Getter
+    private final int width; //кол-во столбцов координата x
+    @Getter
+    private final int height; //кол-во строк координата y
+    @Getter
     private final List<Package> packages;
 
     public Truck(int width, int height) {

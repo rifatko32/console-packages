@@ -16,11 +16,10 @@ import java.util.regex.Pattern;
 @Slf4j
 @RequiredArgsConstructor
 public class ConsoleController {
-    private final static Integer DEFAULT_TRUCK_COUNT = 10;
-    private final static String EXIT_COMMAND = "exit";
-
     private final PackageFromFilePlaceService packagePlaceService;
     private final TruckToPackagesService truckToPackagesService;
+    private final static Integer DEFAULT_TRUCK_COUNT = 10;
+    private final static String EXIT_COMMAND = "exit";
     private final Pattern TRUCK_COUNT_PATTERN = Pattern.compile("\\d+");
     private final Pattern IMPORT_TXT_TO_CONSOLE_COMMAND_PATTERN = Pattern.compile("import_txt_to_console (.+\\.txt) \\d* [a-zA-Z]*$");
     private final Pattern IMPORT_TXT_TO_JSON_COMMAND_PATTERN = Pattern.compile("import_txt_to_json (.+\\.txt) \\d* [a-zA-Z]*$");

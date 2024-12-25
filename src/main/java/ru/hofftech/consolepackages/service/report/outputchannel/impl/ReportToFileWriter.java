@@ -19,9 +19,10 @@ public class ReportToFileWriter implements ReportWriter {
 
     private final String fileExtension;
 
-    private void writeReportToFile(PackagePlaceStringReport report) {
+    @Override
+    public void writeReport(PackagePlaceStringReport report) {
         if (report == null || report.getReportStrings().isEmpty()) {
-            throw new IllegalArgumentException("Report is null or empty");
+            throw new IllegalArgumentException("Report is empty or null");
         }
 
         var fileName = String.format(
@@ -31,6 +32,10 @@ public class ReportToFileWriter implements ReportWriter {
                 new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date()),
                 fileExtension);
 
+        writeReportToFile(report, fileName);
+    }
+
+    private void writeReportToFile(PackagePlaceStringReport report, String fileName) {
         try (FileWriter writer = new FileWriter(fileName)) {
             createReportsFolder();
             for(var reportString : report.getReportStrings()) {
@@ -52,14 +57,5 @@ public class ReportToFileWriter implements ReportWriter {
         if (!directory.mkdir()) {
             throw new RuntimeException("Error while creating directory");
         }
-    }
-
-    @Override
-    public void writeReport(PackagePlaceStringReport report) {
-        if (report == null || report.getReportStrings().isEmpty()) {
-            throw new IllegalArgumentException("Report is empty or null");
-        }
-
-        writeReportToFile(report);
     }
 }

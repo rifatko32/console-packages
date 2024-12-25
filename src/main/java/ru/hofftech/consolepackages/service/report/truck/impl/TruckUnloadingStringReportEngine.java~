@@ -12,6 +12,10 @@ public class TruckUnloadingStringReportEngine implements TruckUnloadingReportEng
     public PackagePlaceStringReport generateReport(List<ru.hofftech.consolepackages.service.packageitem.Package> packages) {
         var report = new PackagePlaceStringReport();
 
+        if (packages.isEmpty()) {
+            return report;
+        }
+
         for (ru.hofftech.consolepackages.service.packageitem.Package packageItem : packages) {
             report.addReportString(packageItem.toString());
             report.addReportString(PACKAGE_DELIMITER);

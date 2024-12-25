@@ -10,10 +10,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
-public class PackagePlaceByWidthAlgorithm implements PackagePlaceAlgorithm {
-    private final static int TRUCK_BACK_WIDTH = 6;
-    private final static int TRUCK_BACK_HEIGHT = 6;
+import static ru.hofftech.consolepackages.service.report.truck.TruckConstants.TRUCK_BACK_HEIGHT;
+import static ru.hofftech.consolepackages.service.report.truck.TruckConstants.TRUCK_BACK_WIDTH;
 
+public class PackagePlaceByWidthAlgorithm implements PackagePlaceAlgorithm {
     @Override
     public List<Truck> placePackages(List<ru.hofftech.consolepackages.service.packageitem.Package> packages, Integer availableTruckCount) {
 

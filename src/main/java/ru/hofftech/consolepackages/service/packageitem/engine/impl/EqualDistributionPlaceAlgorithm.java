@@ -10,9 +10,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
+import static ru.hofftech.consolepackages.service.report.truck.TruckConstants.TRUCK_BACK_HEIGHT;
+import static ru.hofftech.consolepackages.service.report.truck.TruckConstants.TRUCK_BACK_WIDTH;
+
 public class EqualDistributionPlaceAlgorithm implements PackagePlaceAlgorithm {
-    private final static int TRUCK_BACK_WIDTH = 6;
-    private final static int TRUCK_BACK_HEIGHT = 6;
 
     @Override
     public List<Truck> placePackages(List<Package> packages, Integer availableTruckCount) {
@@ -97,7 +98,6 @@ public class EqualDistributionPlaceAlgorithm implements PackagePlaceAlgorithm {
                     continue;
                 }
 
-                // packageItem.setPlaced(true);
                 var fillingSlots = packageItem.mapToListOfFillingSlots(x, y);
 
                 truck.fillBackTruckSlots(fillingSlots, packageItem.getDescriptionNumber());
