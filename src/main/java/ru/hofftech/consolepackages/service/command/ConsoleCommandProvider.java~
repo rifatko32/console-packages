@@ -1,0 +1,50 @@
+package ru.hofftech.consolepackages.service.command;
+
+import ru.hofftech.consolepackages.service.command.impl.ExitConsoleCommand;
+import ru.hofftech.consolepackages.service.report.ReportEngineType;
+import ru.hofftech.consolepackages.service.report.outputchannel.ReportOutputChannelType;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class ConsoleCommandProvider {
+    private final static String EXIT_COMMAND = "exit";
+
+    private static final Pattern IMPORT_TXT_TO_CONSOLE_COMMAND_PATTERN = Pattern.compile("import_txt_to_console (.+\\.txt) \\d* [a-zA-Z]*$");
+    private static final Pattern IMPORT_TXT_TO_JSON_COMMAND_PATTERN = Pattern.compile("import_txt_to_json (.+\\.txt) \\d* [a-zA-Z]*$");
+    private static final Pattern IMPORT_JSON_TRUCKS_TO_TXT_PACKAGES_COMMAND_PATTERN = Pattern.compile("import_json_trucks_to_txt_packages (.+\\.json)");
+
+    public static ConsoleCommand createCommand(String strCommand) {
+
+        if (EXIT_COMMAND.equals(strCommand)) {
+            return new ExitConsoleCommand();
+        }
+
+        Matcher txtMatcher = IMPORT_TXT_TO_CONSOLE_COMMAND_PATTERN.matcher(strCommand);
+        Matcher txtToJsonMatcher = IMPORT_TXT_TO_JSON_COMMAND_PATTERN.matcher(strCommand);
+        Matcher jsonTrucksToTxtPackagesMatcher = IMPORT_JSON_TRUCKS_TO_TXT_PACKAGES_COMMAND_PATTERN.matcher(strCommand);
+
+        if (txtMatcher.matches()) {
+            executePlaceCommand(
+                    txtMatcher,
+                    ReportEngineType.STRING,
+                    ReportOutputChannelType.CONSOLE,
+                    strCommand);
+        } else if (txtToJsonMatcher.matches()) {
+            executePlaceCommand(
+                    txtToJsonMatcher,
+                    ReportEngineType.JSON,
+                    ReportOutputChannelType.JSONFILE,
+                    strCommand);
+        } else if (jsonTrucksToTxtPackagesMatcher.matches()) {
+            executeTruckReadingCommand(
+                    jsonTrucksToTxtPackagesMatcher,
+                    ReportEngineType.STRING,
+                    ReportOutputChannelType.TXT_FILE);
+        } else {
+            log.error("Invalid command: {}", strCommand);
+        }
+
+        return new PlaceConsoleCommand(command);
+    }
+}
