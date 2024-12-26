@@ -22,7 +22,7 @@ public class ConsoleController {
                 command.execute();
             }
             catch (Exception e) {
-                log.error("Error while executing command: {}", e);
+                log.error("Error while executing command", e);
             }
 
         }

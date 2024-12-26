@@ -10,8 +10,6 @@ import ru.hofftech.consolepackages.service.command.impl.PlacePackagesFromTxtFile
 import ru.hofftech.consolepackages.service.command.impl.UnloadTrucksFromJsonToTxtFileCommand;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
 
-import static ru.hofftech.consolepackages.service.command.CommandConstants.EXIT_COMMAND;
-
 @Slf4j
 @RequiredArgsConstructor
 public class CommandFactory {
@@ -20,10 +18,6 @@ public class CommandFactory {
     private final ReportWriterFactory reportWriterFactory;
 
     public Command createCommand(String strCommand) {
-
-        if (EXIT_COMMAND.equals(strCommand)) {
-            return new ExitCommand();
-        }
 
         var commandType = CommandParser.parseCommandType(strCommand);
 
