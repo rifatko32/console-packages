@@ -40,16 +40,12 @@ public class CommandParser {
     public static PackagePlaceAlgorithmType readAlgorithmName(String strCommand) {
         var algorithmName = "";
         var algorithmNameMatcher = CommandConstants.PLACING_ALGORITHM_NAME_PATTERN.matcher(strCommand);
+
         if (algorithmNameMatcher.find()) {
             algorithmName = algorithmNameMatcher.group(0);
         }
 
-        return switch (algorithmName) {
-            case CommandConstants.EQUAL_ALGORITHM_NAME -> PackagePlaceAlgorithmType.EQUAL_DISTRIBUTION;
-            case CommandConstants.SINGLE_ALGORITHM_NAME -> PackagePlaceAlgorithmType.SINGLE_PACKAGE_PER_TRUCK;
-            case CommandConstants.WIDTH_ALGORITHM_NAME -> PackagePlaceAlgorithmType.PACKAGE_PLACE_BY_WIDTH;
-            default -> throw new IllegalStateException("Unexpected algorithm name value: " + algorithmName);
-        };
+        return PackagePlaceAlgorithmType.fromLabel(algorithmName);
     }
 
     public static String readFilePath(String strCommand, CommandType commandType) {
