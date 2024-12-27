@@ -5,9 +5,6 @@ import java.util.regex.Pattern;
 public class CommandConstants {
     public static final Integer DEFAULT_TRUCK_COUNT = 10;
     public static final String EXIT_COMMAND = "exit";
-    public static final String EQUAL_ALGORITHM_NAME = "equal";
-    public static final String SINGLE_ALGORITHM_NAME = "single";
-    public static final String WIDTH_ALGORITHM_NAME = "width";
     public static final Pattern PLACE_PACKAGES_FROM_TXT_TO_CONSOLE_COMMAND_PATTERN = Pattern.compile("import_txt_to_console (.+\\.txt) \\d* [a-zA-Z]*$");
     public static final Pattern PLACE_PACKAGES_FROM_TXT_TO_JSON_COMMAND_PATTERN = Pattern.compile("import_txt_to_json (.+\\.txt) \\d* [a-zA-Z]*$");
     public static final Pattern UNLOAD_TRUCKS_FROM_JSON_TO_TXT_COMMAND_PATTERN = Pattern.compile("import_json_trucks_to_txt_packages (.+\\.json)");
