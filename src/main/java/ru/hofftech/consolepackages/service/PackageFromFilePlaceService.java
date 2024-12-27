@@ -5,10 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import ru.hofftech.consolepackages.service.packageitem.Package;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmType;
+import ru.hofftech.consolepackages.service.report.packageitem.PackagePlaceReportEngineFactory;
 import ru.hofftech.consolepackages.service.report.PackagePlaceStringReport;
-import ru.hofftech.consolepackages.service.report.PackagePlaceStringReportEngine;
+import ru.hofftech.consolepackages.service.report.ReportEngineType;
 import ru.hofftech.consolepackages.util.PackageFileReader;
-import ru.hofftech.consolepackages.util.ReportToConsoleWriter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +18,13 @@ import java.util.List;
 public class PackageFromFilePlaceService {
     private final PackageFileReader fileReader;
     private final PackagePlaceAlgorithmFactory placeEngineFactory;
-    private final PackagePlaceStringReportEngine reportEngine;
+    private final PackagePlaceReportEngineFactory reportEngineFactory;
 
-    public PackagePlaceStringReport placePackages(String filePath, PackagePlaceAlgorithmType engineType) {
+    public PackagePlaceStringReport placePackages(
+            String filePath,
+            PackagePlaceAlgorithmType packagePlaceEngineType,
+            ReportEngineType reportEngineType,
+            Integer truckCount) {
         try {
             List<String> packages = fileReader.readPackages(filePath);
             if (packages.isEmpty()) {
@@ -30,10 +34,11 @@ public class PackageFromFilePlaceService {
 
             log.info("Found {} packages, start of placing...", packages.size());
 
-            var packagePlaceEngine = placeEngineFactory.createPackagePlaceEngine(engineType);
+            var packagePlaceEngine = placeEngineFactory.createPackagePlaceEngine(packagePlaceEngineType);
             var packageRecords = mapToPackages(packages);
-            var trucks = packagePlaceEngine.placePackages(packageRecords);
+            var trucks = packagePlaceEngine.placePackages(packageRecords, truckCount);
 
+            var reportEngine = reportEngineFactory.createReportEngine(reportEngineType);
             return reportEngine.generateReport(trucks);
         } catch (Exception e) {
             log.error("Error while try to place packages", e);

@@ -1,21 +1,21 @@
-package ru.hofftech.consolepackages.service.packageitem.impl;
+package ru.hofftech.consolepackages.service.packageitem.engine.impl;
 
 import org.junit.jupiter.api.Test;
 import ru.hofftech.consolepackages.service.packageitem.Package;
-import ru.hofftech.consolepackages.service.packageitem.engine.impl.PackagePlaceByWidthAlgorithm;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class DefaultPackagePlaceEngineTest {
+public class PackagePlaceByWidthAlgorithmTest {
+
     @Test
-    public void when_has_packages_should_return_filled_truck() {
+    public void placePackages_givenPackages_shouldReturnFilledTruck() {
         // Arrange
         var packageStrings = List.of("1", "22");
         var engine = new PackagePlaceByWidthAlgorithm();
-        int[] [] expectedBackTruck = {
+        int[][] expectedBackTruck = {
                 {0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0},
@@ -23,14 +23,14 @@ public class DefaultPackagePlaceEngineTest {
                 {0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 1, 2, 2}};
 
-        var packages = new ArrayList<Package>();
+        var packages = new ArrayList<ru.hofftech.consolepackages.service.packageitem.Package>();
 
-        for(String curPackageString : packageStrings){
-            packages.add(new Package(curPackageString));
+        for (String curPackageString : packageStrings) {
+            packages.add(new ru.hofftech.consolepackages.service.packageitem.Package(curPackageString));
         }
 
         // Act
-        var result = engine.placePackages(packages);
+        var result = engine.placePackages(packages, 5);
         var truck = result.stream().findFirst().orElse(null);
 
         // Assert
@@ -39,13 +39,13 @@ public class DefaultPackagePlaceEngineTest {
     }
 
     @Test
-    public void when_does_not_have_packages_should_return_empty_truck_list() {
+    public void placePackages_givenEmptyListOfPackages_shouldReturnFilledTruck() {
         // Arrange
         var packages = new ArrayList<Package>();
-        var engine = new PackagePlaceByWidthAlgorithm();
+        var engine = new SinglePackagePerTruckPlaceAlgorithm();
 
         // Act
-        var result = engine.placePackages(packages);
+        var result = engine.placePackages(packages, 6);
 
         // Assert
         assertThat(result).isNotNull();

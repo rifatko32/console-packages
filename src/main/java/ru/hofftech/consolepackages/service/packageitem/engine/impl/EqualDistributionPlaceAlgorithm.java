@@ -13,10 +13,10 @@ import java.util.UUID;
 import static ru.hofftech.consolepackages.service.report.truck.TruckConstants.TRUCK_BACK_HEIGHT;
 import static ru.hofftech.consolepackages.service.report.truck.TruckConstants.TRUCK_BACK_WIDTH;
 
-public class PackagePlaceByWidthAlgorithm implements PackagePlaceAlgorithm {
-    @Override
-    public List<Truck> placePackages(List<ru.hofftech.consolepackages.service.packageitem.Package> packages, Integer availableTruckCount) {
+public class EqualDistributionPlaceAlgorithm implements PackagePlaceAlgorithm {
 
+    @Override
+    public List<Truck> placePackages(List<Package> packages, Integer availableTruckCount) {
         if (packages.isEmpty()) {
             return new ArrayList<>();
         }
@@ -24,39 +24,70 @@ public class PackagePlaceByWidthAlgorithm implements PackagePlaceAlgorithm {
         // сортируем по убыванию ширины посылок
         var sortedPackages = packages
                 .stream()
-                .sorted(Comparator.comparing(ru.hofftech.consolepackages.service.packageitem.Package::getWidth).reversed())
+                .sorted(Comparator.comparing((Package p) -> p.getHeight() * p.getWidth()).reversed())
                 .toList();
 
         return placeSortedPackages(sortedPackages, availableTruckCount);
     }
 
-    private List<Truck> placeSortedPackages(List<ru.hofftech.consolepackages.service.packageitem.Package> packages, Integer availableTruckCount) {
-        var trucks = new ArrayList<Truck>();
+    private List<Truck> placeSortedPackages(List<Package> packages, Integer availableTruckCount) {
+        var trucks = generateTrucks(availableTruckCount);
 
         var placedPackagesIds = new HashSet<UUID>();
 
-        do {
-            checkIsCurrentTruckCountLessThenAvailable(availableTruckCount, trucks);
+        var currentTruckIndex = 0;
 
-            var truck = new Truck(TRUCK_BACK_WIDTH, TRUCK_BACK_HEIGHT);
+        // 1. раскладываем по машинам равномерно
+        placeVyEqualDistribution(packages, availableTruckCount, trucks, currentTruckIndex, placedPackagesIds);
 
-            for (ru.hofftech.consolepackages.service.packageitem.Package record : packages) {
-                if (!placedPackagesIds.contains(record.getId()) && tryPlacePackage(record, truck)) {
-                    placedPackagesIds.add(record.getId());
-                }
-            }
+        // 2. если остались нераспределенные посылки пытаемся распределить их по машинам
+        placeRemainingPackages(packages, placedPackagesIds, trucks);
 
-            trucks.add(truck);
+        if (placedPackagesIds.size() != packages.size()) {
+            throw new RuntimeException(String.format("Too many packages for %d truck count", availableTruckCount));
         }
-        while ((long) packages.size() != (long) placedPackagesIds.size());
 
         return trucks;
     }
 
-    private static void checkIsCurrentTruckCountLessThenAvailable(Integer availableTruckCount, ArrayList<Truck> trucks) {
-        if (trucks.size() >= availableTruckCount) {
-            throw new RuntimeException(String.format("Too many packages for %d truck count", availableTruckCount));
+    private void placeRemainingPackages(List<Package> packages, HashSet<UUID> placedPackagesIds, ArrayList<Truck> trucks) {
+        var nonePlacedPackages = packages.stream().filter(record -> !placedPackagesIds.contains(record.getId())).toList();
+
+        for (Package record : nonePlacedPackages) {
+            for (Truck truck : trucks) {
+                if (!placedPackagesIds.contains(record.getId()) && tryPlacePackage(record, truck)) {
+                    placedPackagesIds.add(record.getId());
+                    break;
+                }
+            }
         }
+    }
+
+    private void placeVyEqualDistribution(List<Package> packages, Integer availableTruckCount, ArrayList<Truck> trucks, int currentTruckIndex, HashSet<UUID> placedPackagesIds) {
+        for (Package record : packages) {
+
+            var currentTruck = trucks.get(currentTruckIndex);
+
+            if (!placedPackagesIds.contains(record.getId()) && tryPlacePackage(record, currentTruck)) {
+                placedPackagesIds.add(record.getId());
+            }
+
+            currentTruckIndex++;
+            if (currentTruckIndex >= availableTruckCount) {
+                currentTruckIndex = 0;
+            }
+        }
+    }
+
+    private static ArrayList<Truck> generateTrucks(Integer availableTruckCount) {
+        var trucks = new ArrayList<Truck>(availableTruckCount);
+
+        for (var i = 0; i < availableTruckCount; i++) {
+            var truck = new Truck(TRUCK_BACK_WIDTH, TRUCK_BACK_HEIGHT);
+            trucks.add(truck);
+        }
+
+        return trucks;
     }
 
     private boolean tryPlacePackage(ru.hofftech.consolepackages.service.packageitem.Package packageItem, Truck truck) {
@@ -67,7 +98,6 @@ public class PackagePlaceByWidthAlgorithm implements PackagePlaceAlgorithm {
                     continue;
                 }
 
-                // packageItem.setPlaced(true);
                 var fillingSlots = packageItem.mapToListOfFillingSlots(x, y);
 
                 truck.fillBackTruckSlots(fillingSlots, packageItem.getDescriptionNumber());
