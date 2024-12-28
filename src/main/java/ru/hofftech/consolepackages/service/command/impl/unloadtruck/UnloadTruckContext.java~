@@ -5,7 +5,8 @@ import ru.hofftech.consolepackages.service.report.ReportEngineType;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportOutputChannelType;
 
 public record UnloadTruckContext(
-        String filePath,
+        String inFilePath,
         ReportEngineType reportEngineType,
-        ReportOutputChannelType reportOutputChannelType) implements CommandContext {
+        ReportOutputChannelType reportOutputChannelType,
+        String outFilePath) implements CommandContext {
 }

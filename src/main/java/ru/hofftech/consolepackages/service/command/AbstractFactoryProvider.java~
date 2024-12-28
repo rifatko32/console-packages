@@ -18,7 +18,8 @@ public class AbstractFactoryProvider {
             TruckToPackagesService truckToPackagesService,
             ReportWriterFactory reportWriterFactory){
 
-        abstractFactoryMap.put(CommandType.LOAD_PACKAGES, new PlacePackageCommandFactory(packagePlaceService, reportWriterFactory));
+        abstractFactoryMap.put(CommandType.PLACE_PACKAGES_FROM_TXT_FILE_TO_CONSOLE, new PlacePackageCommandFactory(packagePlaceService, reportWriterFactory));
+        abstractFactoryMap.put(CommandType.PLACE_PACKAGES_FROM_TXT_FILE_TO_JSON_FILE, new PlacePackageCommandFactory(packagePlaceService, reportWriterFactory));
         abstractFactoryMap.put(CommandType.UNLOAD_TRUCK, new UnloadTruckCommandFactory(truckToPackagesService, reportWriterFactory));
     }
 

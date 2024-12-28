@@ -5,11 +5,13 @@ import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgori
 import ru.hofftech.consolepackages.service.report.ReportEngineType;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportOutputChannelType;
 
-public record PlacePackageContext (
-        Integer truckCount,
+import java.util.List;
+
+public record PlacePackageContext(
+        List<String> trucks,
         PackagePlaceAlgorithmType algorithmType,
         String filePath,
         ReportEngineType reportEngineType,
         ReportOutputChannelType reportOutputChannelType,
-        String fileExtension) implements CommandContext {
+        String outputFileName) implements CommandContext {
 }

@@ -21,9 +21,9 @@ public class PlacePackagesCommand implements Command {
                 context.filePath(),
                 context.algorithmType(),
                 context.reportEngineType(),
-                context.truckCount());
+                context.trucks().size());
 
-        var reportWriter = reportWriterFactory.createReportWriter(context.reportOutputChannelType(), context.fileExtension());
+        var reportWriter = reportWriterFactory.createReportWriter(context.reportOutputChannelType(), context.filePath());
         reportWriter.writeReport(packagePlaceReport);
 
         log.info("End of handling file: {}", context.filePath());

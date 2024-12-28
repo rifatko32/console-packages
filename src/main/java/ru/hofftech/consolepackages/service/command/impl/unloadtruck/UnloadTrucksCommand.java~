@@ -15,13 +15,13 @@ public class UnloadTrucksCommand implements Command {
 
     @Override
     public void execute() {
-        log.info("Start of handling file: {}", context.inFilePath());
+        log.info("Start of handling file: {}", context.filePath());
 
-        var report = truckToPackagesService.getTruckPackages(context.inFilePath(), context.reportEngineType());
+        var report = truckToPackagesService.getTruckPackages(context.filePath(), context.reportEngineType());
 
-        var reportWriter = reportWriterFactory.createReportWriter(context.reportOutputChannelType(), context.outFilePath());
+        var reportWriter = reportWriterFactory.createReportWriter(context.reportOutputChannelType(), context.fileExtension());
         reportWriter.writeReport(report);
 
-        log.info("End of handling file: {}", context.inFilePath());
+        log.info("End of handling file: {}", context.filePath());
     }
 }

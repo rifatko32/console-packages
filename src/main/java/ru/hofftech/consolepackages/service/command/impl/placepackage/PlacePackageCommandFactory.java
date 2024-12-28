@@ -6,13 +6,24 @@ import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.command.CommandAbstractFactory;
 import ru.hofftech.consolepackages.service.command.CommandContext;
 import ru.hofftech.consolepackages.service.command.CommandParser;
-import ru.hofftech.consolepackages.service.command.CommandType;
+import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmType;
 import ru.hofftech.consolepackages.service.report.ReportEngineType;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportOutputChannelType;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 @RequiredArgsConstructor
 public class PlacePackageCommandFactory implements CommandAbstractFactory {
+    private static final String OUT_KEY = "out";
+    private static final String TYPE_KEY = "type";
+    private static final String TRUCKS_KEY = "trucks";
+    private static final String PACKAGES_FILE_KEY = "packages-file";
+    private static final String OUT_FILENAME_KEY = "out-filename";
+    private static final String OUT_JSON_FILE_VALUE = "json-file";
+
+
     private final PackageFromFilePlaceService packagePlaceService;
     private final ReportWriterFactory reportWriterFactory;
 
@@ -23,25 +34,16 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
 
     @Override
     public CommandContext createCommandContext(String strCommand) {
-        var truckCount = CommandParser.readTruckCount(strCommand);
-        var algorithmType = CommandParser.readAlgorithmName(strCommand);
-        var filePath = CommandParser.readFilePath(strCommand, CommandParser.parseCommandType(strCommand));
-        ReportOutputChannelType channelType = null;
-        ReportEngineType reportEngineType = null;
-        String fileExtension = null;
 
-        var commandType = CommandParser.parseCommandType(strCommand);
-        switch (commandType) {
-            case CommandType.PLACE_PACKAGES_FROM_TXT_FILE_TO_CONSOLE:
-                channelType = ReportOutputChannelType.CONSOLE;
-                reportEngineType = ReportEngineType.STRING;
-                break;
-            case CommandType.PLACE_PACKAGES_FROM_TXT_FILE_TO_JSON_FILE:
-                channelType = ReportOutputChannelType.JSONFILE;
-                reportEngineType = ReportEngineType.JSON;
-                fileExtension = "json";
-        }
+        var commandKeyValues = CommandParser.parseCommandKeys(strCommand);
 
-        return new PlacePackageContext(truckCount, algorithmType, filePath, reportEngineType, channelType, fileExtension);
+        var trucks = Arrays.stream(commandKeyValues.get(TRUCKS_KEY).split(";")).toList();
+        var algorithmType = PackagePlaceAlgorithmType.fromLabel(commandKeyValues.get(TYPE_KEY));
+        var filePath = commandKeyValues.get(PACKAGES_FILE_KEY);
+        var channelType = Objects.equals(commandKeyValues.get(OUT_KEY), OUT_JSON_FILE_VALUE) ? ReportOutputChannelType.JSONFILE : ReportOutputChannelType.CONSOLE;
+        var reportEngineType = Objects.equals(commandKeyValues.get(OUT_KEY), OUT_JSON_FILE_VALUE) ? ReportEngineType.JSON : ReportEngineType.STRING;
+        var outputFileName = commandKeyValues.get(OUT_FILENAME_KEY);
+
+        return new PlacePackageContext(trucks, algorithmType, filePath, reportEngineType, channelType, outputFileName);
     }
 }

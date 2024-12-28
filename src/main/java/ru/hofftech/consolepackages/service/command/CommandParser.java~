@@ -17,7 +17,7 @@ public class CommandParser {
         }
 
         if (strCommand.startsWith(CommandConstants.EXIT_COMMAND_PATTERN)) {
-            return CommandType.EXIT;
+            return CommandType.UNLOAD_TRUCK;
         }
 
         throw new RuntimeException("Invalid command: " + strCommand);

@@ -12,6 +12,10 @@ import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFact
 
 @RequiredArgsConstructor
 public class UnloadTruckCommandFactory implements CommandAbstractFactory {
+    private static final String INFILE = "infile";
+    private static final String OUTFILE = "outfile";
+    private static final String WITH_COUNT = "with-count";
+
     private final TruckToPackagesService truckToPackagesService;
     private final ReportWriterFactory reportWriterFactory;
 
@@ -22,7 +26,11 @@ public class UnloadTruckCommandFactory implements CommandAbstractFactory {
 
     @Override
     public CommandContext createCommandContext(String strCommand) {
-        var filePath = CommandParser.readFilePath(strCommand, CommandParser.parseCommandType(strCommand));
-        return new UnloadTruckContext(filePath, ReportEngineType.STRING, ReportOutputChannelType.TXT_FILE, "txt");
+        var commandKeyValues = CommandParser.parseCommandKeys(strCommand);
+
+        var inFilePath = commandKeyValues.get(INFILE);
+        var outFilePath = commandKeyValues.get(OUTFILE);
+        var withCount = commandKeyValues.containsKey(WITH_COUNT);
+        return new UnloadTruckContext(inFilePath, ReportEngineType.STRING, ReportOutputChannelType.TXT_FILE, outFilePath, withCount);
     }
 }
