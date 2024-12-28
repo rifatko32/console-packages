@@ -20,6 +20,10 @@ public class CommandParser {
             return CommandType.EXIT;
         }
 
+        if (strCommand.startsWith(CommandConstants.CREATE_COMMAND_PATTERN)) {
+            return CommandType.CREATE_PACKAGE;
+        }
+
         throw new RuntimeException("Invalid command: " + strCommand);
     }
 

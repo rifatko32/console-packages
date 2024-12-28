@@ -20,6 +20,7 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
     private static final String TYPE_KEY = "type";
     private static final String TRUCKS_KEY = "trucks";
     private static final String PACKAGES_FILE_KEY = "packages-file";
+    private static final String PACKAGES_TEXT_KEY = "packages-text";
     private static final String OUT_FILENAME_KEY = "out-filename";
     private static final String OUT_JSON_FILE_VALUE = "json-file";
 
@@ -40,10 +41,11 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
         var trucks = Arrays.stream(commandKeyValues.get(TRUCKS_KEY).split(";")).toList();
         var algorithmType = PackagePlaceAlgorithmType.fromLabel(commandKeyValues.get(TYPE_KEY));
         var filePath = commandKeyValues.get(PACKAGES_FILE_KEY);
+        var packagesText = commandKeyValues.get(PACKAGES_TEXT_KEY);
         var channelType = Objects.equals(commandKeyValues.get(OUT_KEY), OUT_JSON_FILE_VALUE) ? ReportOutputChannelType.JSONFILE : ReportOutputChannelType.CONSOLE;
         var reportEngineType = Objects.equals(commandKeyValues.get(OUT_KEY), OUT_JSON_FILE_VALUE) ? ReportEngineType.JSON : ReportEngineType.STRING;
         var outputFileName = commandKeyValues.get(OUT_FILENAME_KEY);
 
-        return new PlacePackageContext(trucks, algorithmType, filePath, reportEngineType, channelType, outputFileName);
+        return new PlacePackageContext(trucks, algorithmType, filePath, reportEngineType, channelType, outputFileName, packagesText);
     }
 }

@@ -13,5 +13,6 @@ public record PlacePackageContext(
         String filePath,
         ReportEngineType reportEngineType,
         ReportOutputChannelType reportOutputChannelType,
-        String outputFileName) implements CommandContext {
+        String outputFileName,
+        String packagesText) implements CommandContext {
 }

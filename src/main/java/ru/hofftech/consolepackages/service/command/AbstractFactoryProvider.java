@@ -2,6 +2,7 @@ package ru.hofftech.consolepackages.service.command;
 
 import ru.hofftech.consolepackages.service.PackageFromFilePlaceService;
 import ru.hofftech.consolepackages.service.TruckToPackagesService;
+import ru.hofftech.consolepackages.service.command.impl.createpackage.CreatePackageCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.placepackage.PlacePackageCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.unloadtruck.UnloadTruckCommandFactory;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
@@ -20,6 +21,7 @@ public class AbstractFactoryProvider {
 
         abstractFactoryMap.put(CommandType.LOAD_PACKAGES, new PlacePackageCommandFactory(packagePlaceService, reportWriterFactory));
         abstractFactoryMap.put(CommandType.UNLOAD_TRUCK, new UnloadTruckCommandFactory(truckToPackagesService, reportWriterFactory));
+        abstractFactoryMap.put(CommandType.CREATE_PACKAGE, new CreatePackageCommandFactory());
     }
 
     public CommandAbstractFactory returnCommandAbstractFactory(String strCommand) {

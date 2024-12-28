@@ -17,7 +17,11 @@ public class CommandParser {
         }
 
         if (strCommand.startsWith(CommandConstants.EXIT_COMMAND_PATTERN)) {
-            return CommandType.UNLOAD_TRUCK;
+            return CommandType.EXIT;
+        }
+
+        if (strCommand.startsWith(CommandConstants.CREATE_COMMAND_PATTERN)) {
+            return CommandType.EXIT;
         }
 
         throw new RuntimeException("Invalid command: " + strCommand);
