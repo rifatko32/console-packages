@@ -15,6 +15,14 @@ public interface PackageTypeRepository {
 
     List<PackageType> findAll();
 
+    void updateForm(
+            String name,
+            String form);
+
+    void updateDescriptionNumber(
+            String name,
+            String descriptionNumber);
+
     void updatePackageType(PackageType packageType);
 
     void delete (String name);

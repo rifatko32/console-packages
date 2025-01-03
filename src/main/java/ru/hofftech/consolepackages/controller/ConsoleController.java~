@@ -27,7 +27,7 @@ public class ConsoleController {
 
                 if (context instanceof CommandContextWithResult) {
                     var result = ((CommandContextWithResult<?>) context).getResult();
-                    System.out.println(result.toString());
+                    System.out.println(result);
                 }
             }
             catch (Exception e) {

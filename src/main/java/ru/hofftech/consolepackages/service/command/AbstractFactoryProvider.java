@@ -1,8 +1,12 @@
 package ru.hofftech.consolepackages.service.command;
 
+import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.service.PackageFromFilePlaceService;
 import ru.hofftech.consolepackages.service.TruckToPackagesService;
-import ru.hofftech.consolepackages.service.command.impl.createpackage.CreatePackageCommandFactory;
+import ru.hofftech.consolepackages.service.command.impl.createpackagetype.CreatePackageTypeCommandFactory;
+import ru.hofftech.consolepackages.service.command.impl.deletepackagetype.DeletePackageTypeCommandFactory;
+import ru.hofftech.consolepackages.service.command.impl.editpackagetype.EditPackageTypeCommandFactory;
+import ru.hofftech.consolepackages.service.command.impl.findpackagetype.FindPackageTypeCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.placepackage.PlacePackageCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.unloadtruck.UnloadTruckCommandFactory;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
@@ -17,11 +21,15 @@ public class AbstractFactoryProvider {
     public AbstractFactoryProvider(
             PackageFromFilePlaceService packagePlaceService,
             TruckToPackagesService truckToPackagesService,
-            ReportWriterFactory reportWriterFactory){
+            ReportWriterFactory reportWriterFactory,
+            PackageTypeRepository packageTypeRepository){
 
         abstractFactoryMap.put(CommandType.LOAD_PACKAGES, new PlacePackageCommandFactory(packagePlaceService, reportWriterFactory));
         abstractFactoryMap.put(CommandType.UNLOAD_TRUCK, new UnloadTruckCommandFactory(truckToPackagesService, reportWriterFactory));
-        abstractFactoryMap.put(CommandType.CREATE_PACKAGE, new CreatePackageCommandFactory());
+        abstractFactoryMap.put(CommandType.CREATE_PACKAGE_TYPE, new CreatePackageTypeCommandFactory(packageTypeRepository));
+        abstractFactoryMap.put(CommandType.FIND_PACKAGE_TYPE, new FindPackageTypeCommandFactory(packageTypeRepository));
+        abstractFactoryMap.put(CommandType.DELETE_PACKAGE_TYPE, new DeletePackageTypeCommandFactory(packageTypeRepository));
+        abstractFactoryMap.put(CommandType.EDIT_PACKAGE_TYPE, new EditPackageTypeCommandFactory(packageTypeRepository));
     }
 
     public CommandAbstractFactory returnCommandAbstractFactory(String strCommand) {

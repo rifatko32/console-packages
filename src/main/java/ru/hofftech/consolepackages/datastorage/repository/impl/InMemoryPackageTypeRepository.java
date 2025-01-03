@@ -15,10 +15,8 @@ public class InMemoryPackageTypeRepository implements PackageTypeRepository {
     public String create(
             String name,
             String form,
-            String descriptionNumber,
-            Integer width,
-            Integer height) {
-        packageTypes.put(name, new PackageType(name, form, descriptionNumber, width, height));
+            String descriptionNumber) {
+        packageTypes.put(name, new PackageType(name, form, descriptionNumber));
 
         return name;
     }
@@ -31,40 +29,6 @@ public class InMemoryPackageTypeRepository implements PackageTypeRepository {
     @Override
     public List<PackageType> findAll() {
         return packageTypes.values().stream().toList();
-    }
-
-    @Override
-    public void updateForm(String name, String form) {
-        if (form == null || form.isEmpty()) {
-            return;
-        }
-
-        var packageType = packageTypes.get(name);
-
-        packageType.setForm(form);
-    }
-
-    @Override
-    public void updateDescriptionNumber(String name, String descriptionNumber) {
-        if (descriptionNumber == null || descriptionNumber.isEmpty()) {
-            return;
-        }
-
-        var packageType = packageTypes.get(name);
-
-        packageType.setDescriptionNumber(descriptionNumber);
-    }
-
-    @Override
-    public void updateSize(String name, Integer height, Integer width) {
-        if(height == null || height <= 0 || width == null || width <= 0) {
-            return;
-        }
-
-        var packageType = packageTypes.get(name);
-
-        packageType.setWidth(width);
-        packageType.setHeight(height);
     }
 
     @Override

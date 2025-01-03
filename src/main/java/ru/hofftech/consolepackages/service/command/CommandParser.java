@@ -21,7 +21,19 @@ public class CommandParser {
         }
 
         if (strCommand.startsWith(CommandConstants.CREATE_COMMAND_PATTERN)) {
-            return CommandType.CREATE_PACKAGE;
+            return CommandType.CREATE_PACKAGE_TYPE;
+        }
+
+        if (strCommand.startsWith(CommandConstants.FIND_COMMAND_PATTERN)) {
+            return CommandType.FIND_PACKAGE_TYPE;
+        }
+
+        if (strCommand.startsWith(CommandConstants.DELETE_COMMAND_PATTERN)) {
+            return CommandType.DELETE_PACKAGE_TYPE;
+        }
+
+        if (strCommand.startsWith(CommandConstants.EDIT_COMMAND_PATTERN)) {
+            return CommandType.EDIT_PACKAGE_TYPE;
         }
 
         throw new RuntimeException("Invalid command: " + strCommand);

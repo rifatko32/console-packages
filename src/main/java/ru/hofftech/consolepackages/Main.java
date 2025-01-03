@@ -41,7 +41,8 @@ public class Main {
                                 new TruckUnloadingReportEngineFactory(),
                                 new TruckUnloadingAlgorithm()
                         ),
-                        new ReportWriterFactory()
+                        new ReportWriterFactory(),
+                        packageTypeRepository
                 ));
 
         consoleController.listen();
