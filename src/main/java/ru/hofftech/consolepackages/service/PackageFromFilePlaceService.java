@@ -2,12 +2,14 @@ package ru.hofftech.consolepackages.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.service.packageitem.Package;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmType;
-import ru.hofftech.consolepackages.service.report.packageitem.PackagePlaceReportEngineFactory;
 import ru.hofftech.consolepackages.service.report.PackagePlaceStringReport;
 import ru.hofftech.consolepackages.service.report.ReportEngineType;
+import ru.hofftech.consolepackages.service.report.packageitem.PackagePlaceReportEngineFactory;
+import ru.hofftech.consolepackages.service.truck.Truck;
 import ru.hofftech.consolepackages.util.PackageFileReader;
 
 import java.util.ArrayList;
@@ -19,24 +21,20 @@ public class PackageFromFilePlaceService {
     private final PackageFileReader fileReader;
     private final PackagePlaceAlgorithmFactory placeEngineFactory;
     private final PackagePlaceReportEngineFactory reportEngineFactory;
+    private final PackageTypeRepository packageTypeRepository;
 
     public PackagePlaceStringReport placePackages(
             String filePath,
             PackagePlaceAlgorithmType packagePlaceEngineType,
             ReportEngineType reportEngineType,
-            Integer truckCount) {
+            List<Truck> trucks) {
         try {
-            List<String> packages = fileReader.readPackages(filePath);
-            if (packages.isEmpty()) {
-                log.info("No packages found");
-                return null;
-            }
-
+            var packageStrings = readPackages(filePath);
+            var packages = mapToPackages(packageStrings);
             log.info("Found {} packages, start of placing...", packages.size());
 
             var packagePlaceEngine = placeEngineFactory.createPackagePlaceEngine(packagePlaceEngineType);
-            var packageRecords = mapToPackages(packages);
-            var trucks = packagePlaceEngine.placePackages(packageRecords, truckCount);
+            packagePlaceEngine.placePackages(packages, trucks);
 
             var reportEngine = reportEngineFactory.createReportEngine(reportEngineType);
             return reportEngine.generateReport(trucks);
@@ -47,13 +45,34 @@ public class PackageFromFilePlaceService {
         return null;
     }
 
-    private List<Package> mapToPackages(List<String> packages) {
-        var result = new ArrayList<Package>();
+    private List<String> readPackages(String filePath) {
+        var packageStrings = fileReader.readPackages(filePath);
 
-        for (String curPackage : packages) {
-            result.add(new Package(curPackage));
+        if (packageStrings.isEmpty()) {
+            log.info("No packages found");
+            return new ArrayList<>();
         }
 
-        return result;
+        return packageStrings;
+    }
+
+    private ArrayList<Package> mapToPackages(List<String> packageStrings) {
+        var packageTypes = packageTypeRepository.findByNames(packageStrings);
+        var packages = new ArrayList<Package>();
+
+        for (String packageString : packageStrings) {
+            if (!packageTypes.containsKey(packageString)) {
+                continue;
+            }
+            var curPackageType = packageTypes.get(packageString); //curPackageType
+            packages.add(new Package(
+                    curPackageType.getDescriptionNumber(),
+                    curPackageType.getWidth(),
+                    curPackageType.getHeight(),
+                    curPackageType.getName(),
+                    curPackageType.getForm()
+            ));
+        }
+        return packages;
     }
 }

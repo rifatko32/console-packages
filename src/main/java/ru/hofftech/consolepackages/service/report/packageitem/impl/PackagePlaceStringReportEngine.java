@@ -6,6 +6,7 @@ import ru.hofftech.consolepackages.service.truck.Truck;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PackagePlaceStringReportEngine implements PackagePlaceReportEngine {
     private static final String TRUCK_DELIMiTER = "-------------------------------------------";
@@ -38,7 +39,7 @@ public class PackagePlaceStringReportEngine implements PackagePlaceReportEngine 
             stringBuilder.setLength(0);
             stringBuilder.append(TRUCK_SIDE);
             for (var y = 0; y <= truck.getHeight() - 1; y++) {
-                stringBuilder.append(backTruckSlots[x][y] == 0 ? " " : backTruckSlots[x][y]);
+                stringBuilder.append(backTruckSlots[x][y] == null ? " " : backTruckSlots[x][y]);
             }
             stringBuilder.append(TRUCK_SIDE);
             trackStrings.add(stringBuilder.toString());

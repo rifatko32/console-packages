@@ -12,7 +12,7 @@ import java.util.UUID;
 public class EqualDistributionPlaceAlgorithm extends PackagePlaceAlgorithm {
 
     @Override
-    protected void placePackageRecords(List<Package> packages, List<Truck> trucks) {
+    private void placePackageRecords(List<Package> packages, List<Truck> trucks) {
 
         var placedPackagesIds = new HashSet<UUID>();
 

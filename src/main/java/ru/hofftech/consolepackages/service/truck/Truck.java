@@ -6,19 +6,23 @@ import ru.hofftech.consolepackages.service.packageitem.Package;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 public class Truck {
-    private final int[][] backTruckSlots; // координаты ячеек в кузове
+    private final String[][] backTruckSlots; // координаты ячеек в кузове
     private final int width; //кол-во столбцов координата x
     private final int height; //кол-во строк координата y
+    private final UUID id;
 
     private final List<Package> packages;
 
     public Truck(int width, int height) {
+        id = UUID.randomUUID();
         this.width = width;
         this.height = height;
-        backTruckSlots = new int[height][width];
+        backTruckSlots = new String[height][width];
         packages = new ArrayList<>();
     }
 
@@ -26,14 +30,14 @@ public class Truck {
         packages.add(packageItem);
     }
 
-    public void fillBackTruckSlots(List<BackTruckSlot> fillingSlots, int fillValue) {
+    public void fillBackTruckSlots(List<BackTruckSlot> fillingSlots, String fillValue) {
         for (var slot : fillingSlots) {
             backTruckSlots[slot.coordinateY()][slot.coordinateX()] = fillValue;
         }
     }
 
     public boolean checkIsCurrentSlotIsFilled(int x, int y) {
-        return backTruckSlots[y][x] != 0;
+        return backTruckSlots[y][x] != null;
     }
 
     public boolean checkIsRangeHasFilledSlots(int startX, int startY, int endX, int endY) {

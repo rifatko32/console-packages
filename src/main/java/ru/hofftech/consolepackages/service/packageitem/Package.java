@@ -1,60 +1,34 @@
 package ru.hofftech.consolepackages.service.packageitem;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
 public class Package {
     private final UUID id;
-    private final int descriptionNumber;
+    private final String description;
     private final int width;
     private final int height;
+    private final String typeName;
+    private final String form;
 
-    public Package(String description) {
+    public Package(
+            String description,
+            int width,
+            int height,
+            String typeName,
+            String form) {
         id = UUID.randomUUID();
-        descriptionNumber = Character.getNumericValue(description.charAt(0));
 
-        switch (descriptionNumber) {
-            case 1:
-                width = 1;
-                height = 1;
-                break;
-            case 2:
-                width = 2;
-                height = 1;
-                break;
-            case 3:
-                width = 3;
-                height = 1;
-                break;
-            case 4:
-                width = 4;
-                height = 1;
-                break;
-            case 5:
-                width = 5;
-                height = 1;
-                break;
-            case 6:
-                width = 3;
-                height = 2;
-                break;
-            case 7, 8:
-                width = 4;
-                height = 2;
-                break;
-            case 9:
-                width = 3;
-                height = 3;
-                break;
-            default:
-                width = 0;
-                height = 0;
-        }
+        this.width = width;
+        this.height = height;
+        this.typeName = typeName;
+        this.form = form;
+        this.description = description;
     }
 
     public boolean checkIsPackageHasEnoughSpace(int enoughWidth, int enoughHeight) {
@@ -85,18 +59,7 @@ public class Package {
 
     @Override
     public String toString() {
-        return switch (descriptionNumber) {
-            case 1 -> "1";
-            case 2 -> "22";
-            case 3 -> "333";
-            case 4 -> "4444";
-            case 5 -> "55555";
-            case 6 -> "666\n666";
-            case 7 -> "777 \n7777";
-            case 8 -> "8888\n8888";
-            case 9 -> "999\n999\n999";
-            default -> throw new RuntimeException("Wrong package number");
-        };
+        return typeName;
     }
 
     /**
@@ -106,6 +69,6 @@ public class Package {
      * // у ней д.б. пустой слот
      */
     private boolean checkIsSeventhPackageEmptySlot(int endX, int x, int y, int startY) {
-        return x == endX && y == startY && descriptionNumber == 7;
+        return x == endX && y == startY && Objects.equals(description, "7");
     }
 }

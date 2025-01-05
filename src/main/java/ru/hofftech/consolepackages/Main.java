@@ -34,7 +34,8 @@ public class Main {
                         new PackageFromFilePlaceService(
                                 new PackageFileReader(),
                                 new PackagePlaceAlgorithmFactory(),
-                                new PackagePlaceReportEngineFactory()),
+                                new PackagePlaceReportEngineFactory(),
+                                packageTypeRepository),
                         new TruckToPackagesService(
                                 new TruckJsonFileReader(
                                         new Gson()),

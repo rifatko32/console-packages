@@ -9,7 +9,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SinglePackagePerTruckPlaceAlgorithmTest {
-    /*@Test
+    @Test
     public void placePackages_givenPackages_shouldReturnFilledTruck() {
         // Arrange
         var packageStrings = List.of("22", "1");
@@ -61,5 +61,5 @@ public class SinglePackagePerTruckPlaceAlgorithmTest {
         // Assert
         assertThat(result).isNotNull();
         assertThat(result.size()).isZero();
-    }*/
+    }
 }

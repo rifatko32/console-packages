@@ -14,10 +14,9 @@ import java.util.Date;
 @Slf4j
 @RequiredArgsConstructor
 public class ReportToFileWriter implements ReportWriter {
-    private final static String FILE_NAME_TEMPLATE = "report";
     private final static String FOLDER_NAME = "reports";
 
-    private final String fileExtension;
+    private final String outputFileName;
 
     @Override
     public void writeReport(PackagePlaceStringReport report) {
@@ -28,11 +27,19 @@ public class ReportToFileWriter implements ReportWriter {
         var fileName = String.format(
                 "%s/%s_%s.%s",
                 FOLDER_NAME,
-                FILE_NAME_TEMPLATE,
+                receiveFileName(),
                 new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date()),
-                fileExtension);
+                receiveFileExtension());
 
         writeReportToFile(report, fileName);
+    }
+
+    private String receiveFileExtension() {
+        return outputFileName.substring(outputFileName.lastIndexOf(".") + 1).toLowerCase();
+    }
+
+    private String receiveFileName() {
+        return outputFileName.substring(0, outputFileName.lastIndexOf(".")).toLowerCase();
     }
 
     private void writeReportToFile(PackagePlaceStringReport report, String fileName) {

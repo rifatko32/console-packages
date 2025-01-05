@@ -6,6 +6,7 @@ import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class InMemoryPackageTypeRepository implements PackageTypeRepository {
 
@@ -24,6 +25,16 @@ public class InMemoryPackageTypeRepository implements PackageTypeRepository {
     @Override
     public PackageType find(String name) {
         return packageTypes.get(name);
+    }
+
+    @Override
+    public Map<String, PackageType> findByNames(List<String> names) {
+        return packageTypes
+                .entrySet()
+                .stream()
+                .filter(entry -> names.contains(entry.getKey()))
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toMap(PackageType::getName, p -> p));
     }
 
     @Override

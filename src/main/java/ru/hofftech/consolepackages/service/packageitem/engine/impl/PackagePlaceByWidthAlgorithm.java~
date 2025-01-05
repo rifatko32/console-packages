@@ -9,52 +9,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
-public class EqualDistributionPlaceAlgorithm extends PackagePlaceAlgorithm {
+public class PackagePlaceByWidthAlgorithm extends PackagePlaceAlgorithm {
 
     @Override
-    protected void placePackageRecords(List<Package> packages, List<Truck> trucks) {
+    protected void placePackages(List<ru.hofftech.consolepackages.service.packageitem.Package> packages, List<Truck> trucks) {
 
         var placedPackagesIds = new HashSet<UUID>();
 
-        // 1. раскладываем по машинам равномерно
-        placeVyEqualDistribution(packages, trucks, placedPackagesIds);
-
-        // 2. если остались нераспределенные посылки пытаемся распределить их по машинам
-        placeRemainingPackages(packages, placedPackagesIds, trucks);
-
-        if (placedPackagesIds.size() != packages.size()) {
-            throw new RuntimeException(String.format("Too many packages for %d truck count", trucks.size()));
-        }
-    }
-
-    private void placeRemainingPackages(List<Package> packages, HashSet<UUID> placedPackagesIds, List<Truck> trucks) {
-        var nonePlacedPackages = packages.stream().filter(record -> !placedPackagesIds.contains(record.getId())).toList();
-
-        for (Package record : nonePlacedPackages) {
-            for (Truck truck : trucks) {
-                if (!placedPackagesIds.contains(record.getId()) && tryPlacePackage(record, truck)) {
-                    placedPackagesIds.add(record.getId());
-                    break;
+        for (Truck truck : trucks) {
+            for (ru.hofftech.consolepackages.service.packageitem.Package record : packages) {
+                if (placedPackagesIds.contains(record.getId()) || !tryPlacePackage(record, truck)) {
+                    continue;
                 }
-            }
-        }
-    }
-
-    private void placeVyEqualDistribution(List<Package> packages, List<Truck> trucks, HashSet<UUID> placedPackagesIds) {
-        var currentTruckIndex = 0;
-
-        for (Package record : packages) {
-
-            var currentTruck = trucks.get(currentTruckIndex);
-
-            if (!placedPackagesIds.contains(record.getId()) && tryPlacePackage(record, currentTruck)) {
                 placedPackagesIds.add(record.getId());
             }
+        }
 
-            currentTruckIndex++;
-            if (currentTruckIndex >= trucks.size()) {
-                currentTruckIndex = 0;
-            }
+        if (placedPackagesIds.size() < packages.size()){
+            throw new RuntimeException(String.format("Too many packages for %d truck count", trucks.size()));
         }
     }
 
@@ -66,6 +38,7 @@ public class EqualDistributionPlaceAlgorithm extends PackagePlaceAlgorithm {
                     continue;
                 }
 
+                // packageItem.setPlaced(true);
                 var fillingSlots = packageItem.mapToListOfFillingSlots(x, y);
 
                 truck.fillBackTruckSlots(fillingSlots, packageItem.getDescription());
