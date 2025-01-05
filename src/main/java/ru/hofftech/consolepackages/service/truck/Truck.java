@@ -6,7 +6,6 @@ import ru.hofftech.consolepackages.service.packageitem.Package;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -72,5 +71,9 @@ public class Truck {
         }
 
         return filledSlotCount >= minimalBase;
+    }
+
+    public String getBackTruckSlotValue(int x, int y) {
+        return backTruckSlots[x][y] == null ? " " : backTruckSlots[x][y];
     }
 }

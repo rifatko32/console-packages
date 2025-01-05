@@ -31,7 +31,6 @@ public class PackagePlaceStringReportEngine implements PackagePlaceReportEngine 
     }
 
     private List<String> createTruckReportStrings(Truck truck) {
-        var backTruckSlots = truck.getBackTruckSlots();
         var stringBuilder = new StringBuilder();
         var trackStrings = new ArrayList<String>();
 
@@ -39,7 +38,7 @@ public class PackagePlaceStringReportEngine implements PackagePlaceReportEngine 
             stringBuilder.setLength(0);
             stringBuilder.append(TRUCK_SIDE);
             for (var y = 0; y <= truck.getHeight() - 1; y++) {
-                stringBuilder.append(backTruckSlots[x][y] == null ? " " : backTruckSlots[x][y]);
+                stringBuilder.append(truck.getBackTruckSlotValue(x, y));
             }
             stringBuilder.append(TRUCK_SIDE);
             trackStrings.add(stringBuilder.toString());
