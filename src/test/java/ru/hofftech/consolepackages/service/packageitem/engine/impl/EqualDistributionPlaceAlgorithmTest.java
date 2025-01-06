@@ -7,63 +7,103 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
+
+import ru.hofftech.consolepackages.service.packageitem.Package;
 
 public class EqualDistributionPlaceAlgorithmTest {
     private final EqualDistributionPlaceAlgorithm algorithm = new EqualDistributionPlaceAlgorithm();
 
-    /*@Test
-    public void placePackages_EmptyList_ReturnsEmptyList() {
-        List<ru.hofftech.consolepackages.service.packageitem.Package> packages = new ArrayList<>();
-        Integer availableTruckCount = 2;
-        List<Truck> result = algorithm.placePackages(packages, availableTruckCount);
-        assertThat(result).isEmpty();
+    @Test
+    public void testPlacePackageRecords_EqualNumberOfPackagesAndTrucks() {
+        // Arrange
+        List<Package> packages = new ArrayList<>();
+        packages.add(new Package("description", 10, 10, "typeName", "form"));
+        packages.add(new Package("description", 20, 20, "typeName", "form"));
+
+        List<Truck> trucks = new ArrayList<>();
+        trucks.add(new Truck(100, 100));
+        trucks.add(new Truck(100, 100));
+
+        // Act
+        algorithm.placePackageRecords(packages, trucks);
+
+        // Assert
+        assertThat(trucks.get(0).getPackages()).hasSize(1);
+        assertThat(trucks.get(1).getPackages()).hasSize(1);
     }
 
     @Test
-    public void placePackages_SinglePackage_ReturnsListWithOneTruck() {
-        List<ru.hofftech.consolepackages.service.packageitem.Package> packages = List.of(new ru.hofftech.consolepackages.service.packageitem.Package(
-                "1",
-                1,
-                1,
-                "type 1",
-                "1"));
-        Integer availableTruckCount = 2;
-        List<Truck> result = algorithm.placePackages(packages, availableTruckCount);
-        assertThat(result).hasSize(2);
-        assertThat(result.getFirst().getPackages()).hasSize(1);
+    public void testPlacePackageRecords_MorePackagesThanTrucks() {
+        // Arrange
+        List<Package> packages = new ArrayList<>();
+        packages.add(new Package("description", 10, 10, "typeName", "form"));
+        packages.add(new Package("description", 20, 20, "typeName", "form"));
+        packages.add(new Package("description", 30, 30, "typeName", "form"));
+
+        List<Truck> trucks = new ArrayList<>();
+        trucks.add(new Truck(100, 100));
+        trucks.add(new Truck(100, 100));
+
+        // Act
+        algorithm.placePackageRecords(packages, trucks);
+
+        // Assert
+        assertThat(trucks.get(0).getPackages()).hasSize(2);
+        assertThat(trucks.get(1).getPackages()).hasSize(1);
     }
 
     @Test
-    public void placePackages_MultiplePackages_ReturnsListOfTrucksWithPackages() {
-        List<ru.hofftech.consolepackages.service.packageitem.Package> packages = List.of(
-                new ru.hofftech.consolepackages.service.packageitem.Package(
-                        "1",
-                        1,
-                        1,
-                        "type 1",
-                        "1"),
-        new ru.hofftech.consolepackages.service.packageitem.Package(
-                "2",
-                2,
-                1,
-                "type 2",
-                "22"),
-        new ru.hofftech.consolepackages.service.packageitem.Package(
-                "3",
-                3,
-                1,
-                "type 3",
-                "333"),
-        new ru.hofftech.consolepackages.service.packageitem.Package(
-                "4",
-                4,
-                1,
-                "type 4",
-                "4444"));
-        Integer availableTruckCount = 2;
-        List<Truck> result = algorithm.placePackages(packages, availableTruckCount);
-        assertThat(result).hasSize(2);
-        assertThat(result.get(0).getPackages()).hasSize(2);
-        assertThat(result.get(1).getPackages()).hasSize(2);
-    }*/
+    public void testPlacePackageRecords_MoreTrucksThanPackages() {
+        // Arrange
+        List<Package> packages = new ArrayList<>();
+        packages.add(new Package("description", 10, 10, "typeName", "form"));
+        packages.add(new Package("description", 20, 20, "typeName", "form"));
+
+        List<Truck> trucks = new ArrayList<>();
+        trucks.add(new Truck(100, 100));
+        trucks.add(new Truck(100, 100));
+        trucks.add(new Truck(100, 100));
+
+        // Act
+        algorithm.placePackageRecords(packages, trucks);
+
+        // Assert
+        assertThat(trucks.get(0).getPackages()).hasSize(1);
+        assertThat(trucks.get(1).getPackages()).hasSize(1);
+        assertThat(trucks.get(2).getPackages()).hasSize(0);
+    }
+
+    @Test
+    public void testPlacePackageRecords_EmptyPackagesList() {
+        // Arrange
+        List<Package> packages = new ArrayList<>();
+
+        List<Truck> trucks = new ArrayList<>();
+        trucks.add(new Truck(100, 100));
+        trucks.add(new Truck(100, 100));
+
+        // Act
+        algorithm.placePackageRecords(packages, trucks);
+
+        // Assert
+        assertThat(trucks.get(0).getPackages()).hasSize(0);
+        assertThat(trucks.get(1).getPackages()).hasSize(0);
+    }
+
+    @Test
+    public void testPlacePackageRecords_EmptyTrucksList() {
+        // Arrange
+        List<Package> packages = new ArrayList<>();
+        packages.add(new Package("description", 10, 10, "typeName", "form"));
+        packages.add(new Package("description", 20, 20, "typeName", "form"));
+
+        List<Truck> trucks = new ArrayList<>();
+        trucks.add(new Truck(10, 10));
+
+        // Act and Assert
+        assertThatThrownBy(() -> algorithm.placePackageRecords(packages, trucks))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("Too many packages for 1 truck count");
+    }
 }
