@@ -5,17 +5,20 @@ import ru.hofftech.consolepackages.service.report.truck.TruckUnloadingReportEngi
 
 import java.util.List;
 
+import static ru.hofftech.consolepackages.service.report.truck.TruckConstants.PACKAGE_DELIMITER;
+
 public class TruckUnloadingStringReportEngine implements TruckUnloadingReportEngine {
-    private final static String PACKAGE_DELIMITER = System.lineSeparator();
 
     @Override
     public PackagePlaceStringReport generateReport(List<ru.hofftech.consolepackages.service.packageitem.Package> packages) {
         var report = new PackagePlaceStringReport();
 
-        for (ru.hofftech.consolepackages.service.packageitem.Package packageItem : packages) {
-            report.addReportString(packageItem.toString());
-            report.addReportString(PACKAGE_DELIMITER);
-            report.addReportString(PACKAGE_DELIMITER);
+        for (var i = 0; i < packages.size(); i++){
+            report.addReportString(packages.get(i).toString());
+
+            if (i < packages.size() - 1) {
+                report.addReportString(PACKAGE_DELIMITER);
+            }
         }
 
         return report;

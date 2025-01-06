@@ -69,7 +69,7 @@ public class StartupDataStorageInitializer {
                 "xxxx\\nx  x",
                 "x");
         packageTypeRepository.create(
-                "type will",
+                "type wheel",
                 "xxx\\nx x\\nxxx",
                 "y");
     }

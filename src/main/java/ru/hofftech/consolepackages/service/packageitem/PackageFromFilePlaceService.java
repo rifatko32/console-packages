@@ -1,9 +1,8 @@
-package ru.hofftech.consolepackages.service;
+package ru.hofftech.consolepackages.service.packageitem;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
-import ru.hofftech.consolepackages.service.packageitem.Package;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmType;
 import ru.hofftech.consolepackages.service.report.PackagePlaceStringReport;

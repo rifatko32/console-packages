@@ -1,7 +1,7 @@
 package ru.hofftech.consolepackages.service.command.impl.placepackage;
 
 import lombok.RequiredArgsConstructor;
-import ru.hofftech.consolepackages.service.PackageFromFilePlaceService;
+import ru.hofftech.consolepackages.service.packageitem.PackageFromFilePlaceService;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.command.CommandAbstractFactory;
 import ru.hofftech.consolepackages.service.command.CommandContext;

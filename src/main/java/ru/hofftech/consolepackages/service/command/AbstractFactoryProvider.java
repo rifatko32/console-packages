@@ -1,8 +1,8 @@
 package ru.hofftech.consolepackages.service.command;
 
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
-import ru.hofftech.consolepackages.service.PackageFromFilePlaceService;
-import ru.hofftech.consolepackages.service.TruckToPackagesService;
+import ru.hofftech.consolepackages.service.packageitem.PackageFromFilePlaceService;
+import ru.hofftech.consolepackages.service.truck.TruckToPackagesService;
 import ru.hofftech.consolepackages.service.command.impl.createpackagetype.CreatePackageTypeCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.deletepackagetype.DeletePackageTypeCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.editpackagetype.EditPackageTypeCommandFactory;

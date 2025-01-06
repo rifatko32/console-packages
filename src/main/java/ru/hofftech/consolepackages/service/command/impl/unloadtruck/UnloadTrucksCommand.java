@@ -2,7 +2,7 @@ package ru.hofftech.consolepackages.service.command.impl.unloadtruck;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.hofftech.consolepackages.service.TruckToPackagesService;
+import ru.hofftech.consolepackages.service.truck.TruckToPackagesService;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
 

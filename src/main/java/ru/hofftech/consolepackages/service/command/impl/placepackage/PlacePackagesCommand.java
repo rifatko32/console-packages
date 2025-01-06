@@ -2,7 +2,7 @@ package ru.hofftech.consolepackages.service.command.impl.placepackage;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.hofftech.consolepackages.service.PackageFromFilePlaceService;
+import ru.hofftech.consolepackages.service.packageitem.PackageFromFilePlaceService;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
 import ru.hofftech.consolepackages.service.truck.TruckFactory;
@@ -25,7 +25,7 @@ public class PlacePackagesCommand implements Command {
                 context.reportEngineType(),
                 TruckFactory.createTrucks(context.trucks()));
 
-        var reportWriter = reportWriterFactory.createReportWriter(context.reportOutputChannelType(), context.filePath());
+        var reportWriter = reportWriterFactory.createReportWriter(context.reportOutputChannelType(), context.outputFileName());
         reportWriter.writeReport(packagePlaceReport);
 
         log.info("End of handling file: {}", context.filePath());

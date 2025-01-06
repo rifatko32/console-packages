@@ -1,7 +1,7 @@
 package ru.hofftech.consolepackages.service.command.impl.unloadtruck;
 
 import lombok.RequiredArgsConstructor;
-import ru.hofftech.consolepackages.service.TruckToPackagesService;
+import ru.hofftech.consolepackages.service.truck.TruckToPackagesService;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.command.CommandAbstractFactory;
 import ru.hofftech.consolepackages.service.command.CommandContext;
@@ -14,7 +14,7 @@ import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFact
 public class UnloadTruckCommandFactory implements CommandAbstractFactory {
     private static final String INFILE = "infile";
     private static final String OUTFILE = "outfile";
-    private static final String WITH_COUNT = "with-count";
+    private static final String WITH_COUNT = "withcount";
 
     private final TruckToPackagesService truckToPackagesService;
     private final ReportWriterFactory reportWriterFactory;
@@ -31,6 +31,11 @@ public class UnloadTruckCommandFactory implements CommandAbstractFactory {
         var inFilePath = commandKeyValues.get(INFILE);
         var outFilePath = commandKeyValues.get(OUTFILE);
         var withCount = commandKeyValues.containsKey(WITH_COUNT);
-        return new UnloadTruckContext(inFilePath, ReportEngineType.STRING, ReportOutputChannelType.TXT_FILE, outFilePath, withCount);
+        return new UnloadTruckContext(
+                inFilePath,
+                withCount ? ReportEngineType.STRING_WITH_COUNT : ReportEngineType.STRING,
+                ReportOutputChannelType.TXT_FILE,
+                outFilePath,
+                withCount);
     }
 }

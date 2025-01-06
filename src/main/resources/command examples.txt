@@ -1,4 +1,4 @@
-load -packages-file "packages.txt" -trucks "3x3;3x3;6x2" -type "width" -out json-file -out-filename "trucks.json"
+load -packages-file "packages.txt" -trucks "6x6;6x6;6x6" -type "width" -out json-file -out-filename "trucks.json"
 
 load -packages-file "packages.txt" -trucks "6x6;6x6;6x6" -type "width" -out console
 
@@ -8,11 +8,9 @@ load -packages-text "Посылка Тип 1;Посылка Тип 4;КУБ" -tr
 
 unload -infile "trucks.json" -outfile "packages.txt"
 
-unload -infile "trucks.json" -outfile "packages.txt" --withcount
+unload -infile "trucks.json" -outfile "packages.txt" -withcount
 
-+ crud:?
-
-create -name "Квадратное колесо" -form "xxx\nx x\nxxxx" -description "o"
+create -name "type wheel" -form "xxx\nx x\nxxxx" -description "o"
 
 find -name "type 1"
 
