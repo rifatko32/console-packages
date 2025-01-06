@@ -6,6 +6,7 @@ import ru.hofftech.consolepackages.service.TruckToPackagesService;
 import ru.hofftech.consolepackages.service.command.impl.createpackagetype.CreatePackageTypeCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.deletepackagetype.DeletePackageTypeCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.editpackagetype.EditPackageTypeCommandFactory;
+import ru.hofftech.consolepackages.service.command.impl.exit.ExitCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.findpackagetype.FindPackageTypeCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.placepackage.PlacePackageCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.unloadtruck.UnloadTruckCommandFactory;
@@ -30,6 +31,7 @@ public class AbstractFactoryProvider {
         abstractFactoryMap.put(CommandType.FIND_PACKAGE_TYPE, new FindPackageTypeCommandFactory(packageTypeRepository));
         abstractFactoryMap.put(CommandType.DELETE_PACKAGE_TYPE, new DeletePackageTypeCommandFactory(packageTypeRepository));
         abstractFactoryMap.put(CommandType.EDIT_PACKAGE_TYPE, new EditPackageTypeCommandFactory(packageTypeRepository));
+        abstractFactoryMap.put(CommandType.EXIT, new ExitCommandFactory());
     }
 
     public CommandAbstractFactory returnCommandAbstractFactory(String strCommand) {

@@ -9,6 +9,8 @@ import java.util.UUID;
 
 @Getter
 public class Package {
+    private final static String SplitSymbol = "\\\\n";
+
     private final UUID id;
     private final String description;
     private final int width;
@@ -45,12 +47,14 @@ public class Package {
         var startX = endX - width + 1;
         var startY = endY - height + 1;
 
-        for (int x = startX; x <= endX; x++) {
-            for (int y = startY; y <= endY; y++) {
-                if (checkIsSeventhPackageEmptySlot(endX, x, y, startY)) {
+        var fromParts = form.split(SplitSymbol);
+
+        for (var y = 0; y < fromParts.length; y++) {
+            for (var x = 0; x < fromParts[y].length(); x++) {
+                if (fromParts[y].charAt(x) == ' ') {
                     continue;
                 }
-                result.add(new BackTruckSlot(x, y));
+                result.add(new BackTruckSlot(x + startX, y + startY));
             }
         }
 
@@ -60,15 +64,5 @@ public class Package {
     @Override
     public String toString() {
         return typeName;
-    }
-
-    /**
-     * // посылка 7 особенной формы
-     * // 777
-     * // 7777
-     * // у ней д.б. пустой слот
-     */
-    private boolean checkIsSeventhPackageEmptySlot(int endX, int x, int y, int startY) {
-        return x == endX && y == startY && Objects.equals(description, "7");
     }
 }

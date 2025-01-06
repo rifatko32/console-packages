@@ -9,7 +9,6 @@ import ru.hofftech.consolepackages.service.command.Command;
 @Slf4j
 @RequiredArgsConstructor
 public class CreatePackageTypeCommand implements Command {
-    private final static String SplitSymbol = "\\\\n";
 
     private final CreatePackageTypeContext context;
     private final PackageTypeRepository packageTypeRepository;

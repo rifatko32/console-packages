@@ -41,7 +41,7 @@ public class StartupDataStorageInitializer {
 
         packageTypeRepository.create(
                 "type 7",
-                "7777\\n777",
+                "777\\n7777",
                 "7");
 
         packageTypeRepository.create(
@@ -53,5 +53,24 @@ public class StartupDataStorageInitializer {
                 "type 9",
                 "999\\n999\\n999",
                 "9");
+
+        packageTypeRepository.create(
+                "type wide weight",
+                "x  x\\nxxxx\\nx  x",
+                "x");
+
+        packageTypeRepository.create(
+                "type narrow weight",
+                "x x\\nxxx\\nx x",
+                "x");
+
+        packageTypeRepository.create(
+                "type bracket",
+                "xxxx\\nx  x",
+                "x");
+        packageTypeRepository.create(
+                "type will",
+                "xxx\\nx x\\nxxx",
+                "y");
     }
 }
