@@ -1,15 +1,18 @@
 package ru.hofftech.consolepackages.service.command.impl.placepackage;
 
 import lombok.RequiredArgsConstructor;
-import ru.hofftech.consolepackages.service.packageitem.PackageFromFilePlaceService;
+import ru.hofftech.consolepackages.service.packageitem.PackageFromFileReader;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.command.CommandAbstractFactory;
 import ru.hofftech.consolepackages.service.command.CommandContext;
 import ru.hofftech.consolepackages.service.command.CommandParser;
+import ru.hofftech.consolepackages.service.packageitem.PackageFromStringReader;
+import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmType;
 import ru.hofftech.consolepackages.service.report.ReportEngineType;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportOutputChannelType;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
+import ru.hofftech.consolepackages.service.report.packageitem.PackagePlaceReportEngineFactory;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -26,12 +29,22 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
     private static final String OUT_JSON_FILE_VALUE = "json-file";
 
 
-    private final PackageFromFilePlaceService packagePlaceService;
+    private final PackageFromFileReader packageFromFileReader;
     private final ReportWriterFactory reportWriterFactory;
+    private final PackagePlaceAlgorithmFactory placeEngineFactory;
+    private final PackagePlaceReportEngineFactory reportEngineFactory;
+    private final PackageFromStringReader packageFromStringReader;
+
 
     @Override
     public Command createCommand(CommandContext commandContext) {
-        return new PlacePackagesCommand(packagePlaceService, reportWriterFactory, (PlacePackageContext) commandContext);
+        return new PlacePackagesCommand(
+                packageFromFileReader,
+                packageFromStringReader,
+                reportWriterFactory,
+                (PlacePackageContext) commandContext,
+                placeEngineFactory,
+                reportEngineFactory);
     }
 
     @Override

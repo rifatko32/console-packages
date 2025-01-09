@@ -1,7 +1,10 @@
 package ru.hofftech.consolepackages.service.command;
 
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
-import ru.hofftech.consolepackages.service.packageitem.PackageFromFilePlaceService;
+import ru.hofftech.consolepackages.service.packageitem.PackageFromFileReader;
+import ru.hofftech.consolepackages.service.packageitem.PackageFromStringReader;
+import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
+import ru.hofftech.consolepackages.service.report.packageitem.PackagePlaceReportEngineFactory;
 import ru.hofftech.consolepackages.service.truck.TruckToPackagesService;
 import ru.hofftech.consolepackages.service.command.impl.createpackagetype.CreatePackageTypeCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.deletepackagetype.DeletePackageTypeCommandFactory;
@@ -20,12 +23,21 @@ public class AbstractFactoryProvider {
     private static final Map<CommandType, CommandAbstractFactory> abstractFactoryMap = new HashMap<>();
 
     public AbstractFactoryProvider(
-            PackageFromFilePlaceService packagePlaceService,
+            PackageFromFileReader packageFromFileReader,
+            PackageFromStringReader packageFromStringReader,
             TruckToPackagesService truckToPackagesService,
             ReportWriterFactory reportWriterFactory,
-            PackageTypeRepository packageTypeRepository){
+            PackageTypeRepository packageTypeRepository,
+            PackagePlaceAlgorithmFactory placeEngineFactory,
+            PackagePlaceReportEngineFactory reportEngineFactory
+    ){
 
-        abstractFactoryMap.put(CommandType.LOAD_PACKAGES, new PlacePackageCommandFactory(packagePlaceService, reportWriterFactory));
+        abstractFactoryMap.put(CommandType.LOAD_PACKAGES, new PlacePackageCommandFactory(
+                packageFromFileReader,
+                reportWriterFactory,
+                placeEngineFactory,
+                reportEngineFactory,
+                packageFromStringReader));
         abstractFactoryMap.put(CommandType.UNLOAD_TRUCK, new UnloadTruckCommandFactory(truckToPackagesService, reportWriterFactory));
         abstractFactoryMap.put(CommandType.CREATE_PACKAGE_TYPE, new CreatePackageTypeCommandFactory(packageTypeRepository));
         abstractFactoryMap.put(CommandType.FIND_PACKAGE_TYPE, new FindPackageTypeCommandFactory(packageTypeRepository));

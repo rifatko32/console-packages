@@ -4,8 +4,10 @@ import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import ru.hofftech.consolepackages.controller.ConsoleController;
 import ru.hofftech.consolepackages.datastorage.repository.impl.InMemoryPackageTypeRepository;
-import ru.hofftech.consolepackages.service.packageitem.PackageFromFilePlaceService;
+import ru.hofftech.consolepackages.service.packageitem.PackageFactory;
+import ru.hofftech.consolepackages.service.packageitem.PackageFromFileReader;
 import ru.hofftech.consolepackages.service.StartupDataStorageInitializer;
+import ru.hofftech.consolepackages.service.packageitem.PackageFromStringReader;
 import ru.hofftech.consolepackages.service.truck.TruckToPackagesService;
 import ru.hofftech.consolepackages.service.command.AbstractFactoryProvider;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
@@ -31,11 +33,11 @@ public class Main {
 
         ConsoleController consoleController = new ConsoleController(
                 new AbstractFactoryProvider(
-                        new PackageFromFilePlaceService(
+                        new PackageFromFileReader(
                                 new PackageFileReader(),
-                                new PackagePlaceAlgorithmFactory(),
-                                new PackagePlaceReportEngineFactory(),
-                                packageTypeRepository),
+                                new PackageFactory(packageTypeRepository)),
+                        new PackageFromStringReader(
+                                new PackageFactory(packageTypeRepository)),
                         new TruckToPackagesService(
                                 new TruckJsonFileReader(
                                         new Gson()),
@@ -43,7 +45,9 @@ public class Main {
                                 new TruckUnloadingAlgorithm()
                         ),
                         new ReportWriterFactory(),
-                        packageTypeRepository
+                        packageTypeRepository,
+                        new PackagePlaceAlgorithmFactory(),
+                        new PackagePlaceReportEngineFactory()
                 ));
 
         consoleController.listen();
