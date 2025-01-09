@@ -3,12 +3,12 @@ package ru.hofftech.consolepackages.datastorage.model.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Arrays;
-import java.util.Comparator;
+
+import static ru.hofftech.consolepackages.service.packageitem.PackageSizeCalculator.calcPackageTypeHeight;
+import static ru.hofftech.consolepackages.service.packageitem.PackageSizeCalculator.calcPackageTypeWidth;
 
 @Getter
 public class PackageType {
-    private final static String SplitSymbol = "\\\\n";
 
     @Setter
     private String name;
@@ -41,20 +41,5 @@ public class PackageType {
         this.form = form;
         this.width = calcPackageTypeWidth(form);
         this.height = calcPackageTypeHeight(form);
-    }
-
-    private Integer calcPackageTypeWidth(String form) {
-        var splitForm = form.split(SplitSymbol);
-
-        return Arrays.stream(splitForm)
-                .max(Comparator.comparingInt(String::length))
-                .map(String::length)
-                .orElse(0);
-    }
-
-    private Integer calcPackageTypeHeight(String form) {
-        var splitForm = form.split(SplitSymbol);
-
-        return splitForm.length;
     }
 }

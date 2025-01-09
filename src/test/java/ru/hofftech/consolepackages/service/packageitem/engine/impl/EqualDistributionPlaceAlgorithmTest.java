@@ -18,8 +18,8 @@ public class EqualDistributionPlaceAlgorithmTest {
     public void testPlacePackageRecords_EqualNumberOfPackagesAndTrucks() {
         // Arrange
         List<Package> packages = new ArrayList<>();
-        packages.add(new Package("d", 3, 3, "typeName", "999\\n999\\n999"));
-        packages.add(new Package("d", 3, 3, "typeName", "999\\n999\\n999"));
+        packages.add(new Package("d", "typeName", "999\\n999\\n999"));
+        packages.add(new Package("d", "typeName", "999\\n999\\n999"));
 
         List<Truck> trucks = new ArrayList<>();
         trucks.add(new Truck(100, 100));
@@ -37,9 +37,9 @@ public class EqualDistributionPlaceAlgorithmTest {
     public void testPlacePackageRecords_MorePackagesThanTrucks() {
         // Arrange
         List<Package> packages = new ArrayList<>();
-        packages.add(new Package("d", 3, 3, "typeName", "999\\n999\\n999"));
-        packages.add(new Package("d", 3, 3, "typeName", "999\\n999\\n999"));
-        packages.add(new Package("d", 3, 3, "typeName", "999\\n999\\n999"));
+        packages.add(new Package("d", "typeName", "999\\n999\\n999"));
+        packages.add(new Package("d", "typeName", "999\\n999\\n999"));
+        packages.add(new Package("d", "typeName", "999\\n999\\n999"));
 
         List<Truck> trucks = new ArrayList<>();
         trucks.add(new Truck(100, 100));
@@ -57,8 +57,8 @@ public class EqualDistributionPlaceAlgorithmTest {
     public void testPlacePackageRecords_MoreTrucksThanPackages() {
         // Arrange
         List<Package> packages = new ArrayList<>();
-        packages.add(new Package("d", 3, 3, "typeName", "999\\n999\\n999"));
-        packages.add(new Package("d", 3, 3, "typeName", "999\\n999\\n999"));
+        packages.add(new Package("d", "typeName", "999\\n999\\n999"));
+        packages.add(new Package("d", "typeName", "999\\n999\\n999"));
 
         List<Truck> trucks = new ArrayList<>();
         trucks.add(new Truck(100, 100));
@@ -95,8 +95,8 @@ public class EqualDistributionPlaceAlgorithmTest {
     public void testPlacePackageRecords_TooManyPackages() {
         // Arrange
         List<Package> packages = new ArrayList<>();
-        packages.add(new Package("d", 3, 3, "typeName", "999\\n999\\n999"));
-        packages.add(new Package("d", 3, 3, "typeName", "999\\n999\\n999"));
+        packages.add(new Package("d", "typeName", "999\\n999\\n999"));
+        packages.add(new Package("d", "typeName", "999\\n999\\n999"));
 
         List<Truck> trucks = new ArrayList<>();
         trucks.add(new Truck(3, 3));

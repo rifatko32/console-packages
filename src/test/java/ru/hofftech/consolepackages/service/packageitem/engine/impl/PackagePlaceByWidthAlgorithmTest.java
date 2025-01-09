@@ -17,8 +17,8 @@ public class PackagePlaceByWidthAlgorithmTest {
         // Arrange
         PackagePlaceByWidthAlgorithm algorithm = new PackagePlaceByWidthAlgorithm();
         List<Package> packages = new ArrayList<>();
-        packages.add(new Package("d", 3, 3, "typeName1", "999\\n999\\n999"));
-        packages.add(new Package("d", 3, 2, "typeName2", "999\\n999"));
+        packages.add(new Package("d", "typeName1", "999\\n999\\n999"));
+        packages.add(new Package("d", "typeName2", "999\\n999"));
 
         List<Truck> trucks = new ArrayList<>();
         trucks.add(new Truck(10, 10));
@@ -37,9 +37,9 @@ public class PackagePlaceByWidthAlgorithmTest {
         // Arrange
         PackagePlaceByWidthAlgorithm algorithm = new PackagePlaceByWidthAlgorithm();
         List<Package> packages = new ArrayList<>();
-        packages.add(new Package("x", 3, 3, "typeName1", "999\\n999\\n999"));
-        packages.add(new Package("x", 3, 3, "typeName1", "999\\n999\\n999"));
-        packages.add(new Package("x", 3, 3, "typeName1", "999\\n999\\n999"));
+        packages.add(new Package("x", "typeName1", "999\\n999\\n999"));
+        packages.add(new Package("x", "typeName1", "999\\n999\\n999"));
+        packages.add(new Package("x", "typeName1", "999\\n999\\n999"));
 
         List<Truck> trucks = new ArrayList<>();
         trucks.add(new Truck(3, 3));

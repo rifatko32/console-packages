@@ -4,12 +4,14 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
+
+import static ru.hofftech.consolepackages.service.packageitem.PackageSizeCalculator.SplitSymbol;
+import static ru.hofftech.consolepackages.service.packageitem.PackageSizeCalculator.calcPackageTypeHeight;
+import static ru.hofftech.consolepackages.service.packageitem.PackageSizeCalculator.calcPackageTypeWidth;
 
 @Getter
 public class Package {
-    private final static String SplitSymbol = "\\\\n";
 
     private final UUID id;
     private final String description;
@@ -20,14 +22,12 @@ public class Package {
 
     public Package(
             String description,
-            int width,
-            int height,
             String typeName,
             String form) {
         id = UUID.randomUUID();
 
-        this.width = width;
-        this.height = height;
+        this.width = calcPackageTypeWidth(form);;
+        this.height = calcPackageTypeHeight(form);;
         this.typeName = typeName;
         this.form = form;
         this.description = description;

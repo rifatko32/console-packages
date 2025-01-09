@@ -18,8 +18,8 @@ public class SinglePackagePerTruckPlaceAlgorithmTest {
     public void testPlacePackageRecords_SimpleCase() {
         // Arrange
         List<Package> packages = new ArrayList<>();
-        packages.add(new Package("d", 3, 3, "typeName1", "999\\n999\\n999"));
-        packages.add(new Package("x", 3, 2, "typeName2", "999\\n999"));
+        packages.add(new Package("d", "typeName1", "999\\n999\\n999"));
+        packages.add(new Package("x", "typeName2", "999\\n999"));
 
         List<Truck> trucks = new ArrayList<>();
         trucks.add(new Truck(6, 6));
@@ -37,8 +37,8 @@ public class SinglePackagePerTruckPlaceAlgorithmTest {
     public void testPlacePackageRecords_TooManyPackages() {
         // Arrange
         List<Package> packages = new ArrayList<>();
-        packages.add(new Package("x", 3, 3, "typeName1", "999\\n999\\n999"));
-        packages.add(new Package("x", 3, 2, "typeName2", "999\\n999"));
+        packages.add(new Package("x", "typeName1", "999\\n999\\n999"));
+        packages.add(new Package("x", "typeName2", "999\\n999"));
 
         List<Truck> trucks = new ArrayList<>();
         trucks.add(new Truck(6, 6));
@@ -60,6 +60,6 @@ public class SinglePackagePerTruckPlaceAlgorithmTest {
         algorithm.placePackageRecords(packages, trucks);
 
         // Assert
-        assertThat(trucks.get(0).getPackages()).isEmpty();
+        assertThat(trucks.getFirst().getPackages()).isEmpty();
     }
 }

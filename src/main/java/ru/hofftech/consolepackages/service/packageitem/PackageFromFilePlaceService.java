@@ -66,8 +66,6 @@ public class PackageFromFilePlaceService {
             var curPackageType = packageTypes.get(packageString); //curPackageType
             packages.add(new Package(
                     curPackageType.getDescriptionNumber(),
-                    curPackageType.getWidth(),
-                    curPackageType.getHeight(),
                     curPackageType.getName(),
                     curPackageType.getForm()
             ));
