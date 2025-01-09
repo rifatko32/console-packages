@@ -73,7 +73,7 @@ public class Truck {
         return filledSlotCount >= minimalBase;
     }
 
-    public String getBackTruckSlotValue(int x, int y) {
-        return backTruckSlots[x][y] == null ? " " : backTruckSlots[x][y];
+    public String getBackTruckSlotValue(int y, int x) {
+        return backTruckSlots[y][x] == null ? " " : backTruckSlots[y][x];
     }
 }

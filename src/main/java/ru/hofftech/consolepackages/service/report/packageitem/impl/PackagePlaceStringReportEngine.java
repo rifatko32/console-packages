@@ -34,11 +34,11 @@ public class PackagePlaceStringReportEngine implements PackagePlaceReportEngine 
         var stringBuilder = new StringBuilder();
         var trackStrings = new ArrayList<String>();
 
-        for (var x = 0; x <= truck.getWidth() - 1; x++) {
+        for (var y = 0; y <= truck.getHeight() - 1; y++) {
             stringBuilder.setLength(0);
             stringBuilder.append(TRUCK_SIDE);
-            for (var y = 0; y <= truck.getHeight() - 1; y++) {
-                stringBuilder.append(truck.getBackTruckSlotValue(x, y));
+            for (var x = 0; x <= truck.getWidth() - 1; x++) {
+                stringBuilder.append(truck.getBackTruckSlotValue(y, x));
             }
             stringBuilder.append(TRUCK_SIDE);
             trackStrings.add(stringBuilder.toString());
