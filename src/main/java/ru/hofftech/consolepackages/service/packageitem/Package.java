@@ -10,6 +10,9 @@ import static ru.hofftech.consolepackages.service.packageitem.PackageSizeCalcula
 import static ru.hofftech.consolepackages.service.packageitem.PackageSizeCalculator.calcPackageTypeHeight;
 import static ru.hofftech.consolepackages.service.packageitem.PackageSizeCalculator.calcPackageTypeWidth;
 
+/**
+ * Class represents package that can be placed in truck.
+ */
 @Getter
 public class Package {
 
@@ -33,14 +36,41 @@ public class Package {
         this.description = description;
     }
 
+    /**
+     * Check if package has enough space in truck slot.
+     *
+     * @param enoughWidth  minimal width of truck slot
+     * @param enoughHeight minimal height of truck slot
+     * @return true if package has enough space in truck slot, false otherwise.
+     */
     public boolean checkIsPackageHasEnoughSpace(int enoughWidth, int enoughHeight) {
         return enoughWidth >= width && enoughHeight >= height;
     }
 
+    /**
+     * Calculates minimal available base of package.
+     *
+     * <p>
+     * Minimal base of package is minimal width of truck slots that can contain package.
+     * </p>
+     *
+     * @return minimal base of package
+     */
     public int calcMinimalBase() {
         return (int) Math.ceil((double) width / 2);
     }
 
+    /**
+     * Maps package to list of filling slots.
+     *
+     * <p>
+     * This method maps package to list of filling slots in truck.
+     * </p>
+     *
+     * @param endX   x-coordinate of the end of package
+     * @param endY   y-coordinate of the end of package
+     * @return list of filling slots for package
+     */
     public List<BackTruckSlot> mapToListOfFillingSlots(int endX, int endY) {
         var result = new ArrayList<BackTruckSlot>();
 
@@ -61,6 +91,11 @@ public class Package {
         return result;
     }
 
+    /**
+     * String representation of package.
+     *
+     * @return string representation of package
+     */
     @Override
     public String toString() {
         return typeName;

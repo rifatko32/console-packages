@@ -8,12 +8,21 @@ import ru.hofftech.consolepackages.util.PackageFileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The class implements the reader of packages from a file.
+ */
 @Slf4j
 @RequiredArgsConstructor
 public class PackageFromFileReader {
     private final PackageFileReader fileReader;
     private final PackageFactory packageFactory;
 
+    /**
+     * Read packages from a file.
+     *
+     * @param filePath the path to file with packages
+     * @return list of packages
+     */
     public ArrayList<Package> readPackages(String filePath) {
         try {
             var packageStrings = readFile(filePath);
@@ -25,6 +34,12 @@ public class PackageFromFileReader {
         return null;
     }
 
+    /**
+     * Read packages from a file.
+     *
+     * @param filePath the path to file with packages
+     * @return list of packages
+     */
     private List<String> readFile(String filePath) {
         var packageStrings = fileReader.readPackages(filePath);
 

@@ -8,6 +8,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * {@link PackagePlaceAlgorithm} implementation that distribute packages across trucks in such a way that
+ * each truck has nearly equal number of packages. The algorithm first distribute packages by equal distribution
+ * and then try to place remaining packages one by one into each truck.
+ */
 public class EqualDistributionPlaceAlgorithm extends PackagePlaceAlgorithm {
 
     @Override

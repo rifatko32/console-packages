@@ -6,11 +6,20 @@ import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Factory to generate packages from strings.
+ */
 @RequiredArgsConstructor
 public class PackageFactory {
 
     private final PackageTypeRepository packageTypeRepository;
 
+    /**
+     * Generate packages from strings.
+     *
+     * @param packageStrings the strings to generate packages from
+     * @return list of packages
+     */
     public ArrayList<Package> generatePackages(List<String> packageStrings) {
         var packageTypes = packageTypeRepository.findByNames(packageStrings);
         var packages = new ArrayList<Package>();

@@ -4,11 +4,18 @@ import ru.hofftech.consolepackages.service.packageitem.Package;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithm;
 import ru.hofftech.consolepackages.service.truck.Truck;
 
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Algorithm to place packages into trucks, ensuring each truck receives only one package.
+ * <p>
+ * This algorithm iterates through the list of packages and assigns each package to the first
+ * available truck that has not yet been loaded with a package. If all trucks are loaded, it
+ * throws an exception indicating insufficient trucks.
+ * </p>
+ */
 public class SinglePackagePerTruckPlaceAlgorithm extends PackagePlaceAlgorithm {
 
     protected void placePackageRecords(List<ru.hofftech.consolepackages.service.packageitem.Package> packages, List<Truck> trucks) {

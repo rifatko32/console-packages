@@ -3,12 +3,21 @@ package ru.hofftech.consolepackages.service;
 import lombok.RequiredArgsConstructor;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 
+/**
+ * Class to initialize data storage after startup.
+ */
 @RequiredArgsConstructor
 public class StartupDataStorageInitializer {
 
     private final PackageTypeRepository packageTypeRepository;
 
-    public void init() {
+    /**
+     * Creates default package types and stores them in the repository.
+     * This method initializes the data storage with a set of predefined package types,
+     * each with a unique name, form, and description number. These package types are
+     * created in the storage for use in the application.
+     */
+    public void createDefaultPackageTypes() {
         packageTypeRepository.create(
                 "type 1",
                 "1",

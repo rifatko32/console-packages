@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.service.command.Command;
 
+/**
+ * Command to edit a package type.
+ */
 @RequiredArgsConstructor
 public class EditPackageTypeCommand implements Command {
     private final EditPackageTypeContext context;

@@ -13,6 +13,13 @@ import ru.hofftech.consolepackages.service.truck.TruckFactory;
 
 import java.util.ArrayList;
 
+/**
+ * Command to place packages into trucks based on a specified algorithm.
+ * <p>
+ * This command utilizes various components to read package data, apply a placement algorithm,
+ * and generate a report of the package placement.
+ * </p>
+ */
 @Slf4j
 @RequiredArgsConstructor
 public class PlacePackagesCommand implements Command {

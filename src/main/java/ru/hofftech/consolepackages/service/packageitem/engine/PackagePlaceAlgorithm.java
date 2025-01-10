@@ -6,6 +6,9 @@ import ru.hofftech.consolepackages.service.truck.Truck;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Algorithm to place packages into trucks based on package dimensions and truck capacity.
+ */
 public abstract class PackagePlaceAlgorithm {
 
     public void placePackages(List<Package> packages, List<Truck> trucks){

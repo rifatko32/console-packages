@@ -4,6 +4,10 @@ import lombok.RequiredArgsConstructor;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.service.command.Command;
 
+
+/**
+ * Command to delete a package type.
+ */
 @RequiredArgsConstructor
 public class DeletePackageTypeCommand implements Command {
 

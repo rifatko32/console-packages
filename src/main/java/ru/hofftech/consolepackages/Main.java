@@ -29,7 +29,7 @@ public class Main {
         var packageTypeRepository = new InMemoryPackageTypeRepository();
         new StartupDataStorageInitializer(
                 packageTypeRepository
-        ).init();
+        ).createDefaultPackageTypes();
 
         ConsoleController consoleController = new ConsoleController(
                 new AbstractFactoryProvider(

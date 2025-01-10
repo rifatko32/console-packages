@@ -18,6 +18,9 @@ import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFact
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The class provides a map of command abstract factories and returns a factory by a command type.
+ */
 public class AbstractFactoryProvider {
 
     private static final Map<CommandType, CommandAbstractFactory> abstractFactoryMap = new HashMap<>();
@@ -46,6 +49,12 @@ public class AbstractFactoryProvider {
         abstractFactoryMap.put(CommandType.EXIT, new ExitCommandFactory());
     }
 
+    /**
+     * Returns a command abstract factory by a command type.
+     *
+     * @param strCommand A command to be parsed.
+     * @return A command abstract factory.
+     */
     public CommandAbstractFactory returnCommandAbstractFactory(String strCommand) {
         var commandType = CommandParser.parseCommandType(strCommand);
         var commandAbstractFactory = abstractFactoryMap.get(commandType);

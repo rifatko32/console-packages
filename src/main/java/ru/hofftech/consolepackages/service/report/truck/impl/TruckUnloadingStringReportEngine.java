@@ -7,6 +7,9 @@ import java.util.List;
 
 import static ru.hofftech.consolepackages.service.report.truck.TruckConstants.PACKAGE_DELIMITER;
 
+/**
+ * Generates a report of the packages in the form of a string, with each package on a new line
+ */
 public class TruckUnloadingStringReportEngine implements TruckUnloadingReportEngine {
 
     @Override

@@ -8,6 +8,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Package placement algorithm that places packages in trucks by width.
+ *
+ * <p>
+ * This algorithm tries to place package in truck from the right bottom corner
+ * to the left top corner. If package could not be placed in current truck, the
+ * algorithm tries to place package in the next truck.
+ * </p>
+ */
 public class PackagePlaceByWidthAlgorithm extends PackagePlaceAlgorithm {
 
     @Override
@@ -15,16 +24,20 @@ public class PackagePlaceByWidthAlgorithm extends PackagePlaceAlgorithm {
 
         var placedPackagesIds = new HashSet<UUID>();
 
-        for (Truck truck : trucks) {
-            for (ru.hofftech.consolepackages.service.packageitem.Package record : packages) {
+        for (ru.hofftech.consolepackages.service.packageitem.Package record : packages) {
+            var truckIdx = 0;
+            do {
+                var truck = trucks.get(truckIdx);
+                truckIdx++;
                 if (placedPackagesIds.contains(record.getId()) || !tryPlacePackage(record, truck)) {
                     continue;
                 }
                 placedPackagesIds.add(record.getId());
-            }
+                truckIdx = 0;
+            } while (truckIdx <= trucks.size() - 1);
         }
 
-        if (placedPackagesIds.size() < packages.size()){
+        if (placedPackagesIds.size() < packages.size()) {
             throw new RuntimeException(String.format("Too many packages for %d truck count", trucks.size()));
         }
     }

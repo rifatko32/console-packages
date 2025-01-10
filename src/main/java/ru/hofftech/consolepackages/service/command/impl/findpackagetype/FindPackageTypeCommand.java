@@ -6,8 +6,10 @@ import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.service.command.Command;
 
 import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * Command to find package type by name.
+ */
 @RequiredArgsConstructor
 public class FindPackageTypeCommand implements Command {
 

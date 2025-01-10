@@ -10,6 +10,17 @@ import java.util.stream.Collectors;
 
 import static ru.hofftech.consolepackages.service.report.truck.TruckConstants.PACKAGE_DELIMITER;
 
+/**
+ * Implementation of {@link TruckUnloadingReportEngine} that generates a report
+ * of packages unloaded from trucks, including a count of each package type.
+ * <p>
+ * This report engine groups packages by their type name and counts the number
+ * of occurrences of each type. The resulting report consists of strings
+ * representing the package type and its count, separated by a delimiter.
+ * </p>
+ *
+ * @see TruckUnloadingReportEngine
+ */
 public class TruckUnloadingStringWithCountReportEngine implements TruckUnloadingReportEngine {
 
     @Override

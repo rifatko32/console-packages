@@ -2,9 +2,7 @@ load -packages-file "packages.txt" -trucks "6x6;6x6;6x6" -type "width" -out json
 
 load -packages-file "packages.txt" -trucks "6x6;6x6;6x6" -type "width" -out console
 
-load -packages-text "Посылка Тип 1;Посылка Тип 4;КУБ" -trucks "3x3;3x3;6x2" -type "width" -out console
-
-load -packages-text "Посылка Тип 1;Посылка Тип 4;КУБ" -trucks "3x3;3x3;6x2" -type "width" -out console
+load -packages-text "type wheel;type narrow weight;type 1;type 1" -trucks "3x3;3x3;6x2" -type "width" -out console
 
 unload -infile "trucks.json" -outfile "packages.txt"
 

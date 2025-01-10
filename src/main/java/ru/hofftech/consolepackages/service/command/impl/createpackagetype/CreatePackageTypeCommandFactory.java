@@ -7,6 +7,9 @@ import ru.hofftech.consolepackages.service.command.CommandAbstractFactory;
 import ru.hofftech.consolepackages.service.command.CommandContext;
 import ru.hofftech.consolepackages.service.command.CommandParser;
 
+/**
+ * The class implements the factory of commands for creating a package type.
+ */
 @RequiredArgsConstructor
 public class CreatePackageTypeCommandFactory implements CommandAbstractFactory {
 
@@ -16,11 +19,24 @@ public class CreatePackageTypeCommandFactory implements CommandAbstractFactory {
 
     private final PackageTypeRepository packageTypeRepository;
 
+    /**
+     * Creates the command to create a new package type.
+     *
+     * @param commandContext the context of the command
+     * @return the command to create a new package type
+     */
     @Override
     public Command createCommand(CommandContext commandContext) {
         return new CreatePackageTypeCommand((CreatePackageTypeContext) commandContext, packageTypeRepository);
     }
 
+
+    /**
+     * Creates the context of the command to create a new package type.
+     *
+     * @param strCommand the string with the command
+     * @return the context of the command to create a new package type
+     */
     @Override
     public CommandContext createCommandContext(String strCommand) {
         var commandKeyValues = CommandParser.parseCommandKeys(strCommand);
