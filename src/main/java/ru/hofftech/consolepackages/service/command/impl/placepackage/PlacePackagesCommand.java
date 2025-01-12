@@ -7,6 +7,7 @@ import ru.hofftech.consolepackages.service.packageitem.Package;
 import ru.hofftech.consolepackages.service.packageitem.PackageFromFileReader;
 import ru.hofftech.consolepackages.service.packageitem.PackageFromStringReader;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
+import ru.hofftech.consolepackages.service.report.outputchannel.ReportOutputChannelType;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
 import ru.hofftech.consolepackages.service.report.packageitem.PackagePlaceReportEngineFactory;
 import ru.hofftech.consolepackages.service.truck.TruckFactory;
@@ -33,27 +34,32 @@ public class PlacePackagesCommand implements Command {
 
     @Override
     public void execute() {
-        log.info("Start of handling file: {}", context.filePath());
+        log.info("Start of handling file: {}", context.getFilePath());
 
-        var trucks = TruckFactory.createTrucks(context.trucks());
+        var trucks = TruckFactory.createTrucks(context.getTrucks());
 
         var packages = new ArrayList<Package>();
 
-        if (context.filePath() != null && !context.filePath().isEmpty()) {
-            packages = packageFromFileReader.readPackages(context.filePath());
-        } else if (context.packagesText() != null && !context.packagesText().isEmpty()) {
-            packages = packageFromStringReader.readPackages(context.packagesText());
+        if (context.getFilePath() != null && !context.getFilePath().isEmpty()) {
+            packages = packageFromFileReader.readPackages(context.getFilePath());
+        } else if (context.getPackagesText() != null && !context.getPackagesText().isEmpty()) {
+            packages = packageFromStringReader.readPackages(context.getPackagesText());
         }
 
-        var packagePlaceEngine = placeEngineFactory.createPackagePlaceEngine(context.algorithmType());
+        var packagePlaceEngine = placeEngineFactory.createPackagePlaceEngine(context.getAlgorithmType());
         packagePlaceEngine.placePackages(packages, trucks);
 
-        var reportEngine = reportEngineFactory.createReportEngine(context.reportEngineType());
+        var reportEngine = reportEngineFactory.createReportEngine(context.getReportEngineType());
         var packagePlaceReport = reportEngine.generateReport(trucks);
 
-        var reportWriter = reportWriterFactory.createReportWriter(context.reportOutputChannelType(), context.outputFileName());
-        reportWriter.writeReport(packagePlaceReport);
+        var reportWriter = reportWriterFactory.createReportWriter(context.getReportOutputChannelType(), context.getOutputFileName());
 
-        log.info("End of handling file: {}", context.filePath());
+        if (reportWriter != null) {
+            reportWriter.writeReport(packagePlaceReport);
+        }
+        
+        context.setResult(packagePlaceReport.toPlainString());
+
+        log.info("End of handling file: {}", context.getFilePath());
     }
 }

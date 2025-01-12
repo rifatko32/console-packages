@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import ru.hofftech.consolepackages.datastorage.model.entity.PackageType;
 import ru.hofftech.consolepackages.service.command.CommandContextWithResult;
+import ru.hofftech.consolepackages.service.report.outputchannel.ReportOutputChannelType;
 
 import java.util.ArrayList;
 
@@ -12,6 +13,6 @@ import java.util.ArrayList;
 @Setter
 @RequiredArgsConstructor
 public class FindPackageTypeContext extends CommandContextWithResult<ArrayList<PackageType>> {
-
     private final String name;
+    private final ReportOutputChannelType reportOutputChannelType;
 }

@@ -2,7 +2,7 @@ package ru.hofftech.consolepackages.service.report.outputchannel.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.hofftech.consolepackages.service.report.PackagePlaceStringReport;
+import ru.hofftech.consolepackages.service.report.PlaneStringReport;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriter;
 
 import java.io.File;
@@ -19,7 +19,7 @@ public class ReportToFileWriter implements ReportWriter {
     private final String outputFileName;
 
     @Override
-    public void writeReport(PackagePlaceStringReport report) {
+    public void writeReport(PlaneStringReport report) {
         if (report == null || report.getReportStrings().isEmpty()) {
             throw new IllegalArgumentException("Report is empty or null");
         }
@@ -42,7 +42,7 @@ public class ReportToFileWriter implements ReportWriter {
         return outputFileName.substring(0, outputFileName.lastIndexOf(".")).toLowerCase();
     }
 
-    private void writeReportToFile(PackagePlaceStringReport report, String fileName) {
+    private void writeReportToFile(PlaneStringReport report, String fileName) {
         try (FileWriter writer = new FileWriter(fileName)) {
             createReportsFolder();
             for(var reportString : report.getReportStrings()) {

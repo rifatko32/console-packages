@@ -2,7 +2,7 @@ package ru.hofftech.consolepackages.service.truck;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.hofftech.consolepackages.service.report.PackagePlaceStringReport;
+import ru.hofftech.consolepackages.service.report.PlaneStringReport;
 import ru.hofftech.consolepackages.service.report.ReportEngineType;
 import ru.hofftech.consolepackages.service.report.truck.TruckUnloadingReportEngineFactory;
 import ru.hofftech.consolepackages.util.TruckJsonFileReader;
@@ -35,9 +35,9 @@ public class TruckToPackagesService {
  *
  * @param filePath the path to the JSON file containing the truck information
  * @param reportEngineType the type of report engine to use for generating the report
- * @return a {@link PackagePlaceStringReport} containing the details of the unloaded packages
+ * @return a {@link PlaneStringReport} containing the details of the unloaded packages
  */
-    public PackagePlaceStringReport retrieveTruckPackages(
+    public PlaneStringReport retrieveTruckPackages(
             String filePath,
             ReportEngineType reportEngineType) {
         try {

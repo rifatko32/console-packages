@@ -1,12 +1,11 @@
 package ru.hofftech.consolepackages.service.report.packageitem.impl;
 
 import ru.hofftech.consolepackages.service.report.packageitem.PackagePlaceReportEngine;
-import ru.hofftech.consolepackages.service.report.PackagePlaceStringReport;
+import ru.hofftech.consolepackages.service.report.PlaneStringReport;
 import ru.hofftech.consolepackages.service.truck.Truck;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class PackagePlaceStringReportEngine implements PackagePlaceReportEngine {
     private static final String TRUCK_DELIMiTER = "-------------------------------------------";
@@ -14,8 +13,8 @@ public class PackagePlaceStringReportEngine implements PackagePlaceReportEngine 
     private static final String TRUCK_SIDE = "+";
 
     @Override
-    public PackagePlaceStringReport generateReport(List<Truck> trucks) {
-        var report = new PackagePlaceStringReport();
+    public PlaneStringReport generateReport(List<Truck> trucks) {
+        var report = new PlaneStringReport();
 
         if (trucks.isEmpty()) {
             return report;

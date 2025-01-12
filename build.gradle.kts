@@ -17,6 +17,8 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.4.12")
     implementation("org.javatuples:javatuples:1.2")
     implementation("com.google.code.gson:gson:2.8.9")
+    implementation("org.telegram:telegrambots-longpolling:8.0.0")
+    implementation("org.telegram:telegrambots-client:8.0.0")
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")

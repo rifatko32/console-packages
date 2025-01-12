@@ -1,7 +1,7 @@
 package ru.hofftech.consolepackages.service.report.outputchannel;
 
-import ru.hofftech.consolepackages.service.report.PackagePlaceStringReport;
+import ru.hofftech.consolepackages.service.report.PlaneStringReport;
 
 public interface ReportWriter {
-    void writeReport(PackagePlaceStringReport report);
+    void writeReport(PlaneStringReport report);
 }

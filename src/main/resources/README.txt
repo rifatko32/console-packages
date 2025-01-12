@@ -40,3 +40,5 @@ edit, для редактирования типа посылки
 -description: символ заполнения пакета (optional)
 
 Примеры команд можно увидеть в файле command examples.txt
+
+Бот для работы из телеграма: https://t.me/yrPackageBot_user_bot, формат команд такой же

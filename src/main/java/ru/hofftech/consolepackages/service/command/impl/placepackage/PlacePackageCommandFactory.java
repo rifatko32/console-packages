@@ -56,7 +56,7 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
         var algorithmType = PackagePlaceAlgorithmType.fromLabel(commandKeyValues.get(TYPE_KEY));
         var filePath = commandKeyValues.get(PACKAGES_FILE_KEY);
         var packagesText = commandKeyValues.get(PACKAGES_TEXT_KEY);
-        var channelType = Objects.equals(commandKeyValues.get(OUT_KEY), OUT_JSON_FILE_VALUE) ? ReportOutputChannelType.JSONFILE : ReportOutputChannelType.CONSOLE;
+        var channelType = ReportOutputChannelType.fromLabel(commandKeyValues.get(OUT_KEY));
         var reportEngineType = Objects.equals(commandKeyValues.get(OUT_KEY), OUT_JSON_FILE_VALUE) ? ReportEngineType.JSON : ReportEngineType.STRING;
         var outputFileName = commandKeyValues.get(OUT_FILENAME_KEY);
 

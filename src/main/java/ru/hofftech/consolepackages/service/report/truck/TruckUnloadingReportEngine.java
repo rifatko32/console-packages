@@ -1,6 +1,6 @@
 package ru.hofftech.consolepackages.service.report.truck;
 
-import ru.hofftech.consolepackages.service.report.PackagePlaceStringReport;
+import ru.hofftech.consolepackages.service.report.PlaneStringReport;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * <p>
  * Implementations of this interface should define how the report is generated
  * based on a list of packages. The report is represented as a
- * {@link PackagePlaceStringReport}.
+ * {@link PlaneStringReport}.
  * </p>
  */
 public interface TruckUnloadingReportEngine {
@@ -18,11 +18,11 @@ public interface TruckUnloadingReportEngine {
      * <p>
      * This method takes a list of packages and generates a report detailing
      * the packages as they are unloaded from trucks. The report is encapsulated
-     * in a {@link PackagePlaceStringReport} instance.
+     * in a {@link PlaneStringReport} instance.
      * </p>
      *
      * @param packages the list of packages to be included in the report
-     * @return a {@link PackagePlaceStringReport} containing the report details
+     * @return a {@link PlaneStringReport} containing the report details
      */
-    PackagePlaceStringReport generateReport(List<ru.hofftech.consolepackages.service.packageitem.Package> packages);
+    PlaneStringReport generateReport(List<ru.hofftech.consolepackages.service.packageitem.Package> packages);
 }

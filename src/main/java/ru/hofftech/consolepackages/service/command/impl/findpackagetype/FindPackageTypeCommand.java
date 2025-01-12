@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import ru.hofftech.consolepackages.datastorage.model.entity.PackageType;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.service.command.Command;
+import ru.hofftech.consolepackages.service.report.PlaneStringReport;
+import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
 
 import java.util.ArrayList;
 
@@ -15,6 +17,7 @@ public class FindPackageTypeCommand implements Command {
 
     private final FindPackageTypeContext context;
     private final PackageTypeRepository packageTypeRepository;
+    private final ReportWriterFactory reportWriterFactory;
 
     @Override
     public void execute() {
@@ -31,6 +34,17 @@ public class FindPackageTypeCommand implements Command {
             }
 
             result.add(packageType);
+        }
+
+        var report = new PlaneStringReport();
+        for (PackageType packageType : result) {
+            report.addReportString(packageType.toString());
+        }
+
+        var reportWriter = reportWriterFactory.createReportWriter(context.getReportOutputChannelType(), null);
+
+        if (reportWriter != null) {
+            reportWriter.writeReport(report);
         }
 
         context.setResult(result);

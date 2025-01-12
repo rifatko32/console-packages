@@ -1,7 +1,7 @@
 package ru.hofftech.consolepackages.service.report.truck.impl;
 
 import ru.hofftech.consolepackages.service.packageitem.Package;
-import ru.hofftech.consolepackages.service.report.PackagePlaceStringReport;
+import ru.hofftech.consolepackages.service.report.PlaneStringReport;
 import ru.hofftech.consolepackages.service.report.truck.TruckUnloadingReportEngine;
 
 import java.util.ArrayList;
@@ -24,8 +24,8 @@ import static ru.hofftech.consolepackages.service.report.truck.TruckConstants.PA
 public class TruckUnloadingStringWithCountReportEngine implements TruckUnloadingReportEngine {
 
     @Override
-    public PackagePlaceStringReport generateReport(List<Package> packages) {
-        var report = new PackagePlaceStringReport();
+    public PlaneStringReport generateReport(List<Package> packages) {
+        var report = new PlaneStringReport();
 
         var groupedTypeNames = packages
                 .stream()

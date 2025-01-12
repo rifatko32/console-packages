@@ -1,7 +1,7 @@
 package ru.hofftech.consolepackages.service.report.packageitem.impl;
 
 import org.junit.jupiter.api.Test;
-import ru.hofftech.consolepackages.service.report.PackagePlaceStringReport;
+import ru.hofftech.consolepackages.service.report.PlaneStringReport;
 import ru.hofftech.consolepackages.service.truck.Truck;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class PackagePlaceJsonReportEngineTest {
         trucks.add(new Truck(100, 100));
 
         // Act
-        PackagePlaceStringReport report = engine.generateReport(trucks);
+        PlaneStringReport report = engine.generateReport(trucks);
 
         // Assert
         assertThat(report.getReportStrings()).isNotEmpty();
@@ -33,7 +33,7 @@ public class PackagePlaceJsonReportEngineTest {
         List<Truck> trucks = new ArrayList<>();
 
         // Act
-        PackagePlaceStringReport report = engine.generateReport(trucks);
+        PlaneStringReport report = engine.generateReport(trucks);
 
         // Assert
         assertThat(report.getReportStrings()).contains("[]");

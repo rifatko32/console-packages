@@ -7,14 +7,12 @@ import java.util.List;
 
 /**
  * Report which contains strings representing packages in trucks.
- *
- * @author Alexey Stadnik
  */
 @Getter
-public class PackagePlaceStringReport {
+public class PlaneStringReport {
     private final List<String> reportStrings;
 
-    public PackagePlaceStringReport() {
+    public PlaneStringReport() {
         reportStrings = new ArrayList<>();
     }
 
@@ -35,5 +33,9 @@ public class PackagePlaceStringReport {
      */
     public void addReportStrings(List<String> reportStrings) {
         this.reportStrings.addAll(reportStrings);
+    }
+
+    public String toPlainString() {
+        return String.join("\n", reportStrings);
     }
 }

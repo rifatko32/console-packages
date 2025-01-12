@@ -43,7 +43,7 @@ public class AbstractFactoryProvider {
                 packageFromStringReader));
         abstractFactoryMap.put(CommandType.UNLOAD_TRUCK, new UnloadTruckCommandFactory(truckToPackagesService, reportWriterFactory));
         abstractFactoryMap.put(CommandType.CREATE_PACKAGE_TYPE, new CreatePackageTypeCommandFactory(packageTypeRepository));
-        abstractFactoryMap.put(CommandType.FIND_PACKAGE_TYPE, new FindPackageTypeCommandFactory(packageTypeRepository));
+        abstractFactoryMap.put(CommandType.FIND_PACKAGE_TYPE, new FindPackageTypeCommandFactory(packageTypeRepository, reportWriterFactory));
         abstractFactoryMap.put(CommandType.DELETE_PACKAGE_TYPE, new DeletePackageTypeCommandFactory(packageTypeRepository));
         abstractFactoryMap.put(CommandType.EDIT_PACKAGE_TYPE, new EditPackageTypeCommandFactory(packageTypeRepository));
         abstractFactoryMap.put(CommandType.EXIT, new ExitCommandFactory());
