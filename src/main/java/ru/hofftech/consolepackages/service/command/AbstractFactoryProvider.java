@@ -15,7 +15,6 @@ import ru.hofftech.consolepackages.service.command.impl.placepackage.PlacePackag
 import ru.hofftech.consolepackages.service.command.impl.unloadtruck.UnloadTruckCommandFactory;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,7 +22,7 @@ import java.util.Map;
  */
 public class AbstractFactoryProvider {
 
-    private static final Map<CommandType, CommandAbstractFactory> abstractFactoryMap = new HashMap<>();
+    private final Map<CommandType, CommandAbstractFactory> abstractFactoryMap;
 
     public AbstractFactoryProvider(
             PackageFromFileReader packageFromFileReader,
@@ -35,18 +34,18 @@ public class AbstractFactoryProvider {
             PackagePlaceReportEngineFactory reportEngineFactory
     ){
 
-        abstractFactoryMap.put(CommandType.LOAD_PACKAGES, new PlacePackageCommandFactory(
+        abstractFactoryMap = Map.of(CommandType.LOAD_PACKAGES, new PlacePackageCommandFactory(
                 packageFromFileReader,
                 reportWriterFactory,
                 placeEngineFactory,
                 reportEngineFactory,
-                packageFromStringReader));
-        abstractFactoryMap.put(CommandType.UNLOAD_TRUCK, new UnloadTruckCommandFactory(truckToPackagesService, reportWriterFactory));
-        abstractFactoryMap.put(CommandType.CREATE_PACKAGE_TYPE, new CreatePackageTypeCommandFactory(packageTypeRepository));
-        abstractFactoryMap.put(CommandType.FIND_PACKAGE_TYPE, new FindPackageTypeCommandFactory(packageTypeRepository, reportWriterFactory));
-        abstractFactoryMap.put(CommandType.DELETE_PACKAGE_TYPE, new DeletePackageTypeCommandFactory(packageTypeRepository));
-        abstractFactoryMap.put(CommandType.EDIT_PACKAGE_TYPE, new EditPackageTypeCommandFactory(packageTypeRepository));
-        abstractFactoryMap.put(CommandType.EXIT, new ExitCommandFactory());
+                packageFromStringReader),
+        CommandType.UNLOAD_TRUCK, new UnloadTruckCommandFactory(truckToPackagesService, reportWriterFactory),
+        CommandType.CREATE_PACKAGE_TYPE, new CreatePackageTypeCommandFactory(packageTypeRepository),
+        CommandType.FIND_PACKAGE_TYPE, new FindPackageTypeCommandFactory(packageTypeRepository, reportWriterFactory),
+        CommandType.DELETE_PACKAGE_TYPE, new DeletePackageTypeCommandFactory(packageTypeRepository),
+        CommandType.EDIT_PACKAGE_TYPE, new EditPackageTypeCommandFactory(packageTypeRepository),
+        CommandType.EXIT, new ExitCommandFactory());
     }
 
     /**
