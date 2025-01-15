@@ -7,10 +7,8 @@ public class ReportWriterFactory {
     public ReportWriter createReportWriter(ReportOutputChannelType reportOutputChannelType, String outputFileName) {
         return switch (reportOutputChannelType) {
             case CONSOLE -> new ReportToConsoleWriter();
-            case JSONFILE, TXT_FILE -> new ReportToFileWriter(outputFileName);
+            case JSON_FILE, TXT_FILE -> new ReportToFileWriter(outputFileName);
             case TG_BOT -> null;
-            default ->
-                    throw new IllegalArgumentException("Unknown report output channel type: " + reportOutputChannelType.name());
         };
     }
 }

@@ -1,5 +1,7 @@
 package ru.hofftech.consolepackages.service.truck;
 
+import ru.hofftech.consolepackages.model.Truck;
+
 import java.util.List;
 
 /**

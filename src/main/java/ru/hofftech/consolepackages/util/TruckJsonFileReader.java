@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.hofftech.consolepackages.service.truck.Truck;
+import ru.hofftech.consolepackages.model.Truck;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,8 +13,6 @@ import java.util.List;
 
 /**
  * Utility class for reading a list of trucks from a JSON file.
- *
- * @author Alexey Stadnik
  */
 @Slf4j
 @RequiredArgsConstructor

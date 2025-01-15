@@ -24,19 +24,19 @@ public class TruckToPackagesService {
     private final TruckUnloadingAlgorithm truckUnloadingAlgorithm;
 
 
-/**
- * Retrieves packages from trucks specified in the JSON file and generates a report.
- *
- * <p>
- * This method reads a list of trucks from the provided file path, applies an unloading
- * algorithm to retrieve the packages, and generates a report based on the specified
- * report engine type.
- * </p>
- *
- * @param filePath the path to the JSON file containing the truck information
- * @param reportEngineType the type of report engine to use for generating the report
- * @return a {@link PlaneStringReport} containing the details of the unloaded packages
- */
+    /**
+     * Retrieves packages from trucks specified in the JSON file and generates a report.
+     *
+     * <p>
+     * This method reads a list of trucks from the provided file path, applies an unloading
+     * algorithm to retrieve the packages, and generates a report based on the specified
+     * report engine type.
+     * </p>
+     *
+     * @param filePath         the path to the JSON file containing the truck information
+     * @param reportEngineType the type of report engine to use for generating the report
+     * @return a {@link PlaneStringReport} containing the details of the unloaded packages
+     */
     public PlaneStringReport retrieveTruckPackages(
             String filePath,
             ReportEngineType reportEngineType) {

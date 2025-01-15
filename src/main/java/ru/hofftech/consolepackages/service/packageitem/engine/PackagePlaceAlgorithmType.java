@@ -25,6 +25,13 @@ public enum PackagePlaceAlgorithmType {
         }
     }
 
+    /**
+     * Converts the console value to the package placement algorithm type.
+     *
+     * @param label the console value.
+     * @return the package placement algorithm type.
+     * @throws IllegalArgumentException if the console value is not found.
+     */
     public static PackagePlaceAlgorithmType fromLabel(String label) {
         var algorithmType = consoleValueToAlgorithmTypeMap.get(label);
 

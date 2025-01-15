@@ -5,7 +5,7 @@ import java.util.Map;
 
 public enum ReportOutputChannelType {
     CONSOLE("console"),
-    JSONFILE("json-file"),
+    JSON_FILE("json-file"),
     TXT_FILE("txt-file"),
     TG_BOT("tgbot");
 
@@ -22,6 +22,13 @@ public enum ReportOutputChannelType {
         }
     }
 
+    /**
+     * Converts the console value to the report output channel type.
+     *
+     * @param label the console value.
+     * @return the report output channel type.
+     * @throws IllegalArgumentException if the console value is not found.
+     */
     public static ReportOutputChannelType fromLabel(String label) {
         var channelType = labelToValueMap.get(label);
 

@@ -1,8 +1,8 @@
 package ru.hofftech.consolepackages.service.packageitem.engine.impl;
 
-import ru.hofftech.consolepackages.service.packageitem.Package;
+import ru.hofftech.consolepackages.model.Package;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithm;
-import ru.hofftech.consolepackages.service.truck.Truck;
+import ru.hofftech.consolepackages.model.Truck;
 
 import java.util.HashSet;
 import java.util.List;
@@ -62,7 +62,7 @@ public class EqualDistributionPlaceAlgorithm extends PackagePlaceAlgorithm {
         }
     }
 
-    private boolean tryPlacePackage(ru.hofftech.consolepackages.service.packageitem.Package packageItem, Truck truck) {
+    private boolean tryPlacePackage(Package packageItem, Truck truck) {
         // пытаемся разместить посылку с правого нижнего угла кузова
         for (var y = truck.getHeight() - 1; y >= 0; y--) {
             for (var x = truck.getWidth() - 1; x >= 0; x--) {

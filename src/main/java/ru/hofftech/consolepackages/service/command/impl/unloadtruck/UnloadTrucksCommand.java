@@ -21,6 +21,11 @@ public class UnloadTrucksCommand implements Command {
     private final ReportWriterFactory reportWriterFactory;
     private final UnloadTruckContext context;
 
+    /**
+     * Executes the command to unload packages from trucks and generate a report of the unloaded packages.
+     *
+     * @see Command#execute()
+     */
     @Override
     public void execute() {
         log.info("Start of handling file: {}", context.inFilePath());

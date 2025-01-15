@@ -1,8 +1,8 @@
 package ru.hofftech.consolepackages.service.packageitem.engine.impl;
 
-import ru.hofftech.consolepackages.service.packageitem.Package;
+import ru.hofftech.consolepackages.model.Package;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithm;
-import ru.hofftech.consolepackages.service.truck.Truck;
+import ru.hofftech.consolepackages.model.Truck;
 
 import java.util.HashSet;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.UUID;
  */
 public class SinglePackagePerTruckPlaceAlgorithm extends PackagePlaceAlgorithm {
 
-    protected void placePackageRecords(List<ru.hofftech.consolepackages.service.packageitem.Package> packages, List<Truck> trucks) {
+    protected void placePackageRecords(List<Package> packages, List<Truck> trucks) {
         var loadedTruckSet = new HashSet<UUID>();
 
         for (var packageRecord : packages) {

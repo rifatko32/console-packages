@@ -1,7 +1,6 @@
 package ru.hofftech.consolepackages.util;
 
 import lombok.extern.slf4j.Slf4j;
-import ru.hofftech.consolepackages.datastorage.model.entity.PackageType;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

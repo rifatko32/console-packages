@@ -9,12 +9,13 @@ import ru.hofftech.consolepackages.service.report.truck.impl.TruckUnloadingStrin
  * report engine type.
  */
 public class TruckUnloadingReportEngineFactory {
-/**
- * A factory for creating {@link TruckUnloadingReportEngine} instances based on the specified
- * {@link ReportEngineType}. *
- * @see TruckUnloadingReportEngine
- * @see ReportEngineType
- */
+    /**
+     * A factory for creating {@link TruckUnloadingReportEngine} instances based on the specified
+     * {@link ReportEngineType}. *
+     *
+     * @see TruckUnloadingReportEngine
+     * @see ReportEngineType
+     */
     public TruckUnloadingReportEngine createReportEngine(ReportEngineType reportEngineType) {
         return switch (reportEngineType) {
             case STRING -> new TruckUnloadingStringReportEngine();

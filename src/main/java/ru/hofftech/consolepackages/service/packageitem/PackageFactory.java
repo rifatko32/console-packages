@@ -2,6 +2,7 @@ package ru.hofftech.consolepackages.service.packageitem;
 
 import lombok.RequiredArgsConstructor;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
+import ru.hofftech.consolepackages.model.Package;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +21,9 @@ public class PackageFactory {
      * @param packageStrings the strings to generate packages from
      * @return list of packages
      */
-    public ArrayList<Package> generatePackages(List<String> packageStrings) {
+    public ArrayList<ru.hofftech.consolepackages.model.Package> generatePackages(List<String> packageStrings) {
         var packageTypes = packageTypeRepository.findByNames(packageStrings);
-        var packages = new ArrayList<Package>();
+        var packages = new ArrayList<ru.hofftech.consolepackages.model.Package>();
 
         for (String packageString : packageStrings) {
             if (!packageTypes.containsKey(packageString)) {

@@ -1,7 +1,7 @@
 package ru.hofftech.consolepackages.service.packageitem.engine.impl;
 
 import org.junit.jupiter.api.Test;
-import ru.hofftech.consolepackages.service.truck.Truck;
+import ru.hofftech.consolepackages.model.Truck;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 
-import ru.hofftech.consolepackages.service.packageitem.Package;
+import ru.hofftech.consolepackages.model.Package;
 
 public class EqualDistributionPlaceAlgorithmTest {
     private final EqualDistributionPlaceAlgorithm algorithm = new EqualDistributionPlaceAlgorithm();

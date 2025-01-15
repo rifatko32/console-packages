@@ -11,6 +11,20 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Implementation of {@link ReportWriter} that writes reports to a file.
+ * <p>
+ * This class provides functionality to write a {@link PlaneStringReport} to a specified file.
+ * It ensures that the report is not null or empty before writing it. The report is written
+ * to a file with a timestamped filename in the "reports" directory.
+ * </p>
+ * <p>
+ * The filename is generated using the provided outputFileName, by appending a timestamp,
+ * and preserving the original file extension.
+ * </p>
+ *
+ * @see ReportWriter
+ */
 @Slf4j
 @RequiredArgsConstructor
 public class ReportToFileWriter implements ReportWriter {
@@ -18,6 +32,18 @@ public class ReportToFileWriter implements ReportWriter {
 
     private final String outputFileName;
 
+    /**
+     * Implementation of {@link ReportWriter} that writes reports to a file.
+     *
+     * <p>This class provides functionality to write a {@link PlaneStringReport} to a specified file.
+     * It ensures that the report is not null or empty before writing it. The report is written
+     * to a file with a timestamped filename in the "reports" directory.</p>
+     *
+     * <p>The filename is generated using the provided outputFileName, by appending a timestamp,
+     * and preserving the original file extension.</p>
+     *
+     * @see ReportWriter
+     */
     @Override
     public void writeReport(PlaneStringReport report) {
         if (report == null || report.getReportStrings().isEmpty()) {
@@ -45,7 +71,7 @@ public class ReportToFileWriter implements ReportWriter {
     private void writeReportToFile(PlaneStringReport report, String fileName) {
         try (FileWriter writer = new FileWriter(fileName)) {
             createReportsFolder();
-            for(var reportString : report.getReportStrings()) {
+            for (var reportString : report.getReportStrings()) {
                 writer.write(reportString);
             }
             log.info("Report was successfully written to {}", fileName);

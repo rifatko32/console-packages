@@ -1,5 +1,6 @@
 package ru.hofftech.consolepackages.service.report.truck;
 
+import ru.hofftech.consolepackages.model.Package;
 import ru.hofftech.consolepackages.service.report.PlaneStringReport;
 
 import java.util.List;
@@ -24,5 +25,5 @@ public interface TruckUnloadingReportEngine {
      * @param packages the list of packages to be included in the report
      * @return a {@link PlaneStringReport} containing the report details
      */
-    PlaneStringReport generateReport(List<ru.hofftech.consolepackages.service.packageitem.Package> packages);
+    PlaneStringReport generateReport(List<Package> packages);
 }

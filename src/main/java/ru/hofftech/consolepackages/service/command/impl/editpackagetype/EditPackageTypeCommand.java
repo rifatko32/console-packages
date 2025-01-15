@@ -12,6 +12,9 @@ public class EditPackageTypeCommand implements Command {
     private final EditPackageTypeContext context;
     private final PackageTypeRepository packageTypeRepository;
 
+    /**
+     * Edits a package type.
+     */
     @Override
     public void execute() {
         var packageType = packageTypeRepository.find(context.name());

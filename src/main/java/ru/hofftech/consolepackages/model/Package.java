@@ -1,6 +1,7 @@
-package ru.hofftech.consolepackages.service.packageitem;
+package ru.hofftech.consolepackages.model;
 
 import lombok.Getter;
+import ru.hofftech.consolepackages.service.packageitem.BackTruckSlot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +30,8 @@ public class Package {
             String form) {
         id = UUID.randomUUID();
 
-        this.width = calcPackageTypeWidth(form);;
-        this.height = calcPackageTypeHeight(form);;
+        this.width = calcPackageTypeWidth(form);
+        this.height = calcPackageTypeHeight(form);
         this.typeName = typeName;
         this.form = form;
         this.description = description;

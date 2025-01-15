@@ -1,6 +1,7 @@
 package ru.hofftech.consolepackages.service.command.impl.createpackagetype;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.command.CommandAbstractFactory;
@@ -43,7 +44,7 @@ public class CreatePackageTypeCommandFactory implements CommandAbstractFactory {
 
         var name = commandKeyValues.get(NAME);
 
-        if (name == null || name.isEmpty()) {
+        if (StringUtils.isEmpty(name)) {
             throw new IllegalArgumentException("Name is empty");
         }
 

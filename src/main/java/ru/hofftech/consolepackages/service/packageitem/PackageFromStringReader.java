@@ -1,6 +1,7 @@
 package ru.hofftech.consolepackages.service.packageitem;
 
 import lombok.RequiredArgsConstructor;
+import ru.hofftech.consolepackages.model.Package;
 
 import java.util.ArrayList;
 import java.util.Arrays;

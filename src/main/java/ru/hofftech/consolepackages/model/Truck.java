@@ -1,8 +1,7 @@
-package ru.hofftech.consolepackages.service.truck;
+package ru.hofftech.consolepackages.model;
 
 import lombok.Getter;
 import ru.hofftech.consolepackages.service.packageitem.BackTruckSlot;
-import ru.hofftech.consolepackages.service.packageitem.Package;
 
 import java.util.ArrayList;
 import java.util.List;

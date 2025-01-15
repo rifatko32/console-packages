@@ -19,14 +19,16 @@ public class FindPackageTypeCommand implements Command {
     private final PackageTypeRepository packageTypeRepository;
     private final ReportWriterFactory reportWriterFactory;
 
+    /**
+     * Finds package type by name.
+     */
     @Override
     public void execute() {
         var result = new ArrayList<PackageType>();
 
         if (context.getName() == null || context.getName().isEmpty()) {
             result.addAll(packageTypeRepository.findAll());
-        }
-        else {
+        } else {
             var packageType = packageTypeRepository.find(context.getName());
 
             if (packageType == null) {

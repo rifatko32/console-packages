@@ -1,5 +1,6 @@
 package ru.hofftech.consolepackages.telegram;
 
+import org.apache.commons.lang3.StringUtils;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
@@ -19,14 +20,13 @@ import ru.hofftech.consolepackages.service.command.CommandReader;
 @Slf4j
 public class PackageTelegramBot implements LongPollingSingleThreadUpdateConsumer {
 
-    private final static String TG_API_TOKEN = "7997289513:AAHM6eRU62wiJmzGxDaTmVlmPVjBiCki2qw";
-
     private final CommandReader commandReader;
     private final TelegramClient telegramClient;
+    private final static String tgApiToken = System.getenv("TG_API_TOKEN");
 
     public PackageTelegramBot(CommandReader commandReader) {
         this.commandReader = commandReader;
-        telegramClient = new OkHttpTelegramClient(TG_API_TOKEN);
+        telegramClient = new OkHttpTelegramClient(tgApiToken);
     }
 
     /**
@@ -40,20 +40,20 @@ public class PackageTelegramBot implements LongPollingSingleThreadUpdateConsumer
         if (update.hasMessage() && update.getMessage().hasText()) {
             var result = commandReader.readCommand(update.getMessage().getText());
 
-            if (result == null || result.isEmpty()) {
+            if (StringUtils.isEmpty(result)) {
                 log.info("Command without result");
                 return;
             }
 
             long chat_id = update.getMessage().getChatId();
 
-            SendMessage message = SendMessage // Create a message object
+            SendMessage message = SendMessage
                     .builder()
                     .chatId(chat_id)
                     .text(result)
                     .build();
             try {
-                telegramClient.execute(message); // Sending our message object to user
+                telegramClient.execute(message);
             } catch (TelegramApiException e) {
                 log.error("Error while sending message", e);
             }
@@ -69,16 +69,13 @@ public class PackageTelegramBot implements LongPollingSingleThreadUpdateConsumer
      * @param commandReader the command reader to use
      */
     public static void registerTelegramBot(CommandReader commandReader) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try (TelegramBotsLongPollingApplication botsApplication = new TelegramBotsLongPollingApplication()) {
-                    botsApplication.registerBot(TG_API_TOKEN, new PackageTelegramBot(commandReader));
-                    log.info("Telegram bot registered");
-                    Thread.currentThread().join();
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
+        new Thread(() -> {
+            try (TelegramBotsLongPollingApplication botsApplication = new TelegramBotsLongPollingApplication()) {
+                botsApplication.registerBot(tgApiToken, new PackageTelegramBot(commandReader));
+                log.info("Telegram bot registered");
+                Thread.currentThread().join();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }).start();
     }

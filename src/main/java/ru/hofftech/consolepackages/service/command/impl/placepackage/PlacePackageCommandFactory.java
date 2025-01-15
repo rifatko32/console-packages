@@ -1,11 +1,11 @@
 package ru.hofftech.consolepackages.service.command.impl.placepackage;
 
 import lombok.RequiredArgsConstructor;
-import ru.hofftech.consolepackages.service.packageitem.PackageFromFileReader;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.command.CommandAbstractFactory;
 import ru.hofftech.consolepackages.service.command.CommandContext;
 import ru.hofftech.consolepackages.service.command.CommandParser;
+import ru.hofftech.consolepackages.service.packageitem.PackageFromFileReader;
 import ru.hofftech.consolepackages.service.packageitem.PackageFromStringReader;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmType;
@@ -17,6 +17,9 @@ import ru.hofftech.consolepackages.service.report.packageitem.PackagePlaceReport
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * The class implements the factory of commands for placing packages into trucks.
+ */
 @RequiredArgsConstructor
 public class PlacePackageCommandFactory implements CommandAbstractFactory {
     private static final String OUT_KEY = "out";
@@ -36,6 +39,12 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
     private final PackageFromStringReader packageFromStringReader;
 
 
+    /**
+     * Creates a command for placing packages into trucks.
+     *
+     * @param commandContext Context of the command.
+     * @return A command for placing packages into trucks.
+     */
     @Override
     public Command createCommand(CommandContext commandContext) {
         return new PlacePackagesCommand(
@@ -47,6 +56,13 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
                 reportEngineFactory);
     }
 
+
+    /**
+     * Creates the context of the command to place packages into trucks.
+     *
+     * @param strCommand the string with the command
+     * @return the context of the command to place packages into trucks
+     */
     @Override
     public CommandContext createCommandContext(String strCommand) {
 

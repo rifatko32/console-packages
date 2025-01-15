@@ -6,6 +6,9 @@ import java.util.regex.Matcher;
 
 import static ru.hofftech.consolepackages.service.command.CommandConstants.COMMAND_KEYS_PATTERN;
 
+/**
+ * The class parses commands and their parameters from a string.
+ */
 public class CommandParser {
     public static CommandType parseCommandType(String strCommand) {
         if (strCommand.startsWith(CommandConstants.LOAD_COMMAND_PATTERN)) {
@@ -39,6 +42,11 @@ public class CommandParser {
         throw new RuntimeException("Invalid command: " + strCommand);
     }
 
+    /**
+     * Parses command keys from a string.
+     * @param strCommand the command string containing keys.
+     * @return a map of keys and their values.
+     */
     public static Map<String, String> parseCommandKeys(String strCommand) {
         Map<String, String> optionsMap = new HashMap<>();
 

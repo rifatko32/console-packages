@@ -2,7 +2,7 @@ package ru.hofftech.consolepackages.service.report.packageitem.impl;
 
 import org.junit.jupiter.api.Test;
 import ru.hofftech.consolepackages.service.report.PlaneStringReport;
-import ru.hofftech.consolepackages.service.truck.Truck;
+import ru.hofftech.consolepackages.model.Truck;
 
 import java.util.ArrayList;
 import java.util.List;

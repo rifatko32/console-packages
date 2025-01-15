@@ -9,6 +9,9 @@ import ru.hofftech.consolepackages.service.report.outputchannel.ReportOutputChan
 
 import java.util.ArrayList;
 
+/**
+ * Context of the command to find a package type by name.
+ */
 @Getter
 @Setter
 @RequiredArgsConstructor

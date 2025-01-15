@@ -31,7 +31,7 @@ public interface PackageTypeRepository {
 
     /**
      * Finds package types in storage
-     * @param names list of package type names
+     * @param name list of package type names
      * @return map of package types where key is package type name and value is package type
      */
     Map<String, PackageType> findByNames(List<String> name);

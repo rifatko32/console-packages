@@ -2,7 +2,7 @@ package ru.hofftech.consolepackages.service.packageitem;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
+import ru.hofftech.consolepackages.model.Package;
 import ru.hofftech.consolepackages.util.PackageFileReader;
 
 import java.util.ArrayList;

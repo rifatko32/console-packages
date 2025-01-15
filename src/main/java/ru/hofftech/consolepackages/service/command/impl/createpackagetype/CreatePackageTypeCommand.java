@@ -15,6 +15,9 @@ public class CreatePackageTypeCommand implements Command {
     private final CreatePackageTypeContext context;
     private final PackageTypeRepository packageTypeRepository;
 
+    /**
+     * Executes the command.
+     */
     @Override
     public void execute() {
         packageTypeRepository.create(

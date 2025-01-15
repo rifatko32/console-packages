@@ -1,8 +1,8 @@
 package ru.hofftech.consolepackages.service.packageitem.engine.impl;
 
 import org.junit.jupiter.api.Test;
-import ru.hofftech.consolepackages.service.packageitem.Package;
-import ru.hofftech.consolepackages.service.truck.Truck;
+import ru.hofftech.consolepackages.model.Package;
+import ru.hofftech.consolepackages.model.Truck;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +62,6 @@ public class PackagePlaceByWidthAlgorithmTest {
         algorithm.placePackageRecords(packages, trucks);
 
         // Assert
-        assertThat(trucks.get(0).getPackages()).isEmpty();
+        assertThat(trucks.getFirst().getPackages()).isEmpty();
     }
 }
