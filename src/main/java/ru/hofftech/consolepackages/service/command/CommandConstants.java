@@ -2,12 +2,17 @@ package ru.hofftech.consolepackages.service.command;
 
 import java.util.regex.Pattern;
 
+/**
+ * Contains constants for commands, their parameters and regular expressions for parsing commands and their parameters.
+ */
 public class CommandConstants {
-    public static final Integer DEFAULT_TRUCK_COUNT = 10;
-    public static final String EXIT_COMMAND = "exit";
-    public static final Pattern PLACE_PACKAGES_FROM_TXT_TO_CONSOLE_COMMAND_PATTERN = Pattern.compile("import_txt_to_console (.+\\.txt) \\d* [a-zA-Z]*$");
-    public static final Pattern PLACE_PACKAGES_FROM_TXT_TO_JSON_COMMAND_PATTERN = Pattern.compile("import_txt_to_json (.+\\.txt) \\d* [a-zA-Z]*$");
-    public static final Pattern UNLOAD_TRUCKS_FROM_JSON_TO_TXT_COMMAND_PATTERN = Pattern.compile("import_json_trucks_to_txt_packages (.+\\.json)");
-    public static final Pattern TRUCK_COUNT_PATTERN = Pattern.compile("\\d+");
-    public static final Pattern PLACING_ALGORITHM_NAME_PATTERN = Pattern.compile("[a-zA-Z]+$");
+    public static final String EXIT_COMMAND_PATTERN = "exit";
+    public static final String LOAD_COMMAND_PATTERN = "load";
+    public static final String UNLOAD_COMMAND_PATTERN = "unload";
+    public static final String CREATE_COMMAND_PATTERN = "create";
+    public static final String FIND_COMMAND_PATTERN = "find";
+    public static final String DELETE_COMMAND_PATTERN = "delete";
+    public static final String EDIT_COMMAND_PATTERN = "edit";
+
+    public static final Pattern COMMAND_KEYS_PATTERN = Pattern.compile("-(\\S+)(?:\\s+\"([^\"]*)\"|\\s+(\\S+))?");
 }

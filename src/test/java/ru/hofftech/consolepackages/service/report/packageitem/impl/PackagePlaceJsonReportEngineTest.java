@@ -1,33 +1,50 @@
 package ru.hofftech.consolepackages.service.report.packageitem.impl;
 
 import org.junit.jupiter.api.Test;
-import ru.hofftech.consolepackages.service.packageitem.Package;
-import ru.hofftech.consolepackages.service.truck.Truck;
+import ru.hofftech.consolepackages.service.report.PlaneStringReport;
+import ru.hofftech.consolepackages.model.Truck;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PackagePlaceJsonReportEngineTest {
+
+    private final PackagePlaceJsonReportEngine engine = new PackagePlaceJsonReportEngine();
+
     @Test
-    public void generateReport_givenTruckList_shouldReturnReport() {
-        // Assert
-        var packages = List.of(
-                new Package("1"),
-                new Package("2"),
-                new Package("3"),
-                new Package("5")
-        );
-        var truck = new Truck(6, 6);
-        for (var packageItem : packages) {
-            truck.loadPackage(packageItem);
-        }
-        var reportEngine = new PackagePlaceJsonReportEngine();
+    public void testGenerateReport_SimpleCase() {
+        // Arrange
+        List<Truck> trucks = new ArrayList<>();
+        trucks.add(new Truck(100, 100));
+        trucks.add(new Truck(100, 100));
 
         // Act
-        var report = reportEngine.generateReport(List.of(truck));
+        PlaneStringReport report = engine.generateReport(trucks);
 
         // Assert
         assertThat(report.getReportStrings()).isNotEmpty();
+    }
+
+    @Test
+    public void testGenerateReport_EmptyTrucks() {
+        // Arrange
+        List<Truck> trucks = new ArrayList<>();
+
+        // Act
+        PlaneStringReport report = engine.generateReport(trucks);
+
+        // Assert
+        assertThat(report.getReportStrings()).contains("[]");
+    }
+
+    @Test
+    public void testGenerateReport_NullTrucks() {
+        // Act
+        var report = engine.generateReport(null);
+
+        // Assert
+        assertThat(report.getReportStrings()).contains("null");
     }
 }

@@ -2,173 +2,210 @@
   {
     "backTruckSlots": [
       [
-        0,
-        0,
-        4,
-        4,
-        4,
-        4
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
       ],
       [
-        0,
-        0,
-        4,
-        4,
-        4,
-        4
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
       ],
       [
-        0,
-        0,
-        4,
-        4,
-        4,
-        4
+        null,
+        null,
+        null,
+        null,
+        "2",
+        "2"
       ],
       [
-        0,
-        0,
-        4,
-        4,
-        4,
-        4
+        "y",
+        "y",
+        "y",
+        "x",
+        null,
+        "x"
       ],
       [
-        2,
-        2,
-        7,
-        7,
-        7,
-        1
+        "y",
+        "1",
+        "y",
+        "x",
+        "x",
+        "x"
       ],
       [
-        2,
-        2,
-        7,
-        7,
-        7,
-        7
+        "y",
+        "y",
+        "y",
+        "x",
+        "1",
+        "x"
       ]
     ],
     "width": 6,
     "height": 6,
+    "id": "9fa5f836-7280-4574-9460-95ad6813c552",
     "packages": [
       {
-        "id": "b3b305c7-3cd7-48fb-9d20-491d28e6293f",
-        "descriptionNumber": 7,
-        "width": 4,
-        "height": 2
+        "id": "12630ac0-15fa-4e6d-8186-bc77af493e33",
+        "description": "x",
+        "width": 3,
+        "height": 3,
+        "typeName": "type narrow weight",
+        "form": "x x\\nxxx\\nx x"
       },
       {
-        "id": "3811be0a-fbd8-4ade-b3b0-f9a0010d996a",
-        "descriptionNumber": 4,
-        "width": 4,
-        "height": 1
+        "id": "1314d9b5-8c47-47c9-8e38-ecb6e328d176",
+        "description": "y",
+        "width": 3,
+        "height": 3,
+        "typeName": "type wheel",
+        "form": "xxx\\nx x\\nxxx"
       },
       {
-        "id": "d886aaf1-d643-4b59-9871-368af9590bda",
-        "descriptionNumber": 4,
-        "width": 4,
-        "height": 1
-      },
-      {
-        "id": "55164031-9f17-4fcd-91b6-7b4b24a3ffae",
-        "descriptionNumber": 4,
-        "width": 4,
-        "height": 1
-      },
-      {
-        "id": "88f6aafd-4be4-4b0e-99f4-b5a569889b9f",
-        "descriptionNumber": 4,
-        "width": 4,
-        "height": 1
-      },
-      {
-        "id": "995f3931-d56a-4963-89d2-32d6ecdb6596",
-        "descriptionNumber": 2,
+        "id": "50260891-f560-4477-a230-fe4688c48515",
+        "description": "2",
         "width": 2,
-        "height": 1
+        "height": 1,
+        "typeName": "type 2",
+        "form": "22"
       },
       {
-        "id": "0acd2925-5714-4304-a53d-fa4dd526ca05",
-        "descriptionNumber": 2,
-        "width": 2,
-        "height": 1
-      },
-      {
-        "id": "91a8bb92-a920-471d-af55-f2774210b090",
-        "descriptionNumber": 1,
+        "id": "978600f8-4c09-48c3-9802-76d435eec1d9",
+        "description": "1",
         "width": 1,
-        "height": 1
+        "height": 1,
+        "typeName": "type 1",
+        "form": "1"
+      },
+      {
+        "id": "ddd6da75-0f7a-4bab-9417-ab75dfe2e339",
+        "description": "1",
+        "width": 1,
+        "height": 1,
+        "typeName": "type 1",
+        "form": "1"
       }
     ]
   },
   {
     "backTruckSlots": [
       [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
       ],
       [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
       ],
       [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
       ],
       [
-        9,
-        9,
-        9,
-        0,
-        0,
-        0
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
       ],
       [
-        9,
-        9,
-        9,
-        0,
-        0,
-        0
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
       ],
       [
-        9,
-        9,
-        9,
-        3,
-        3,
-        3
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
       ]
     ],
     "width": 6,
     "height": 6,
-    "packages": [
-      {
-        "id": "45aae324-c275-444f-a86d-c970bbde4340",
-        "descriptionNumber": 3,
-        "width": 3,
-        "height": 1
-      },
-      {
-        "id": "6b00c386-549a-42d7-96cf-e325259d57fc",
-        "descriptionNumber": 9,
-        "width": 3,
-        "height": 3
-      }
-    ]
+    "id": "e8d0b812-1eb6-4fd1-8d5d-df2b90570924",
+    "packages": []
+  },
+  {
+    "backTruckSlots": [
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    ],
+    "width": 6,
+    "height": 6,
+    "id": "9c4222b2-e2bb-4164-b112-788dabae1711",
+    "packages": []
   }
 ]

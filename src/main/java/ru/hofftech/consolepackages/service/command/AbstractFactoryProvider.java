@@ -1,28 +1,59 @@
 package ru.hofftech.consolepackages.service.command;
 
-import ru.hofftech.consolepackages.service.PackageFromFilePlaceService;
-import ru.hofftech.consolepackages.service.TruckToPackagesService;
+import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
+import ru.hofftech.consolepackages.service.packageitem.PackageFromFileReader;
+import ru.hofftech.consolepackages.service.packageitem.PackageFromStringReader;
+import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
+import ru.hofftech.consolepackages.service.report.packageitem.PackagePlaceReportEngineFactory;
+import ru.hofftech.consolepackages.service.truck.TruckToPackagesService;
+import ru.hofftech.consolepackages.service.command.impl.createpackagetype.CreatePackageTypeCommandFactory;
+import ru.hofftech.consolepackages.service.command.impl.deletepackagetype.DeletePackageTypeCommandFactory;
+import ru.hofftech.consolepackages.service.command.impl.editpackagetype.EditPackageTypeCommandFactory;
+import ru.hofftech.consolepackages.service.command.impl.exit.ExitCommandFactory;
+import ru.hofftech.consolepackages.service.command.impl.findpackagetype.FindPackageTypeCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.placepackage.PlacePackageCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.unloadtruck.UnloadTruckCommandFactory;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
 
-import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The class provides a map of command abstract factories and returns a factory by a command type.
+ */
 public class AbstractFactoryProvider {
 
-    private static final Map<CommandType, CommandAbstractFactory> abstractFactoryMap = new HashMap<>();
+    private final Map<CommandType, CommandAbstractFactory> abstractFactoryMap;
 
     public AbstractFactoryProvider(
-            PackageFromFilePlaceService packagePlaceService,
+            PackageFromFileReader packageFromFileReader,
+            PackageFromStringReader packageFromStringReader,
             TruckToPackagesService truckToPackagesService,
-            ReportWriterFactory reportWriterFactory){
+            ReportWriterFactory reportWriterFactory,
+            PackageTypeRepository packageTypeRepository,
+            PackagePlaceAlgorithmFactory placeEngineFactory,
+            PackagePlaceReportEngineFactory reportEngineFactory
+    ){
 
-        abstractFactoryMap.put(CommandType.PLACE_PACKAGES_FROM_TXT_FILE_TO_CONSOLE, new PlacePackageCommandFactory(packagePlaceService, reportWriterFactory));
-        abstractFactoryMap.put(CommandType.PLACE_PACKAGES_FROM_TXT_FILE_TO_JSON_FILE, new PlacePackageCommandFactory(packagePlaceService, reportWriterFactory));
-        abstractFactoryMap.put(CommandType.UNLOAD_TRUCKS_FROM_JSON_TO_TXT_FILE, new UnloadTruckCommandFactory(truckToPackagesService, reportWriterFactory));
+        abstractFactoryMap = Map.of(CommandType.LOAD_PACKAGES, new PlacePackageCommandFactory(
+                packageFromFileReader,
+                reportWriterFactory,
+                placeEngineFactory,
+                reportEngineFactory,
+                packageFromStringReader),
+        CommandType.UNLOAD_TRUCK, new UnloadTruckCommandFactory(truckToPackagesService, reportWriterFactory),
+        CommandType.CREATE_PACKAGE_TYPE, new CreatePackageTypeCommandFactory(packageTypeRepository),
+        CommandType.FIND_PACKAGE_TYPE, new FindPackageTypeCommandFactory(packageTypeRepository, reportWriterFactory),
+        CommandType.DELETE_PACKAGE_TYPE, new DeletePackageTypeCommandFactory(packageTypeRepository),
+        CommandType.EDIT_PACKAGE_TYPE, new EditPackageTypeCommandFactory(packageTypeRepository),
+        CommandType.EXIT, new ExitCommandFactory());
     }
 
+    /**
+     * Returns a command abstract factory by a command type.
+     *
+     * @param strCommand A command to be parsed.
+     * @return A command abstract factory.
+     */
     public CommandAbstractFactory returnCommandAbstractFactory(String strCommand) {
         var commandType = CommandParser.parseCommandType(strCommand);
         var commandAbstractFactory = abstractFactoryMap.get(commandType);

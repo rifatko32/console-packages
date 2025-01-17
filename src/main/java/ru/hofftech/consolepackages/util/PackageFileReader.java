@@ -8,28 +8,32 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Utility class to read packages from a file.
+ *
+ * <p>
+ * The class reads a file line by line and returns a list of strings, each of which
+ * represents a package.
+ * </p>
+ */
 @Slf4j
 public class PackageFileReader {
+    /**
+     * Reads a file line by line and returns a list of strings, each of which
+     * represents a package.
+     *
+     * @param filePath the path to the file with packages
+     * @return list of strings representing packages
+     */
     public List<String> readPackages(String filePath) {
         var result = new ArrayList<String>();
+
         try (BufferedReader reader = new BufferedReader(new FileReader(getClass().getClassLoader().getResource(filePath).toURI().getPath()))) {
             String line = reader.readLine();
-            var currentLine = new StringBuilder();
 
             while (line != null) {
-                if (line.isEmpty()) {
-                    result.add(currentLine.toString().trim());
-                    currentLine.setLength(0);
-                } else {
-                    currentLine.append(line);
-                    currentLine.append("\n");
-                }
-
+                result.add(line);
                 line = reader.readLine();
-            }
-
-            if (!currentLine.isEmpty()) {
-                result.add(currentLine.toString().trim());
             }
         } catch (Exception e) {
             log.error("Error while reading file", e);

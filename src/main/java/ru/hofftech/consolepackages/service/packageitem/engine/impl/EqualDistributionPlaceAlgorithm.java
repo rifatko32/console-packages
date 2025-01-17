@@ -1,56 +1,37 @@
 package ru.hofftech.consolepackages.service.packageitem.engine.impl;
 
-import ru.hofftech.consolepackages.service.packageitem.Package;
+import ru.hofftech.consolepackages.model.Package;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithm;
-import ru.hofftech.consolepackages.service.truck.Truck;
+import ru.hofftech.consolepackages.model.Truck;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
-import static ru.hofftech.consolepackages.service.report.truck.TruckConstants.TRUCK_BACK_HEIGHT;
-import static ru.hofftech.consolepackages.service.report.truck.TruckConstants.TRUCK_BACK_WIDTH;
-
-public class EqualDistributionPlaceAlgorithm implements PackagePlaceAlgorithm {
+/**
+ * {@link PackagePlaceAlgorithm} implementation that distribute packages across trucks in such a way that
+ * each truck has nearly equal number of packages. The algorithm first distribute packages by equal distribution
+ * and then try to place remaining packages one by one into each truck.
+ */
+public class EqualDistributionPlaceAlgorithm extends PackagePlaceAlgorithm {
 
     @Override
-    public List<Truck> placePackages(List<Package> packages, Integer availableTruckCount) {
-        if (packages.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        // сортируем по убыванию ширины посылок
-        var sortedPackages = packages
-                .stream()
-                .sorted(Comparator.comparing((Package p) -> p.getHeight() * p.getWidth()).reversed())
-                .toList();
-
-        return placeSortedPackages(sortedPackages, availableTruckCount);
-    }
-
-    private List<Truck> placeSortedPackages(List<Package> packages, Integer availableTruckCount) {
-        var trucks = generateTrucks(availableTruckCount);
+    protected void placePackageRecords(List<Package> packages, List<Truck> trucks) {
 
         var placedPackagesIds = new HashSet<UUID>();
 
-        var currentTruckIndex = 0;
-
         // 1. раскладываем по машинам равномерно
-        placeVyEqualDistribution(packages, availableTruckCount, trucks, currentTruckIndex, placedPackagesIds);
+        placeVyEqualDistribution(packages, trucks, placedPackagesIds);
 
         // 2. если остались нераспределенные посылки пытаемся распределить их по машинам
         placeRemainingPackages(packages, placedPackagesIds, trucks);
 
         if (placedPackagesIds.size() != packages.size()) {
-            throw new RuntimeException(String.format("Too many packages for %d truck count", availableTruckCount));
+            throw new RuntimeException(String.format("Too many packages for %d truck count", trucks.size()));
         }
-
-        return trucks;
     }
 
-    private void placeRemainingPackages(List<Package> packages, HashSet<UUID> placedPackagesIds, ArrayList<Truck> trucks) {
+    private void placeRemainingPackages(List<Package> packages, HashSet<UUID> placedPackagesIds, List<Truck> trucks) {
         var nonePlacedPackages = packages.stream().filter(record -> !placedPackagesIds.contains(record.getId())).toList();
 
         for (Package record : nonePlacedPackages) {
@@ -63,7 +44,9 @@ public class EqualDistributionPlaceAlgorithm implements PackagePlaceAlgorithm {
         }
     }
 
-    private void placeVyEqualDistribution(List<Package> packages, Integer availableTruckCount, ArrayList<Truck> trucks, int currentTruckIndex, HashSet<UUID> placedPackagesIds) {
+    private void placeVyEqualDistribution(List<Package> packages, List<Truck> trucks, HashSet<UUID> placedPackagesIds) {
+        var currentTruckIndex = 0;
+
         for (Package record : packages) {
 
             var currentTruck = trucks.get(currentTruckIndex);
@@ -73,24 +56,13 @@ public class EqualDistributionPlaceAlgorithm implements PackagePlaceAlgorithm {
             }
 
             currentTruckIndex++;
-            if (currentTruckIndex >= availableTruckCount) {
+            if (currentTruckIndex >= trucks.size()) {
                 currentTruckIndex = 0;
             }
         }
     }
 
-    private static ArrayList<Truck> generateTrucks(Integer availableTruckCount) {
-        var trucks = new ArrayList<Truck>(availableTruckCount);
-
-        for (var i = 0; i < availableTruckCount; i++) {
-            var truck = new Truck(TRUCK_BACK_WIDTH, TRUCK_BACK_HEIGHT);
-            trucks.add(truck);
-        }
-
-        return trucks;
-    }
-
-    private boolean tryPlacePackage(ru.hofftech.consolepackages.service.packageitem.Package packageItem, Truck truck) {
+    private boolean tryPlacePackage(Package packageItem, Truck truck) {
         // пытаемся разместить посылку с правого нижнего угла кузова
         for (var y = truck.getHeight() - 1; y >= 0; y--) {
             for (var x = truck.getWidth() - 1; x >= 0; x--) {
@@ -100,7 +72,7 @@ public class EqualDistributionPlaceAlgorithm implements PackagePlaceAlgorithm {
 
                 var fillingSlots = packageItem.mapToListOfFillingSlots(x, y);
 
-                truck.fillBackTruckSlots(fillingSlots, packageItem.getDescriptionNumber());
+                truck.fillBackTruckSlots(fillingSlots, packageItem.getDescription());
                 truck.loadPackage(packageItem);
 
                 return true;

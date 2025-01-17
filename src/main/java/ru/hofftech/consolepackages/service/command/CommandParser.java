@@ -1,72 +1,65 @@
 package ru.hofftech.consolepackages.service.command;
 
-import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmType;
-
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 
+import static ru.hofftech.consolepackages.service.command.CommandConstants.COMMAND_KEYS_PATTERN;
+
+/**
+ * The class parses commands and their parameters from a string.
+ */
 public class CommandParser {
     public static CommandType parseCommandType(String strCommand) {
-        var matcher = CommandConstants.PLACE_PACKAGES_FROM_TXT_TO_CONSOLE_COMMAND_PATTERN.matcher(strCommand);
-        if (matcher.matches()) {
-            return CommandType.PLACE_PACKAGES_FROM_TXT_FILE_TO_CONSOLE;
+        if (strCommand.startsWith(CommandConstants.LOAD_COMMAND_PATTERN)) {
+            return CommandType.LOAD_PACKAGES;
         }
 
-        matcher = CommandConstants.PLACE_PACKAGES_FROM_TXT_TO_JSON_COMMAND_PATTERN.matcher(strCommand);
-        if (matcher.matches()) {
-            return CommandType.PLACE_PACKAGES_FROM_TXT_FILE_TO_JSON_FILE;
+        if (strCommand.startsWith(CommandConstants.UNLOAD_COMMAND_PATTERN)) {
+            return CommandType.UNLOAD_TRUCK;
         }
 
-        matcher = CommandConstants.UNLOAD_TRUCKS_FROM_JSON_TO_TXT_COMMAND_PATTERN.matcher(strCommand);
-        if (matcher.matches()) {
-            return CommandType.UNLOAD_TRUCKS_FROM_JSON_TO_TXT_FILE;
-        }
-
-        if (strCommand.equals(CommandConstants.EXIT_COMMAND)) {
+        if (strCommand.startsWith(CommandConstants.EXIT_COMMAND_PATTERN)) {
             return CommandType.EXIT;
+        }
+
+        if (strCommand.startsWith(CommandConstants.CREATE_COMMAND_PATTERN)) {
+            return CommandType.CREATE_PACKAGE_TYPE;
+        }
+
+        if (strCommand.startsWith(CommandConstants.FIND_COMMAND_PATTERN)) {
+            return CommandType.FIND_PACKAGE_TYPE;
+        }
+
+        if (strCommand.startsWith(CommandConstants.DELETE_COMMAND_PATTERN)) {
+            return CommandType.DELETE_PACKAGE_TYPE;
+        }
+
+        if (strCommand.startsWith(CommandConstants.EDIT_COMMAND_PATTERN)) {
+            return CommandType.EDIT_PACKAGE_TYPE;
         }
 
         throw new RuntimeException("Invalid command: " + strCommand);
     }
 
-    public static Integer readTruckCount(String strCommand) {
-        Matcher truckCountMatcher = CommandConstants.TRUCK_COUNT_PATTERN.matcher(strCommand);
-        var truckCount = CommandConstants.DEFAULT_TRUCK_COUNT;
-        if (truckCountMatcher.find()) {
-            truckCount = Integer.parseInt(truckCountMatcher.group(0));
-        }
-        return truckCount;
-    }
+    /**
+     * Parses command keys from a string.
+     * @param strCommand the command string containing keys.
+     * @return a map of keys and their values.
+     */
+    public static Map<String, String> parseCommandKeys(String strCommand) {
+        Map<String, String> optionsMap = new HashMap<>();
 
-    public static PackagePlaceAlgorithmType readAlgorithmName(String strCommand) {
-        var algorithmName = "";
-        var algorithmNameMatcher = CommandConstants.PLACING_ALGORITHM_NAME_PATTERN.matcher(strCommand);
+        Matcher matcher = COMMAND_KEYS_PATTERN.matcher(strCommand);
+        while (matcher.find()) {
+            String key = matcher.group(1);
+            String quotedValue = matcher.group(2);
+            String simpleValue = matcher.group(3);
 
-        if (algorithmNameMatcher.find()) {
-            algorithmName = algorithmNameMatcher.group(0);
-        }
-
-        return PackagePlaceAlgorithmType.fromLabel(algorithmName);
-    }
-
-    public static String readFilePath(String strCommand, CommandType commandType) {
-        return switch (commandType) {
-            case PLACE_PACKAGES_FROM_TXT_FILE_TO_CONSOLE -> returnFilePathMatchGroup(
-                    CommandConstants.PLACE_PACKAGES_FROM_TXT_TO_CONSOLE_COMMAND_PATTERN.matcher(strCommand)
-            );
-            case PLACE_PACKAGES_FROM_TXT_FILE_TO_JSON_FILE -> returnFilePathMatchGroup(
-                    CommandConstants.PLACE_PACKAGES_FROM_TXT_TO_JSON_COMMAND_PATTERN.matcher(strCommand)
-            );
-            case UNLOAD_TRUCKS_FROM_JSON_TO_TXT_FILE -> returnFilePathMatchGroup(
-                    CommandConstants.UNLOAD_TRUCKS_FROM_JSON_TO_TXT_COMMAND_PATTERN.matcher(strCommand)
-            );
-            default -> throw new IllegalStateException("Unexpected file path value: " + commandType);
-        };
+            String value = quotedValue != null ? quotedValue : simpleValue;
+            optionsMap.put(key, value != null ? value : "");
         }
 
-    private static String returnFilePathMatchGroup(Matcher matcher) {
-        if (matcher.matches()) {
-            return matcher.group(1);
-        }
-        throw new RuntimeException("Invalid command: " + matcher.group(0));
+        return optionsMap;
     }
 }

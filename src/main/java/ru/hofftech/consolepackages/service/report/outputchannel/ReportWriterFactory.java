@@ -4,12 +4,11 @@ import ru.hofftech.consolepackages.service.report.outputchannel.impl.ReportToCon
 import ru.hofftech.consolepackages.service.report.outputchannel.impl.ReportToFileWriter;
 
 public class ReportWriterFactory {
-    public ReportWriter createReportWriter(ReportOutputChannelType reportOutputChannelType, String fileExtension) {
+    public ReportWriter createReportWriter(ReportOutputChannelType reportOutputChannelType, String outputFileName) {
         return switch (reportOutputChannelType) {
             case CONSOLE -> new ReportToConsoleWriter();
-            case JSONFILE, TXT_FILE -> new ReportToFileWriter(fileExtension);
-            default ->
-                    throw new IllegalArgumentException("Unknown report output channel type: " + reportOutputChannelType.name());
+            case JSON_FILE, TXT_FILE -> new ReportToFileWriter(outputFileName);
+            case TG_BOT -> null;
         };
     }
 }

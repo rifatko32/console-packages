@@ -1,54 +1,67 @@
 package ru.hofftech.consolepackages.service.packageitem.engine.impl;
 
 import org.junit.jupiter.api.Test;
-import ru.hofftech.consolepackages.service.packageitem.Package;
+import ru.hofftech.consolepackages.model.Package;
+import ru.hofftech.consolepackages.model.Truck;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class PackagePlaceByWidthAlgorithmTest {
 
     @Test
-    public void placePackages_givenPackages_shouldReturnFilledTruck() {
+    public void testPlacePackageRecords_SimpleCase() {
         // Arrange
-        var packageStrings = List.of("1", "22");
-        var engine = new PackagePlaceByWidthAlgorithm();
-        int[][] expectedBackTruck = {
-                {0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 1, 2, 2}};
+        PackagePlaceByWidthAlgorithm algorithm = new PackagePlaceByWidthAlgorithm();
+        List<Package> packages = new ArrayList<>();
+        packages.add(new Package("d", "typeName1", "999\\n999\\n999"));
+        packages.add(new Package("d", "typeName2", "999\\n999"));
 
-        var packages = new ArrayList<ru.hofftech.consolepackages.service.packageitem.Package>();
-
-        for (String curPackageString : packageStrings) {
-            packages.add(new ru.hofftech.consolepackages.service.packageitem.Package(curPackageString));
-        }
+        List<Truck> trucks = new ArrayList<>();
+        trucks.add(new Truck(10, 10));
+        trucks.add(new Truck(10, 10));
 
         // Act
-        var result = engine.placePackages(packages, 5);
-        var truck = result.stream().findFirst().orElse(null);
+        algorithm.placePackageRecords(packages, trucks);
 
         // Assert
-        assertThat(truck).isNotNull();
-        assertThat(truck.getBackTruckSlots()).isEqualTo(expectedBackTruck);
+        assertThat(trucks.get(0).getPackages()).hasSize(2);
+        assertThat(trucks.get(1).getPackages()).hasSize(0);
     }
 
     @Test
-    public void placePackages_givenEmptyListOfPackages_shouldReturnFilledTruck() {
+    public void testPlacePackageRecords_TooManyPackages() {
         // Arrange
-        var packages = new ArrayList<Package>();
-        var engine = new SinglePackagePerTruckPlaceAlgorithm();
+        PackagePlaceByWidthAlgorithm algorithm = new PackagePlaceByWidthAlgorithm();
+        List<Package> packages = new ArrayList<>();
+        packages.add(new Package("x", "typeName1", "999\\n999\\n999"));
+        packages.add(new Package("x", "typeName1", "999\\n999\\n999"));
+        packages.add(new Package("x", "typeName1", "999\\n999\\n999"));
+
+        List<Truck> trucks = new ArrayList<>();
+        trucks.add(new Truck(3, 3));
+
+        // Act and Assert
+        assertThatThrownBy(() -> algorithm.placePackageRecords(packages, trucks))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("Too many packages for 1 truck count");
+    }
+
+    @Test
+    public void testPlacePackageRecords_NoPackages() {
+        // Arrange
+        PackagePlaceByWidthAlgorithm algorithm = new PackagePlaceByWidthAlgorithm();
+        List<Package> packages = new ArrayList<>();
+        List<Truck> trucks = new ArrayList<>();
+        trucks.add(new Truck(10, 10));
 
         // Act
-        var result = engine.placePackages(packages, 6);
+        algorithm.placePackageRecords(packages, trucks);
 
         // Assert
-        assertThat(result).isNotNull();
-        assertThat(result.size()).isZero();
+        assertThat(trucks.getFirst().getPackages()).isEmpty();
     }
 }

@@ -1,6 +1,8 @@
 package ru.hofftech.consolepackages.service.report.truck;
 
+/**
+ * Constants used in the truck unloading report service.
+ */
 public class TruckConstants {
-    public final static int TRUCK_BACK_WIDTH = 6;
-    public final static int TRUCK_BACK_HEIGHT = 6;
+    public final static String PACKAGE_DELIMITER = System.lineSeparator();
 }

@@ -1,0 +1,10 @@
+package ru.hofftech.consolepackages.datastorage.model;
+
+import java.util.UUID;
+
+public record PackageView(
+        UUID id,
+        String name,
+        String form,
+        String symbol) {
+}

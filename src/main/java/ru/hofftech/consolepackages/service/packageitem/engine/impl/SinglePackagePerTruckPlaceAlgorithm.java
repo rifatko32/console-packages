@@ -1,51 +1,45 @@
 package ru.hofftech.consolepackages.service.packageitem.engine.impl;
 
-import ru.hofftech.consolepackages.service.packageitem.Package;
+import ru.hofftech.consolepackages.model.Package;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithm;
-import ru.hofftech.consolepackages.service.truck.Truck;
+import ru.hofftech.consolepackages.model.Truck;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
-import static ru.hofftech.consolepackages.service.report.truck.TruckConstants.TRUCK_BACK_HEIGHT;
-import static ru.hofftech.consolepackages.service.report.truck.TruckConstants.TRUCK_BACK_WIDTH;
+/**
+ * Algorithm to place packages into trucks, ensuring each truck receives only one package.
+ * <p>
+ * This algorithm iterates through the list of packages and assigns each package to the first
+ * available truck that has not yet been loaded with a package. If all trucks are loaded, it
+ * throws an exception indicating insufficient trucks.
+ * </p>
+ */
+public class SinglePackagePerTruckPlaceAlgorithm extends PackagePlaceAlgorithm {
 
-public class SinglePackagePerTruckPlaceAlgorithm implements PackagePlaceAlgorithm {
-
-    @Override
-    public List<Truck> placePackages(List<ru.hofftech.consolepackages.service.packageitem.Package> packages, Integer availableTruckCount) {
-
-        if (packages.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        return placePackageRecords(packages, availableTruckCount);
-    }
-
-    private List<Truck> placePackageRecords(List<ru.hofftech.consolepackages.service.packageitem.Package> packages, Integer availableTruckCount) {
-        var trucks = new ArrayList<Truck>();
+    protected void placePackageRecords(List<Package> packages, List<Truck> trucks) {
+        var loadedTruckSet = new HashSet<UUID>();
 
         for (var packageRecord : packages) {
-            checkIsCurrentTruckCountLessThenAvailable(availableTruckCount, trucks);
-
-            var truck = new Truck(TRUCK_BACK_WIDTH, TRUCK_BACK_HEIGHT);
+            var truck = findUnloadedTruck(trucks, loadedTruckSet);
             tryPlacePackage(packageRecord, truck);
-            trucks.add(truck);
+            loadedTruckSet.add(truck.getId());
         }
-
-        return trucks;
     }
 
-    private static void checkIsCurrentTruckCountLessThenAvailable(Integer availableTruckCount, ArrayList<Truck> trucks) {
-        if (trucks.size() >= availableTruckCount) {
-            throw new RuntimeException(String.format("Too many packages for %d truck count", availableTruckCount));
-        }
+    private static Truck findUnloadedTruck(List<Truck> trucks, HashSet<UUID> loadedTruckSet) {
+        return trucks
+                .stream()
+                .filter(t -> !loadedTruckSet.contains(t.getId()))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException(String.format("Too many packages for %d truck count", trucks.size())));
     }
 
     private void tryPlacePackage(Package packageRecord, Truck truck) {
-        var fillingSlots = packageRecord.mapToListOfFillingSlots(TRUCK_BACK_WIDTH - 1, TRUCK_BACK_HEIGHT - 1);
+        var fillingSlots = packageRecord.mapToListOfFillingSlots(truck.getWidth() - 1, truck.getHeight() - 1);
 
-        truck.fillBackTruckSlots(fillingSlots, packageRecord.getDescriptionNumber());
+        truck.fillBackTruckSlots(fillingSlots, packageRecord.getDescription());
 
         truck.loadPackage(packageRecord);
     }

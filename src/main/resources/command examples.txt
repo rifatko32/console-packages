@@ -1,11 +1,21 @@
-посылки в консоль с ограничением по 20 машинам c single алгоритмом
-import_txt_to_console packages.txt 20 single
+load -packages-file "packages.txt" -trucks "6x6;6x6;6x6" -type "width" -out json-file -out-filename "trucks.json"
 
-посылки в консоль с ограничением по 6 машинам c width алгоритмом
-import_txt_to_console packages.txt 6 width
+load -packages-file "packages.txt" -trucks "6x6;6x6;6x6" -type "width" -out console
 
-посылки в json с ограничением по 6 машинам
-import_txt_to_json packages.txt 6 equal
+load -packages-file "packages.txt" -trucks "6x6;6x6;6x6" -type "width" -out tgbot
 
-грузовики из json файла в txt
-import_json_trucks_to_txt_packages trucks.json
+load -packages-text "type wheel;type narrow weight;type 1;type 1" -trucks "3x3;3x3;6x2" -type "width" -out console
+
+unload -infile "trucks.json" -outfile "packages.txt"
+
+unload -infile "trucks.json" -outfile "packages.txt" -withcount
+
+create -name "type wheel" -form "xxx\nx x\nxxxx" -description "o"
+
+find -name "type 1" -out console
+
+find -name "type 1" -out tgbot
+
+delete -name "type 1"
+
+edit -name "type 3" -form "xxx\nxxx\nxxx" -description "X"

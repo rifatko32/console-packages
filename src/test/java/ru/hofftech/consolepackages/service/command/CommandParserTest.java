@@ -2,134 +2,90 @@ package ru.hofftech.consolepackages.service.command;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.assertj.core.api.Fail.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CommandParserTest {
     @Test
-    public void testParsePlacePackagesFromTxtToConsoleCommand() {
-        String strCommand = "import_txt_to_console packages.txt 10 single";
-        CommandType expectedCommandType = CommandType.PLACE_PACKAGES_FROM_TXT_FILE_TO_CONSOLE;
-        CommandType actualCommandType = CommandParser.parseCommandType(strCommand);
-        assertEquals(expectedCommandType, actualCommandType);
+    public void testParseCommandType_LoadCommand() {
+        String command = "load -packages-file \"packages.txt\" -trucks \"6x6;6x6;6x6\" -type \"width\" -out json-file -out-filename \"trucks.json\"";
+        CommandType expectedType = CommandType.LOAD_PACKAGES;
+        CommandType actualType = CommandParser.parseCommandType(command);
+        assertEquals(expectedType, actualType);
     }
 
     @Test
-    public void testParsePlacePackagesFromTxtToJsonFileCommand() {
-        String strCommand = "import_txt_to_json packages.txt 10 equal";
-        CommandType expectedCommandType = CommandType.PLACE_PACKAGES_FROM_TXT_FILE_TO_JSON_FILE;
-        CommandType actualCommandType = CommandParser.parseCommandType(strCommand);
-        assertEquals(expectedCommandType, actualCommandType);
+    public void testParseCommandType_UnloadCommand() {
+        String command = "unload -infile \"trucks.json\" -outfile \"packages.txt\"";
+        CommandType expectedType = CommandType.UNLOAD_TRUCK;
+        CommandType actualType = CommandParser.parseCommandType(command);
+        assertEquals(expectedType, actualType);
     }
 
     @Test
-    public void testParseUnloadTrucksFromJsonToTxtFileCommand() {
-        String strCommand = "import_json_trucks_to_txt_packages trucks.json";
-        CommandType expectedCommandType = CommandType.UNLOAD_TRUCKS_FROM_JSON_TO_TXT_FILE;
-        CommandType actualCommandType = CommandParser.parseCommandType(strCommand);
-        assertEquals(expectedCommandType, actualCommandType);
+    public void testParseCommandType_ExitCommand() {
+        String command = "exit";
+        CommandType expectedType = CommandType.EXIT;
+        CommandType actualType = CommandParser.parseCommandType(command);
+        assertEquals(expectedType, actualType);
     }
 
     @Test
-    public void testParseExitCommand() {
-        String strCommand = "exit";
-        CommandType expectedCommandType = CommandType.EXIT;
-        CommandType actualCommandType = CommandParser.parseCommandType(strCommand);
-        assertEquals(expectedCommandType, actualCommandType);
+    public void testParseCommandType_CreateCommand() {
+        String command = "create -name \"type wheel\" -form \"xxx\\nx x\\nxxxx\" -description \"o\"";
+        CommandType expectedType = CommandType.CREATE_PACKAGE_TYPE;
+        CommandType actualType = CommandParser.parseCommandType(command);
+        assertEquals(expectedType, actualType);
     }
 
     @Test
-    public void testParseInvalidCommand() {
-        String strCommand = "invalid command";
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> CommandParser.parseCommandType(strCommand));
-        assertEquals("Invalid command: invalid command", exception.getMessage());
+    public void testParseCommandType_FindCommand() {
+        String command = "find -name \"type 1\"";
+        CommandType expectedType = CommandType.FIND_PACKAGE_TYPE;
+        CommandType actualType = CommandParser.parseCommandType(command);
+        assertEquals(expectedType, actualType);
     }
 
     @Test
-    public void testReadFilePath_PlacePackagesToConsole() {
-        String strCommand = "import_txt_to_console packages.txt 10 single";
-        CommandType commandType = CommandType.PLACE_PACKAGES_FROM_TXT_FILE_TO_CONSOLE;
-        String expectedFilePath = "packages.txt";
-        String actualFilePath = CommandParser.readFilePath(strCommand, commandType);
-        assertEquals(expectedFilePath, actualFilePath);
+    public void testParseCommandType_DeleteCommand() {
+        String command = "delete -name \"type 1\"";
+        CommandType expectedType = CommandType.DELETE_PACKAGE_TYPE;
+        CommandType actualType = CommandParser.parseCommandType(command);
+        assertEquals(expectedType, actualType);
     }
 
     @Test
-    public void testReadFilePath_PlacePackagesToJson() {
-        String strCommand = "import_txt_to_json packages.txt 10 equal";
-        CommandType commandType = CommandType.PLACE_PACKAGES_FROM_TXT_FILE_TO_JSON_FILE;
-        String expectedFilePath = "packages.txt";
-        String actualFilePath = CommandParser.readFilePath(strCommand, commandType);
-        assertEquals(expectedFilePath, actualFilePath);
-    }
-    @Test
-
-    public void testReadFilePath_UnloadTrucksToJson() {
-        String strCommand = "import_json_trucks_to_txt_packages trucks.json";
-        CommandType commandType = CommandType.UNLOAD_TRUCKS_FROM_JSON_TO_TXT_FILE;
-        String expectedFilePath = "trucks.json";
-        String actualFilePath = CommandParser.readFilePath(strCommand, commandType);
-        assertEquals(expectedFilePath, actualFilePath);
+    public void testParseCommandType_EditCommand() {
+        String command = "edit -name \"type 3\" -form \"xxx\\nxxx\\nxxx\" -description \"X\"";
+        CommandType expectedType = CommandType.EDIT_PACKAGE_TYPE;
+        CommandType actualType = CommandParser.parseCommandType(command);
+        assertEquals(expectedType, actualType);
     }
 
     @Test
-    public void testReadFilePath_InvalidCommandType() {
-        String strCommand = "invalid_command";
-        CommandType commandType = CommandType.EXIT;
-        assertThrows(IllegalStateException.class, () -> CommandParser.readFilePath(strCommand, commandType));
+    public void testParseCommandType_InvalidCommand() {
+        String command = "invalid command";
+        try {
+            CommandParser.parseCommandType(command);
+            fail("Expected RuntimeException");
+        } catch (RuntimeException e) {
+            // expected
+        }
     }
 
     @Test
-    public void testReadFilePath_NullInput() {
-        String strCommand = null;
-        CommandType commandType = CommandType.PLACE_PACKAGES_FROM_TXT_FILE_TO_CONSOLE;
-        assertThrows(NullPointerException.class, () -> CommandParser.readFilePath(strCommand, commandType));
-    }
-
-    @Test
-    public void testReadFilePath_EmptyInput() {
-        String strCommand = "";
-        CommandType commandType = CommandType.PLACE_PACKAGES_FROM_TXT_FILE_TO_CONSOLE;
-        assertThrows(RuntimeException.class, () -> CommandParser.readFilePath(strCommand, commandType));
-    }
-
-    @Test
-    public void testDefaultTruckCountWhenNoMatchIsFound() {
-        String strCommand = "import_txt_to_console packages.txt single";
-        int expectedTruckCount = CommandConstants.DEFAULT_TRUCK_COUNT;
-        int actualTruckCount = CommandParser.readTruckCount(strCommand);
-        assertEquals(expectedTruckCount, actualTruckCount);
-    }
-
-    @Test
-    public void testTruckCountIsParsedCorrectlyWhenMatchIsFound() {
-        String strCommand = "import_txt_to_console packages.txt 20 single";
-        int expectedTruckCount = 20;
-        int actualTruckCount = CommandParser.readTruckCount(strCommand);
-        assertEquals(expectedTruckCount, actualTruckCount);
-    }
-
-    @Test
-    public void testTruckCountIsParsedCorrectlyWhenMatchIsFoundAtTheBeginningOfTheString() {
-        String strCommand = "20 import_txt_to_console packages.txt single";
-        int expectedTruckCount = 20;
-        int actualTruckCount = CommandParser.readTruckCount(strCommand);
-        assertEquals(expectedTruckCount, actualTruckCount);
-    }
-
-    @Test
-    public void testTruckCountIsParsedCorrectlyWhenMatchIsFoundAtTheEndOfTheString() {
-        String strCommand = "import_txt_to_console packages.txt single 20";
-        int expectedTruckCount = 20;
-        int actualTruckCount = CommandParser.readTruckCount(strCommand);
-        assertEquals(expectedTruckCount, actualTruckCount);
-    }
-
-    @Test
-    public void testTruckCountIsParsedCorrectlyWhenMatchIsFoundInTheMiddleOfTheString() {
-        String strCommand = "import_txt_to_console 20 packages.txt single";
-        int expectedTruckCount = 20;
-        int actualTruckCount = CommandParser.readTruckCount(strCommand);
-        assertEquals(expectedTruckCount, actualTruckCount);
+    public void testParseCommandKeys() {
+        String command = "load -packages-file \"packages.txt\" -trucks \"6x6;6x6;6x6\" -type \"width\" -out json-file -out-filename \"trucks.json\"";
+        Map<String, String> expectedKeys = new HashMap<>();
+        expectedKeys.put("packages-file", "packages.txt");
+        expectedKeys.put("out-filename", "trucks.json");
+        expectedKeys.put("trucks", "6x6;6x6;6x6");
+        expectedKeys.put("type", "width");
+        expectedKeys.put("out", "json-file");
+        Map<String, String> actualKeys = CommandParser.parseCommandKeys(command);
+        assertEquals(expectedKeys, actualKeys);
     }
 }
