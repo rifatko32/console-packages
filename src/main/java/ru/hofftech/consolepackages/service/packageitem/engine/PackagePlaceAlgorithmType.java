@@ -13,7 +13,7 @@ public enum PackagePlaceAlgorithmType {
 
     public final String label;
 
-    private PackagePlaceAlgorithmType(String label) {
+    PackagePlaceAlgorithmType(String label) {
         this.label = label;
     }
 

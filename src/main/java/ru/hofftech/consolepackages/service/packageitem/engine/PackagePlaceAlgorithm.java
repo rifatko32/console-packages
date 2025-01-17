@@ -39,7 +39,7 @@ public abstract class PackagePlaceAlgorithm {
                 .toList();
 
         placePackageRecords(sortedPackages, sortedTrucks);
-    };
+    }
 
     protected abstract void placePackageRecords(List<Package> packages, List<Truck> trucks);
 }
