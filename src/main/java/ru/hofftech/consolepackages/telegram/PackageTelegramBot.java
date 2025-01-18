@@ -1,5 +1,6 @@
 package ru.hofftech.consolepackages.telegram;
 
+import jakarta.annotation.PostConstruct;
 import org.apache.commons.lang3.StringUtils;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import lombok.extern.slf4j.Slf4j;
@@ -65,10 +66,9 @@ public class PackageTelegramBot implements LongPollingSingleThreadUpdateConsumer
      * <p>
      * The registration process is done in a separate thread to avoid blocking the main application thread.
      * </p>
-     *
-     * @param commandReader the command reader to use
      */
-    public static void registerTelegramBot(CommandReader commandReader) {
+    @PostConstruct
+    public void registerTelegramBot() {
         new Thread(() -> {
             try (TelegramBotsLongPollingApplication botsApplication = new TelegramBotsLongPollingApplication()) {
                 botsApplication.registerBot(tgApiToken, new PackageTelegramBot(commandReader));

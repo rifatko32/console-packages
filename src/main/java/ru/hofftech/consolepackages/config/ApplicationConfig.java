@@ -17,6 +17,7 @@ import ru.hofftech.consolepackages.service.report.packageitem.PackagePlaceReport
 import ru.hofftech.consolepackages.service.report.truck.TruckUnloadingReportEngineFactory;
 import ru.hofftech.consolepackages.service.truck.TruckToPackagesService;
 import ru.hofftech.consolepackages.service.truck.TruckUnloadingAlgorithm;
+import ru.hofftech.consolepackages.telegram.PackageTelegramBot;
 import ru.hofftech.consolepackages.util.PackageFileReader;
 import ru.hofftech.consolepackages.util.TruckJsonFileReader;
 
@@ -45,7 +46,7 @@ public class ApplicationConfig {
     public StartupDataStorageInitializer startupDataStorageInitializer() {
         return new StartupDataStorageInitializer(packageTypeRepository());
     }
-    
+
     @Bean
     public PackageTypeRepository packageTypeRepository() {
         return new InMemoryPackageTypeRepository();
@@ -118,5 +119,10 @@ public class ApplicationConfig {
     @Bean
     public CommandReader commandReader() {
         return new CommandReader(abstractFactoryProvider());
+    }
+
+    @Bean
+    public PackageTelegramBot packageTelegramBot() {
+        return new PackageTelegramBot(commandReader());
     }
 }
