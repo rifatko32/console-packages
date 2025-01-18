@@ -1,5 +1,6 @@
 package ru.hofftech.consolepackages.service;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 
@@ -17,6 +18,7 @@ public class StartupDataStorageInitializer {
      * each with a unique name, form, and description number. These package types are
      * created in the storage for use in the application.
      */
+    @PostConstruct
     public void createDefaultPackageTypes() {
         packageTypeRepository.create(
                 "type 1",

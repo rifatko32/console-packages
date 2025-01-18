@@ -2,6 +2,8 @@ package ru.hofftech.consolepackages;
 
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ru.hofftech.consolepackages.controller.ConsoleController;
 import ru.hofftech.consolepackages.datastorage.repository.impl.InMemoryPackageTypeRepository;
 import ru.hofftech.consolepackages.service.command.CommandReader;
@@ -21,10 +23,11 @@ import ru.hofftech.consolepackages.util.PackageFileReader;
 import ru.hofftech.consolepackages.util.TruckJsonFileReader;
 
 @Slf4j
+@SpringBootApplication
 public class Main {
     public static void main(String[] args) {
         log.info("Starting console packages...");
-        Main.start();
+        SpringApplication.run(Main.class, args);
     }
 
     private static void start() {
@@ -41,8 +44,7 @@ public class Main {
                         new PackageFromStringReader(
                                 new PackageFactory(packageTypeRepository)),
                         new TruckToPackagesService(
-                                new TruckJsonFileReader(
-                                        new Gson()),
+                                new TruckJsonFileReader(new Gson()),
                                 new TruckUnloadingReportEngineFactory(),
                                 new TruckUnloadingAlgorithm()
                         ),

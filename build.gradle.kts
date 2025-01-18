@@ -1,4 +1,6 @@
 plugins {
+    id("org.springframework.boot") version "3.4.1"
+    id("io.spring.dependency-management") version "1.1.7"
     id("java")
 }
 
@@ -14,16 +16,19 @@ val versions = mapOf(
     "slf4j-api" to "2.0.9",
     "logback-classic" to "1.4.12",
     "javatuples" to "1.2",
-    "gson" to "2.8.9",
+    "gson" to "2.11.0",
     "telegrambots-longpolling" to "8.0.0",
     "telegrambots-client" to "8.0.0",
     "junit-bom" to "5.10.0",
     "junit-jupiter" to "",
     "assertj-core" to "3.6.1",
-    "mockito-core" to "5.14.2"
+    "mockito-core" to "5.14.2",
+    "shell-starter" to "3.4.0"
 )
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.shell:spring-shell-starter:${versions["shell-starter"]}")
     implementation("org.projectlombok:lombok:${versions["lombok"]}")
     annotationProcessor("org.projectlombok:lombok:${versions["lombok"]}")
 
