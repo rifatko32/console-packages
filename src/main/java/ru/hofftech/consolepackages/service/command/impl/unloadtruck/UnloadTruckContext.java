@@ -10,4 +10,51 @@ public record UnloadTruckContext(
         ReportOutputChannelType reportOutputChannelType,
         String outFilePath,
         boolean withCount) implements CommandContext {
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private String inFilePath;
+        private ReportEngineType reportEngineType;
+        private ReportOutputChannelType reportOutputChannelType;
+        private String outFilePath;
+        private boolean withCount;
+
+        public Builder inFilePath(String inFilePath) {
+            this.inFilePath = inFilePath;
+            return this;
+        }
+
+        public Builder reportEngineType(ReportEngineType reportEngineType) {
+            this.reportEngineType = reportEngineType;
+            return this;
+        }
+
+        public Builder reportOutputChannelType(ReportOutputChannelType reportOutputChannelType) {
+            this.reportOutputChannelType = reportOutputChannelType;
+            return this;
+        }
+
+        public Builder outFilePath(String outFilePath) {
+            this.outFilePath = outFilePath;
+            return this;
+        }
+
+        public Builder withCount(boolean withCount) {
+            this.withCount = withCount;
+            return this;
+        }
+
+        public UnloadTruckContext build() {
+            return new UnloadTruckContext(
+                    inFilePath,
+                    reportEngineType,
+                    reportOutputChannelType,
+                    outFilePath,
+                    withCount
+            );
+        }
+    }
 }

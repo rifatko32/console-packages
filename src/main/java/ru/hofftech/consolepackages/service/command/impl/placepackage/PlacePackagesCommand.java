@@ -59,8 +59,9 @@ public class PlacePackagesCommand implements Command {
         if (reportWriter != null) {
             reportWriter.writeReport(packagePlaceReport);
         }
-        
-        context.setResult(packagePlaceReport.toPlainString());
+        else {
+            context.setResult(packagePlaceReport.toPlainString());
+        }
 
         log.info("End of handling file: {}", context.getFilePath());
     }

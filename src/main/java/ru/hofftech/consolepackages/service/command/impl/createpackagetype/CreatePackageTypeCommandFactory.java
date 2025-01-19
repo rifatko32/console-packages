@@ -1,7 +1,6 @@
 package ru.hofftech.consolepackages.service.command.impl.createpackagetype;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.command.CommandAbstractFactory;
@@ -43,14 +42,28 @@ public class CreatePackageTypeCommandFactory implements CommandAbstractFactory {
         var commandKeyValues = CommandParser.parseCommandKeys(strCommand);
 
         var name = commandKeyValues.get(NAME);
-
-        if (StringUtils.isEmpty(name)) {
-            throw new IllegalArgumentException("Name is empty");
-        }
-
         var form = commandKeyValues.get(FORM);
         var description = commandKeyValues.get(DESCRIPTION);
 
-        return new CreatePackageTypeContext(name, description, form);
+        return new CreatePackageTypeContext.Builder()
+                .name(name)
+                .form(form)
+                .description(description).build();
+    }
+
+    /**
+     * Creates the context of the command to edit a package type by parameters.
+     *
+     * @param name        the name of the package type
+     * @param form        the form of the package type
+     * @param description the description of the package type
+     * @return the context of the command to edit a package type
+     */
+    public CommandContext createCommandContextByParameters(String name, String form, String description) {
+        return new CreatePackageTypeContext.Builder()
+                .name(name)
+                .form(form)
+                .description(description)
+                .build();
     }
 }

@@ -78,7 +78,7 @@ public class CommandParserTest {
 
     @Test
     public void testParseCommandKeys() {
-        String command = "load -packages-file \"packages.txt\" -trucks \"6x6;6x6;6x6\" -type \"width\" -out json-file -out-filename \"trucks.json\"";
+        String command = "load --packages-file \"packages.txt\" --trucks \"6x6;6x6;6x6\" --type \"width\" --out json-file --out-filename \"trucks.json\"";
         Map<String, String> expectedKeys = new HashMap<>();
         expectedKeys.put("packages-file", "packages.txt");
         expectedKeys.put("out-filename", "trucks.json");

@@ -56,7 +56,6 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
                 reportEngineFactory);
     }
 
-
     /**
      * Creates the context of the command to place packages into trucks.
      *
@@ -76,6 +75,44 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
         var reportEngineType = Objects.equals(commandKeyValues.get(OUT_KEY), OUT_JSON_FILE_VALUE) ? ReportEngineType.JSON : ReportEngineType.STRING;
         var outputFileName = commandKeyValues.get(OUT_FILENAME_KEY);
 
-        return new PlacePackageContext(trucks, algorithmType, filePath, reportEngineType, channelType, outputFileName, packagesText);
+        return new PlacePackageContext.Builder()
+                .trucks(trucks)
+                .algorithmType(algorithmType)
+                .filePath(filePath)
+                .reportEngineType(reportEngineType)
+                .reportOutputChannelType(channelType)
+                .outputFileName(outputFileName)
+                .packagesText(packagesText)
+                .build();
+    }
+
+    /**
+     * Creates the context of the command to place packages into trucks by parameters.
+     *
+     * @param trucks         comma-separated list of truck names
+     * @param algorithmType  type of the algorithm to use while placing packages
+     * @param filePath       path to the file with packages
+     * @param outputFileName name of the file to write the report to
+     * @param outParameter   parameter to specify the report output channel
+     * @param packagesText   text with packages to place
+     * @return the context of the command to place packages into trucks
+     */
+    public CommandContext createCommandContextByParameters(
+            String trucks,
+            String algorithmType,
+            String filePath,
+            String outParameter,
+            String outputFileName,
+            String packagesText) {
+
+        return new PlacePackageContext.Builder()
+                .trucks(Arrays.stream(trucks.split(TRUCKS_DELIMITER)).toList())
+                .algorithmType(PackagePlaceAlgorithmType.fromLabel(algorithmType))
+                .filePath(filePath)
+                .reportEngineType(Objects.equals(outParameter, OUT_JSON_FILE_VALUE) ? ReportEngineType.JSON : ReportEngineType.STRING)
+                .reportOutputChannelType(ReportOutputChannelType.fromLabel(outParameter))
+                .outputFileName(outputFileName)
+                .packagesText(packagesText)
+                .build();
     }
 }

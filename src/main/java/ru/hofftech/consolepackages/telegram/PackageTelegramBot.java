@@ -1,9 +1,9 @@
 package ru.hofftech.consolepackages.telegram;
 
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
-import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,7 +15,7 @@ import ru.hofftech.consolepackages.service.command.CommandReader;
 /**
  * Telegram bot that reads commands from users and passes them to the {@link CommandReader} service.
  * <p>
- * The bot is registered using the {@link #registerTelegramBot(CommandReader)} static method.
+ * The bot is registered in a separate thread to avoid blocking the main application thread.
  * </p>
  */
 @Slf4j

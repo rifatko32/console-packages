@@ -46,4 +46,14 @@ public class DeletePackageTypeCommandFactory implements CommandAbstractFactory {
 
         return new DeletePackageTypeContext(name);
     }
+
+    /**
+     * Creates the context of the command to find a package type by name.
+     *
+     * @param name the name of the package type to find
+     * @return the context of the command to find a package type by name
+     */
+    public CommandContext createCommandContextByParameters(String name) {
+        return new DeletePackageTypeContext(name);
+    }
 }

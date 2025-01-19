@@ -1,7 +1,7 @@
 package ru.hofftech.consolepackages.service.command.impl.unloadtruck;
 
+import ch.qos.logback.core.util.StringUtil;
 import lombok.RequiredArgsConstructor;
-import ru.hofftech.consolepackages.service.truck.TruckToPackagesService;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.command.CommandAbstractFactory;
 import ru.hofftech.consolepackages.service.command.CommandContext;
@@ -9,6 +9,7 @@ import ru.hofftech.consolepackages.service.command.CommandParser;
 import ru.hofftech.consolepackages.service.report.ReportEngineType;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportOutputChannelType;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
+import ru.hofftech.consolepackages.service.truck.TruckToPackagesService;
 
 /**
  * The class implements the factory of commands for unloading packages from trucks
@@ -47,11 +48,28 @@ public class UnloadTruckCommandFactory implements CommandAbstractFactory {
         var inFilePath = commandKeyValues.get(INFILE);
         var outFilePath = commandKeyValues.get(OUTFILE);
         var withCount = commandKeyValues.containsKey(WITH_COUNT);
-        return new UnloadTruckContext(
-                inFilePath,
-                withCount ? ReportEngineType.STRING_WITH_COUNT : ReportEngineType.STRING,
-                ReportOutputChannelType.TXT_FILE,
-                outFilePath,
-                withCount);
+
+        return new UnloadTruckContext.Builder()
+                .inFilePath(inFilePath)
+                .outFilePath(outFilePath)
+                .withCount(withCount)
+                .reportEngineType(withCount ? ReportEngineType.STRING_WITH_COUNT : ReportEngineType.STRING)
+                .reportOutputChannelType(ReportOutputChannelType.TXT_FILE)
+                .build();
+    }
+
+    public CommandContext createCommandContextByParameters(
+            String inFilePath,
+            String outFilePath,
+            String withCount) {
+        var withCountValue = !StringUtil.isNullOrEmpty(withCount) && Boolean.parseBoolean(withCount);
+
+        return new UnloadTruckContext.Builder()
+                .inFilePath(inFilePath)
+                .outFilePath(outFilePath)
+                .withCount(withCountValue)
+                .reportEngineType(withCountValue ? ReportEngineType.STRING_WITH_COUNT : ReportEngineType.STRING)
+                .reportOutputChannelType(ReportOutputChannelType.TXT_FILE)
+                .build();
     }
 }

@@ -44,6 +44,21 @@ public class FindPackageTypeCommandFactory implements CommandAbstractFactory {
         var channelType = ReportOutputChannelType.fromLabel(commandKeyValues.get(OUT_KEY));
         var name = commandKeyValues.get(NAME);
 
-        return new FindPackageTypeContext(name, channelType);
+        return new FindPackageTypeContext.Builder()
+                .name(name)
+                .reportOutputChannelType(channelType)
+                .build();
+    }
+
+    /**
+     * Creates the context of the command to find a package type by name.
+     *
+     * @param name the name of the package type to find
+     * @return the context of the command to find a package type by name
+     */
+    public CommandContext createCommandContextByParameters(String name) {
+        return new FindPackageTypeContext.Builder()
+                .name(name)
+                .build();
     }
 }
