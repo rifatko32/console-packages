@@ -116,11 +116,12 @@ public class ShellCommandController {
             @ShellOption(value = {"--type"}) String type,
             @ShellOption(value = {"--out"}, defaultValue = "") String out,
             @ShellOption(value = {"--out-filename"}, defaultValue = "") String outFilename,
-            @ShellOption(value = {"--packages-text"}, defaultValue = "") String packagesText
+            @ShellOption(value = {"--packages-text"}, defaultValue = "") String packagesText,
+            @ShellOption(value = {"--clientid"}, defaultValue = "") String clientId
     ) {
         var factory = abstractFactoryProvider.returnCommandAbstractFactory("load");
 
-        var context = ((PlacePackageCommandFactory) factory).createCommandContextByParameters(trucks, type, filePath, out, outFilename, packagesText);
+        var context = ((PlacePackageCommandFactory) factory).createCommandContextByParameters(trucks, type, filePath, out, outFilename, packagesText, clientId);
         var command = factory.createCommand(context);
         command.execute();
 
@@ -132,11 +133,12 @@ public class ShellCommandController {
     public String unloadTruck(
             @ShellOption(value = {"--infile"}, defaultValue = "") String inFilePath,
             @ShellOption(value = {"--outfile"}) String outfile,
-            @ShellOption(value = {"--withcount"}, defaultValue = "") String withCount
+            @ShellOption(value = {"--withcount"}, defaultValue = "") String withCount,
+            @ShellOption(value = {"--clientid"}, defaultValue = "") String clientId
     ) {
         var factory = abstractFactoryProvider.returnCommandAbstractFactory("unload");
 
-        var context = ((UnloadTruckCommandFactory) factory).createCommandContextByParameters(inFilePath, outfile, withCount);
+        var context = ((UnloadTruckCommandFactory) factory).createCommandContextByParameters(inFilePath, outfile, withCount, clientId);
         var command = factory.createCommand(context);
         command.execute();
 

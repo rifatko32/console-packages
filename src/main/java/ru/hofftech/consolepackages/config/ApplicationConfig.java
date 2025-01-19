@@ -3,9 +3,13 @@ package ru.hofftech.consolepackages.config;
 import com.google.gson.Gson;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import ru.hofftech.consolepackages.datastorage.repository.BillingOrderRepository;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
+import ru.hofftech.consolepackages.datastorage.repository.impl.InMemoryBillingOrderRepository;
 import ru.hofftech.consolepackages.datastorage.repository.impl.InMemoryPackageTypeRepository;
 import ru.hofftech.consolepackages.service.StartupDataStorageInitializer;
+import ru.hofftech.consolepackages.service.billing.PackageBillingService;
+import ru.hofftech.consolepackages.service.billing.PackageBillingServiceImpl;
 import ru.hofftech.consolepackages.service.command.AbstractFactoryProvider;
 import ru.hofftech.consolepackages.service.command.CommandReader;
 import ru.hofftech.consolepackages.service.packageitem.PackageFactory;
@@ -38,7 +42,9 @@ public class ApplicationConfig {
                 reportWriterFactory(),
                 packageTypeRepository(),
                 packagePlaceAlgorithmFactory(),
-                packagePlaceReportEngineFactory()
+                packagePlaceReportEngineFactory(),
+                truckJsonFileReader(),
+                packageBillingService()
         );
     }
 
@@ -50,6 +56,11 @@ public class ApplicationConfig {
     @Bean
     public PackageTypeRepository packageTypeRepository() {
         return new InMemoryPackageTypeRepository();
+    }
+
+    @Bean
+    public BillingOrderRepository billingOrderRepository() {
+        return new InMemoryBillingOrderRepository();
     }
 
     @Bean
@@ -67,7 +78,6 @@ public class ApplicationConfig {
     @Bean
     public TruckToPackagesService truckToPackagesService() {
         return new TruckToPackagesService(
-                truckJsonFileReader(),
                 truckUnloadingReportEngineFactory(),
                 truckUnloadingAlgorithm()
         );
@@ -124,5 +134,10 @@ public class ApplicationConfig {
     @Bean
     public PackageTelegramBot packageTelegramBot() {
         return new PackageTelegramBot(commandReader());
+    }
+
+    @Bean
+    public PackageBillingService packageBillingService() {
+        return new PackageBillingServiceImpl(billingOrderRepository());
     }
 }

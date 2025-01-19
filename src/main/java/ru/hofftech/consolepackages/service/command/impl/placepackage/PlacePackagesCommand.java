@@ -2,6 +2,7 @@ package ru.hofftech.consolepackages.service.command.impl.placepackage;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ru.hofftech.consolepackages.service.billing.PackageBillingService;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.model.Package;
 import ru.hofftech.consolepackages.service.packageitem.PackageFromFileReader;
@@ -30,6 +31,7 @@ public class PlacePackagesCommand implements Command {
     private final PlacePackageContext context;
     private final PackagePlaceAlgorithmFactory placeEngineFactory;
     private final PackagePlaceReportEngineFactory reportEngineFactory;
+    private final PackageBillingService packageBillingService;
 
     /**
      * Executes the command to place packages into trucks based on a specified algorithm.
@@ -62,6 +64,8 @@ public class PlacePackagesCommand implements Command {
         else {
             context.setResult(packagePlaceReport.toPlainString());
         }
+
+        packageBillingService.creatLoadPackageBill(trucks, context.getClientId());
 
         log.info("End of handling file: {}", context.getFilePath());
     }

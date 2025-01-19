@@ -37,6 +37,7 @@ public class PlacePackageContext extends CommandContextWithResult<String> {
     private final ReportOutputChannelType reportOutputChannelType;
     private final String outputFileName;
     private final String packagesText;
+    private final String clientId;
 
     public static class Builder {
         private List<String> trucks;
@@ -46,6 +47,12 @@ public class PlacePackageContext extends CommandContextWithResult<String> {
         private ReportOutputChannelType reportOutputChannelType;
         private String outputFileName;
         private String packagesText;
+        private String clientId;
+
+        public Builder clientId(String clientId) {
+            this.clientId = clientId;
+            return this;
+        }
 
         public Builder trucks(List<String> trucks) {
             this.trucks = trucks;
@@ -95,7 +102,11 @@ public class PlacePackageContext extends CommandContextWithResult<String> {
                 throw new IllegalArgumentException("packagesText or filePath is null");
             }
 
-            return new PlacePackageContext(trucks, algorithmType, filePath, reportEngineType, reportOutputChannelType, outputFileName, packagesText);
+            if (StringUtil.isNullOrEmpty(clientId)) {
+                throw new IllegalArgumentException("clientId is null or empty");
+            }
+
+            return new PlacePackageContext(trucks, algorithmType, filePath, reportEngineType, reportOutputChannelType, outputFileName, packagesText, clientId);
         }
     }
 }

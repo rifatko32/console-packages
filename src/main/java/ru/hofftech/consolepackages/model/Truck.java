@@ -133,4 +133,8 @@ public class Truck {
     public String getBackTruckSlotValue(int y, int x) {
         return backTruckSlots[y][x] == null ? " " : backTruckSlots[y][x];
     }
+
+    public Integer calcPackagesCount() {
+        return packages.size();
+    }
 }

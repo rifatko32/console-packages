@@ -2,6 +2,7 @@ package ru.hofftech.consolepackages.service.command.impl.unloadtruck;
 
 import ch.qos.logback.core.util.StringUtil;
 import lombok.RequiredArgsConstructor;
+import ru.hofftech.consolepackages.service.billing.PackageBillingService;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.command.CommandAbstractFactory;
 import ru.hofftech.consolepackages.service.command.CommandContext;
@@ -10,6 +11,7 @@ import ru.hofftech.consolepackages.service.report.ReportEngineType;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportOutputChannelType;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
 import ru.hofftech.consolepackages.service.truck.TruckToPackagesService;
+import ru.hofftech.consolepackages.util.TruckJsonFileReader;
 
 /**
  * The class implements the factory of commands for unloading packages from trucks
@@ -23,16 +25,23 @@ public class UnloadTruckCommandFactory implements CommandAbstractFactory {
 
     private final TruckToPackagesService truckToPackagesService;
     private final ReportWriterFactory reportWriterFactory;
+    private final TruckJsonFileReader fileReader;
+    private final PackageBillingService packageBillingService;
 
     /**
-     * Creates a command for unloading packages from trucks and generating a report of the unloaded packages.
+     * Creates a command to unload packages from trucks and generate a report of the unloaded packages.
      *
-     * @param commandContext Context of the command.
-     * @return A command for unloading packages from trucks and generating a report of the unloaded packages.
+     * @param commandContext the context of the command to be executed
+     * @return a command to unload packages from trucks
      */
     @Override
     public Command createCommand(CommandContext commandContext) {
-        return new UnloadTrucksCommand(truckToPackagesService, reportWriterFactory, (UnloadTruckContext) commandContext);
+        return new UnloadTrucksCommand(
+                truckToPackagesService,
+                reportWriterFactory,
+                (UnloadTruckContext) commandContext,
+                fileReader,
+                packageBillingService);
     }
 
     /**
@@ -61,13 +70,19 @@ public class UnloadTruckCommandFactory implements CommandAbstractFactory {
     public CommandContext createCommandContextByParameters(
             String inFilePath,
             String outFilePath,
-            String withCount) {
+            String withCount,
+            String clientId) {
         var withCountValue = !StringUtil.isNullOrEmpty(withCount) && Boolean.parseBoolean(withCount);
+
+        if (StringUtil.isNullOrEmpty(clientId)) {
+            throw new IllegalArgumentException("clientId is null or empty");
+        }
 
         return new UnloadTruckContext.Builder()
                 .inFilePath(inFilePath)
                 .outFilePath(outFilePath)
                 .withCount(withCountValue)
+                .clientId(clientId)
                 .reportEngineType(withCountValue ? ReportEngineType.STRING_WITH_COUNT : ReportEngineType.STRING)
                 .reportOutputChannelType(ReportOutputChannelType.TXT_FILE)
                 .build();

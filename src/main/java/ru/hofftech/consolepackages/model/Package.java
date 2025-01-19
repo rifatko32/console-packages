@@ -93,6 +93,19 @@ public class Package {
     }
 
     /**
+     * Calculates volume of package.
+     *
+     * <p>
+     * Volume of package is the number of slots in the truck that the package takes.
+     * </p>
+     *
+     * @return volume of package
+     */
+    public Integer calcVolume() {
+        return mapToListOfFillingSlots(width - 1, height - 1).size();
+    }
+
+    /**
      * String representation of package.
      *
      * @return string representation of package

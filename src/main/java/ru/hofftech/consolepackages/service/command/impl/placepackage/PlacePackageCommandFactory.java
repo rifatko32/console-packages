@@ -1,6 +1,7 @@
 package ru.hofftech.consolepackages.service.command.impl.placepackage;
 
 import lombok.RequiredArgsConstructor;
+import ru.hofftech.consolepackages.service.billing.PackageBillingService;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.command.CommandAbstractFactory;
 import ru.hofftech.consolepackages.service.command.CommandContext;
@@ -37,7 +38,7 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
     private final PackagePlaceAlgorithmFactory placeEngineFactory;
     private final PackagePlaceReportEngineFactory reportEngineFactory;
     private final PackageFromStringReader packageFromStringReader;
-
+    private final PackageBillingService packageBillingService;
 
     /**
      * Creates a command for placing packages into trucks.
@@ -53,7 +54,8 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
                 reportWriterFactory,
                 (PlacePackageContext) commandContext,
                 placeEngineFactory,
-                reportEngineFactory);
+                reportEngineFactory,
+                packageBillingService);
     }
 
     /**
@@ -103,7 +105,8 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
             String filePath,
             String outParameter,
             String outputFileName,
-            String packagesText) {
+            String packagesText,
+            String clientId) {
 
         return new PlacePackageContext.Builder()
                 .trucks(Arrays.stream(trucks.split(TRUCKS_DELIMITER)).toList())
@@ -113,6 +116,7 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
                 .reportOutputChannelType(ReportOutputChannelType.fromLabel(outParameter))
                 .outputFileName(outputFileName)
                 .packagesText(packagesText)
+                .clientId(clientId)
                 .build();
     }
 }

@@ -2,9 +2,11 @@ package ru.hofftech.consolepackages.service.command.impl.unloadtruck;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ru.hofftech.consolepackages.service.billing.PackageBillingService;
 import ru.hofftech.consolepackages.service.truck.TruckToPackagesService;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
+import ru.hofftech.consolepackages.util.TruckJsonFileReader;
 
 /**
  * Command to unload packages from trucks and generate a report.
@@ -20,6 +22,8 @@ public class UnloadTrucksCommand implements Command {
     private final TruckToPackagesService truckToPackagesService;
     private final ReportWriterFactory reportWriterFactory;
     private final UnloadTruckContext context;
+    private final TruckJsonFileReader fileReader;
+    private final PackageBillingService packageBillingService;
 
     /**
      * Executes the command to unload packages from trucks and generate a report of the unloaded packages.
@@ -30,10 +34,14 @@ public class UnloadTrucksCommand implements Command {
     public void execute() {
         log.info("Start of handling file: {}", context.inFilePath());
 
-        var report = truckToPackagesService.retrieveTruckPackages(context.inFilePath(), context.reportEngineType());
+        var trucks = fileReader.readTrucks(context.inFilePath());
+
+        var report = truckToPackagesService.retrieveTruckPackages(trucks, context.reportEngineType());
 
         var reportWriter = reportWriterFactory.createReportWriter(context.reportOutputChannelType(), context.outFilePath());
         reportWriter.writeReport(report);
+
+        packageBillingService.creatUnloadPackageBill(trucks, context.clientId());
 
         log.info("End of handling file: {}", context.inFilePath());
     }
