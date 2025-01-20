@@ -2,10 +2,12 @@ package ru.hofftech.consolepackages.service.report.billing;
 
 import lombok.RequiredArgsConstructor;
 import ru.hofftech.consolepackages.datastorage.model.entity.BillingOrder;
+import ru.hofftech.consolepackages.datastorage.model.entity.OperationType;
 import ru.hofftech.consolepackages.datastorage.repository.BillingOrderRepository;
 import ru.hofftech.consolepackages.service.report.PlaneStringReport;
 import ru.hofftech.consolepackages.service.report.billing.model.BillOrderGroup;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -71,6 +73,14 @@ public class UserBillingReportImpl implements UserBillingReportEngine {
                 .distinct()
                 .count();
 
-        return String.format("%s; %s; %s; %s; %s", orderGroup.orderDate(), orderGroup.operationType(), truckIdCount, packageQtySum, summary);
+        var formatter = new SimpleDateFormat("yyyy.MM.dd");
+
+        return String.format(
+                "%s; %s; %s машин; %s посылок; %s рублей",
+                formatter.format(orderGroup.orderDate()),
+                OperationType.returnLabel(orderGroup.operationType()),
+                truckIdCount,
+                packageQtySum,
+                summary);
     }
 }

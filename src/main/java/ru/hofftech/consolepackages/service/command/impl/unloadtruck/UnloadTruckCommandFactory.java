@@ -22,6 +22,7 @@ public class UnloadTruckCommandFactory implements CommandAbstractFactory {
     private static final String INFILE = "infile";
     private static final String OUTFILE = "outfile";
     private static final String WITH_COUNT = "withcount";
+    private static final String CLIENT_ID = "clientid";
 
     private final TruckToPackagesService truckToPackagesService;
     private final ReportWriterFactory reportWriterFactory;
@@ -57,6 +58,7 @@ public class UnloadTruckCommandFactory implements CommandAbstractFactory {
         var inFilePath = commandKeyValues.get(INFILE);
         var outFilePath = commandKeyValues.get(OUTFILE);
         var withCount = commandKeyValues.containsKey(WITH_COUNT);
+        var clientId = commandKeyValues.get(CLIENT_ID);
 
         return new UnloadTruckContext.Builder()
                 .inFilePath(inFilePath)
@@ -64,6 +66,7 @@ public class UnloadTruckCommandFactory implements CommandAbstractFactory {
                 .withCount(withCount)
                 .reportEngineType(withCount ? ReportEngineType.STRING_WITH_COUNT : ReportEngineType.STRING)
                 .reportOutputChannelType(ReportOutputChannelType.TXT_FILE)
+                .clientId(clientId)
                 .build();
     }
 

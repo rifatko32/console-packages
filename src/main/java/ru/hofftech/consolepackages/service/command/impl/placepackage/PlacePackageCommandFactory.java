@@ -31,6 +31,7 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
     private static final String PACKAGES_TEXT_KEY = "packages-text";
     private static final String OUT_FILENAME_KEY = "out-filename";
     private static final String OUT_JSON_FILE_VALUE = "json-file";
+    private static final String CLIENT_ID = "clientid";
 
 
     private final PackageFromFileReader packageFromFileReader;
@@ -76,6 +77,7 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
         var channelType = ReportOutputChannelType.fromLabel(commandKeyValues.get(OUT_KEY));
         var reportEngineType = Objects.equals(commandKeyValues.get(OUT_KEY), OUT_JSON_FILE_VALUE) ? ReportEngineType.JSON : ReportEngineType.STRING;
         var outputFileName = commandKeyValues.get(OUT_FILENAME_KEY);
+        var clientId = commandKeyValues.get(CLIENT_ID);
 
         return new PlacePackageContext.Builder()
                 .trucks(trucks)
@@ -85,6 +87,7 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
                 .reportOutputChannelType(channelType)
                 .outputFileName(outputFileName)
                 .packagesText(packagesText)
+                .clientId(clientId)
                 .build();
     }
 
