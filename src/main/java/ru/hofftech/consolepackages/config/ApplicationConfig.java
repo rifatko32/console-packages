@@ -16,6 +16,8 @@ import ru.hofftech.consolepackages.service.packageitem.PackageFactory;
 import ru.hofftech.consolepackages.service.packageitem.PackageFromFileReader;
 import ru.hofftech.consolepackages.service.packageitem.PackageFromStringReader;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
+import ru.hofftech.consolepackages.service.report.billing.UserBillingReportEngine;
+import ru.hofftech.consolepackages.service.report.billing.UserBillingReportImpl;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
 import ru.hofftech.consolepackages.service.report.packageitem.PackagePlaceReportEngineFactory;
 import ru.hofftech.consolepackages.service.report.truck.TruckUnloadingReportEngineFactory;
@@ -44,7 +46,8 @@ public class ApplicationConfig {
                 packagePlaceAlgorithmFactory(),
                 packagePlaceReportEngineFactory(),
                 truckJsonFileReader(),
-                packageBillingService()
+                packageBillingService(),
+                userBillingReportEngine()
         );
     }
 
@@ -139,5 +142,10 @@ public class ApplicationConfig {
     @Bean
     public PackageBillingService packageBillingService() {
         return new PackageBillingServiceImpl(billingOrderRepository());
+    }
+
+    @Bean
+    public UserBillingReportEngine userBillingReportEngine() {
+        return new UserBillingReportImpl(billingOrderRepository());
     }
 }

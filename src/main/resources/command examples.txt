@@ -19,3 +19,5 @@ find -name "type 1" -out tgbot
 delete --name "type 1" -ok
 
 edit --name "type 3" --form "xxx\nxxx\nxxx" --description "X" -ok
+
+billing --user "client1" --from 20.01.2025 --to 21.01.2025

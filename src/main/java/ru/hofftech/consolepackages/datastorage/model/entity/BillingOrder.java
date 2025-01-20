@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -24,6 +26,8 @@ public class BillingOrder {
     private UUID truckId;
     @Setter
     private String comment;
+    @Setter
+    private OperationType operationType;
 
     public BillingOrder(
             String clientId,
@@ -31,7 +35,8 @@ public class BillingOrder {
             BigDecimal amount,
             Integer packageQty,
             UUID truckId,
-            String comment) {
+            String comment,
+            OperationType operationType) {
         id = UUID.randomUUID().toString();
 
         this.clientId = clientId;
@@ -40,5 +45,15 @@ public class BillingOrder {
         this.packageQty = packageQty;
         this.truckId = truckId;
         this.comment = comment;
+        this.operationType = operationType;
+    }
+
+    public Date getDateWithoutTimeUsingFormat() {
+        var formatter = new SimpleDateFormat("yyyy.MM.dd");
+        try {
+            return formatter.parse(formatter.format(new Date()));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

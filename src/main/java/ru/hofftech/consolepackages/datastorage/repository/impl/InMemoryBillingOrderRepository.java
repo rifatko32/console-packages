@@ -1,6 +1,7 @@
 package ru.hofftech.consolepackages.datastorage.repository.impl;
 
 import ru.hofftech.consolepackages.datastorage.model.entity.BillingOrder;
+import ru.hofftech.consolepackages.datastorage.model.entity.OperationType;
 import ru.hofftech.consolepackages.datastorage.repository.BillingOrderRepository;
 
 import java.math.BigDecimal;
@@ -20,9 +21,16 @@ public class InMemoryBillingOrderRepository implements BillingOrderRepository {
     private final Map<String, BillingOrder> billingOrders = new HashMap<>();
 
     @Override
-    public String create(String clientId, Date orderDate, BigDecimal amount, Integer packageQty, UUID truckId, String comment) {
+    public String create(
+            String clientId,
+            Date orderDate,
+            BigDecimal amount,
+            Integer packageQty,
+            UUID truckId,
+            String comment,
+            OperationType operationType) {
         var orderId = UUID.randomUUID().toString();
-        billingOrders.put(orderId, new BillingOrder(clientId, orderDate, amount, packageQty, truckId, comment));
+        billingOrders.put(orderId, new BillingOrder(clientId, orderDate, amount, packageQty, truckId, comment, operationType));
 
         return orderId;
     }

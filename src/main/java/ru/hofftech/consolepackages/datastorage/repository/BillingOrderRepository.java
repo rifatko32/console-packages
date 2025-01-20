@@ -1,6 +1,7 @@
 package ru.hofftech.consolepackages.datastorage.repository;
 
 import ru.hofftech.consolepackages.datastorage.model.entity.BillingOrder;
+import ru.hofftech.consolepackages.datastorage.model.entity.OperationType;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -31,7 +32,8 @@ public interface BillingOrderRepository {
             BigDecimal amount,
             Integer packageQty,
             UUID truckId,
-            String comment);
+            String comment,
+            OperationType operationType);
 
     /**
      * Retrieves billing orders for a client by period.

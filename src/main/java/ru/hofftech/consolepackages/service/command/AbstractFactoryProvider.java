@@ -2,6 +2,7 @@ package ru.hofftech.consolepackages.service.command;
 
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.service.billing.PackageBillingService;
+import ru.hofftech.consolepackages.service.command.impl.billing.CreateBillingReportCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.createpackagetype.CreatePackageTypeCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.deletepackagetype.DeletePackageTypeCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.editpackagetype.EditPackageTypeCommandFactory;
@@ -12,6 +13,7 @@ import ru.hofftech.consolepackages.service.command.impl.unloadtruck.UnloadTruckC
 import ru.hofftech.consolepackages.service.packageitem.PackageFromFileReader;
 import ru.hofftech.consolepackages.service.packageitem.PackageFromStringReader;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
+import ru.hofftech.consolepackages.service.report.billing.UserBillingReportEngine;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
 import ru.hofftech.consolepackages.service.report.packageitem.PackagePlaceReportEngineFactory;
 import ru.hofftech.consolepackages.service.truck.TruckToPackagesService;
@@ -35,7 +37,8 @@ public class AbstractFactoryProvider {
             PackagePlaceAlgorithmFactory placeEngineFactory,
             PackagePlaceReportEngineFactory reportEngineFactory,
             TruckJsonFileReader fileReader,
-            PackageBillingService packageBillingService
+            PackageBillingService packageBillingService,
+            UserBillingReportEngine userBillingReportEngine
     ) {
 
         abstractFactoryMap = Map.of(CommandType.LOAD_PACKAGES, new PlacePackageCommandFactory(
@@ -50,6 +53,7 @@ public class AbstractFactoryProvider {
                 CommandType.FIND_PACKAGE_TYPE, new FindPackageTypeCommandFactory(packageTypeRepository, reportWriterFactory),
                 CommandType.DELETE_PACKAGE_TYPE, new DeletePackageTypeCommandFactory(packageTypeRepository),
                 CommandType.EDIT_PACKAGE_TYPE, new EditPackageTypeCommandFactory(packageTypeRepository),
+                CommandType.USER_BILLING_REPORT, new CreateBillingReportCommandFactory(userBillingReportEngine),
                 CommandType.EXIT, new ExitCommandFactory());
     }
 

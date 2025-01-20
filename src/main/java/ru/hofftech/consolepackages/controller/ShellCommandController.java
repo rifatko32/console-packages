@@ -1,19 +1,20 @@
 package ru.hofftech.consolepackages.controller;
 
-import ch.qos.logback.core.util.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.service.command.AbstractFactoryProvider;
 import ru.hofftech.consolepackages.service.command.CommandContextWithResult;
+import ru.hofftech.consolepackages.service.command.impl.billing.CreateBillingReportCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.createpackagetype.CreatePackageTypeCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.deletepackagetype.DeletePackageTypeCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.editpackagetype.EditPackageTypeCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.findpackagetype.FindPackageTypeCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.placepackage.PlacePackageCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.unloadtruck.UnloadTruckCommandFactory;
+
+import java.text.ParseException;
 
 /**
  * This component provides methods for Spring Shell to execute commands.
@@ -143,5 +144,21 @@ public class ShellCommandController {
         command.execute();
 
         return "Trucks unloaded";
+    }
+
+    @ShellMethod(key = "billing")
+    public String returnBillingByUser(
+            @ShellOption(value = {"--user"}) String userId,
+            @ShellOption(value = {"--from"}) String fromDate,
+            @ShellOption(value = {"--to"}) String toDate
+    ) throws ParseException {
+        var factory = abstractFactoryProvider.returnCommandAbstractFactory("billing");
+
+        var context = ((CreateBillingReportCommandFactory) factory).createCommandContextByParameters(userId, fromDate, toDate);
+        var command = factory.createCommand(context);
+        command.execute();
+
+        var result = ((CommandContextWithResult<?>) context).getResult();
+        return result.toString();
     }
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
+import ru.hofftech.consolepackages.datastorage.model.entity.OperationType;
 import ru.hofftech.consolepackages.datastorage.repository.BillingOrderRepository;
 import ru.hofftech.consolepackages.model.Truck;
 
@@ -28,15 +29,15 @@ public class PackageBillingServiceImpl implements PackageBillingService {
 
     @Override
     public void creatLoadPackageBill(List<Truck> trucks, String clientId) {
-        createBillsByTracks(trucks, loadPrice, clientId);
+        createBillsByTracks(trucks, loadPrice, clientId, OperationType.LOAD);
     }
 
     @Override
     public void creatUnloadPackageBill(List<Truck> trucks, String clientId) {
-        createBillsByTracks(trucks, unloadPrice, clientId);
+        createBillsByTracks(trucks, unloadPrice, clientId, OperationType.UNLOAD);
     }
 
-    private void createBillsByTracks(List<Truck> trucks, Integer price, String clientId) {
+    private void createBillsByTracks(List<Truck> trucks, Integer price, String clientId, OperationType operationType) {
         for (Truck truck : trucks) {
             BigDecimal totalTruckPrice = new BigDecimal(0);
             for (ru.hofftech.consolepackages.model.Package curPackage : truck.getPackages()) {
@@ -49,7 +50,8 @@ public class PackageBillingServiceImpl implements PackageBillingService {
                     totalTruckPrice,
                     truck.calcPackagesCount(),
                     truck.getId(),
-                    String.format("Bill for loading packages on truck %s", truck.getId())
+                    String.format("Bill for loading packages on truck %s", truck.getId()),
+                    operationType
             );
 
             log.info("Bill order {} has created", orderId);

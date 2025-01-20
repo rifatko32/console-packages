@@ -1,5 +1,7 @@
 package ru.hofftech.consolepackages.service.command;
 
+import java.text.ParseException;
+
 /**
  * A factory interface for creating commands and their contexts.
  * <p>
@@ -9,5 +11,5 @@ package ru.hofftech.consolepackages.service.command;
  */
 public interface CommandAbstractFactory {
     Command createCommand(CommandContext commandContext);
-    CommandContext createCommandContext(String strCommand);
+    CommandContext createCommandContext(String strCommand) throws ParseException;
 }
