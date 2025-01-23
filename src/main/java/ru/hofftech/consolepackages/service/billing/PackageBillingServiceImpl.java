@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
+import ru.hofftech.consolepackages.datastorage.model.entity.BillingOrder;
 import ru.hofftech.consolepackages.datastorage.model.entity.OperationType;
 import ru.hofftech.consolepackages.datastorage.repository.BillingOrderRepository;
 import ru.hofftech.consolepackages.model.Truck;
@@ -11,8 +12,8 @@ import ru.hofftech.consolepackages.model.Truck;
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneOffset;
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -28,13 +29,8 @@ public class PackageBillingServiceImpl implements PackageBillingService {
     private Integer unloadPrice;
 
     @Override
-    public void creatLoadPackageBill(List<Truck> trucks, String clientId) {
-        createBillsByTracks(trucks, loadPrice, clientId, OperationType.LOAD);
-    }
-
-    @Override
-    public void creatUnloadPackageBill(List<Truck> trucks, String clientId) {
-        createBillsByTracks(trucks, unloadPrice, clientId, OperationType.UNLOAD);
+    public void creatPackageBill(List<Truck> trucks, String clientId, OperationType operationType) {
+        createBillsByTracks(trucks, operationType == OperationType.LOAD ? loadPrice : unloadPrice, clientId, operationType);
     }
 
     private void createBillsByTracks(List<Truck> trucks, Integer price, String clientId, OperationType operationType) {
@@ -44,17 +40,19 @@ public class PackageBillingServiceImpl implements PackageBillingService {
                 totalTruckPrice = calcPrice(price, curPackage, totalTruckPrice);
             }
 
-            var orderId = billingOrderRepository.create(
-                    clientId,
-                    Date.from(Instant.now(Clock.system(ZoneOffset.UTC))),
-                    totalTruckPrice,
-                    truck.calcPackagesCount(),
-                    truck.getId(),
-                    String.format("Bill for loading packages on truck %s", truck.getId()),
-                    operationType
+            var billingOrder = billingOrderRepository.save(
+                    BillingOrder.builder()
+                            .clientId(clientId)
+                            .orderDate(LocalDate.from(Instant.now(Clock.system(ZoneOffset.UTC))))
+                            .amount(totalTruckPrice)
+                            .packageQty(truck.calcPackagesCount())
+                            .truckId(truck.getId())
+                            .comment(String.format("Bill for loading packages on truck %s", truck.getId()))
+                            .operationType(operationType)
+                            .build()
             );
 
-            log.info("Bill order {} has created", orderId);
+            log.info("Bill order {} has created", billingOrder.getId());
         }
     }
 

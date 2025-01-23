@@ -2,6 +2,7 @@ package ru.hofftech.consolepackages.service;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import ru.hofftech.consolepackages.datastorage.model.entity.PackageType;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 
 /**
@@ -21,67 +22,81 @@ public class StartupDataStorageInitializer {
     @PostConstruct
     public void createDefaultPackageTypes() {
         packageTypeRepository.create(
-                "type 1",
-                "1",
-                "1");
+                new PackageType(
+                        "type 1",
+                        "1",
+                        "1"));
 
         packageTypeRepository.create(
-                "type 2",
-                "22",
-                "2");
+                new PackageType(
+                        "type 2",
+                        "22",
+                        "2"));
 
         packageTypeRepository.create(
-                "type 3",
-                "333",
-                "3");
+                new PackageType(
+                        "type 3",
+                        "333",
+                        "3"));
 
         packageTypeRepository.create(
-                "type 4",
-                "4444",
-                "4");
+                new PackageType(
+                        "type 4",
+                        "4444",
+                        "4"));
 
         packageTypeRepository.create(
-                "type 5",
-                "55555",
-                "5");
+                new PackageType(
+                        "type 5",
+                        "55555",
+                        "5"));
 
         packageTypeRepository.create(
-                "type 6",
-                "666\\n666",
-                "6");
+                new PackageType(
+                        "type 6",
+                        "666\\n666",
+                        "6"));
 
         packageTypeRepository.create(
-                "type 7",
-                "777\\n7777",
-                "7");
+                new PackageType(
+                        "type 7",
+                        "777\\n7777",
+                        "7"));
 
         packageTypeRepository.create(
-                "type 8",
-                "8888\\n8888",
-                "8");
+                new PackageType(
+                        "type 8",
+                        "8888\\n8888",
+                        "8"));
 
         packageTypeRepository.create(
-                "type 9",
-                "999\\n999\\n999",
-                "9");
+                new PackageType(
+                        "type 9",
+                        "999\\n999\\n999",
+                        "9"));
 
         packageTypeRepository.create(
-                "type wide weight",
-                "x  x\\nxxxx\\nx  x",
-                "x");
+                new PackageType(
+                        "type wide weight",
+                        "x  x\\nxxxx\\nx  x",
+                        "x"));
 
         packageTypeRepository.create(
-                "type narrow weight",
-                "x x\\nxxx\\nx x",
-                "x");
+                new PackageType(
+                        "type narrow weight",
+                        "x x\\nxxx\\nx x",
+                        "x"));
 
         packageTypeRepository.create(
-                "type bracket",
-                "xxxx\\nx  x",
-                "x");
+                new PackageType(
+                        "type bracket",
+                        "xxxx\\nx  x",
+                        "x"));
+
         packageTypeRepository.create(
-                "type wheel",
-                "xxx\\nx x\\nxxx",
-                "y");
+                new PackageType(
+                        "type wheel",
+                        "xxx\\nx x\\nxxx",
+                        "y"));
     }
 }

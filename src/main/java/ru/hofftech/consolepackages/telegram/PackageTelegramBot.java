@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
+import ru.hofftech.consolepackages.exception.TelegramRegistrationException;
 import ru.hofftech.consolepackages.service.command.CommandReader;
 
 /**
@@ -23,11 +24,11 @@ public class PackageTelegramBot implements LongPollingSingleThreadUpdateConsumer
 
     private final CommandReader commandReader;
     private final TelegramClient telegramClient;
-    private final static String tgApiToken = System.getenv("TG_API_TOKEN");
+    private static final String TG_API_TOKEN = System.getenv("TG_API_TOKEN");
 
     public PackageTelegramBot(CommandReader commandReader) {
         this.commandReader = commandReader;
-        telegramClient = new OkHttpTelegramClient(tgApiToken);
+        telegramClient = new OkHttpTelegramClient(TG_API_TOKEN);
     }
 
     /**
@@ -46,7 +47,7 @@ public class PackageTelegramBot implements LongPollingSingleThreadUpdateConsumer
                 return;
             }
 
-            long chat_id = update.getMessage().getChatId();
+            Long chat_id = update.getMessage().getChatId();
 
             SendMessage message = SendMessage
                     .builder()
@@ -71,11 +72,11 @@ public class PackageTelegramBot implements LongPollingSingleThreadUpdateConsumer
     public void registerTelegramBot() {
         new Thread(() -> {
             try (TelegramBotsLongPollingApplication botsApplication = new TelegramBotsLongPollingApplication()) {
-                botsApplication.registerBot(tgApiToken, new PackageTelegramBot(commandReader));
+                botsApplication.registerBot(TG_API_TOKEN, new PackageTelegramBot(commandReader));
                 log.info("Telegram bot registered");
                 Thread.currentThread().join();
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                throw new TelegramRegistrationException(e);
             }
         }).start();
     }

@@ -1,12 +1,9 @@
 package ru.hofftech.consolepackages.datastorage.repository;
 
 import ru.hofftech.consolepackages.datastorage.model.entity.BillingOrder;
-import ru.hofftech.consolepackages.datastorage.model.entity.OperationType;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Repository to work with billing orders.
@@ -16,24 +13,13 @@ import java.util.UUID;
  */
 public interface BillingOrderRepository {
 
-    /**
-     * Creates a new billing order.
-     *
-     * @param clientId   the ID of the client
-     * @param orderDate  the date of the order
-     * @param amount     the total amount for the order
-     * @param packageQty the quantity of packages in the order
-     * @param truckId    the id of truck used for the order
-     * @param comment    additional comments or notes about the order
-     */
-    String create(
-            String clientId,
-            Date orderDate,
-            BigDecimal amount,
-            Integer packageQty,
-            UUID truckId,
-            String comment,
-            OperationType operationType);
+/**
+ * Inserts a new billing order into the repository.
+ *
+ * @param billingOrder the billing order to be created
+ * @return the created billing order with a generated ID
+ */
+    BillingOrder save(BillingOrder billingOrder);
 
     /**
      * Retrieves billing orders for a client by period.
@@ -43,5 +29,5 @@ public interface BillingOrderRepository {
      * @param endDate   the end date of the period
      * @return list of billing orders
      */
-    List<BillingOrder> receiveForUserByPeriod(String clientId, Date startDate, Date endDate);
+    List<BillingOrder> receiveForUserByPeriod(String clientId, LocalDate startDate, LocalDate endDate);
 }

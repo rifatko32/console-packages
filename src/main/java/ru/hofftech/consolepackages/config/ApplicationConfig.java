@@ -12,6 +12,14 @@ import ru.hofftech.consolepackages.service.billing.PackageBillingService;
 import ru.hofftech.consolepackages.service.billing.PackageBillingServiceImpl;
 import ru.hofftech.consolepackages.service.command.AbstractFactoryProvider;
 import ru.hofftech.consolepackages.service.command.CommandReader;
+import ru.hofftech.consolepackages.service.command.impl.billing.CreateBillingReportCommandFactory;
+import ru.hofftech.consolepackages.service.command.impl.createpackagetype.CreatePackageTypeCommandFactory;
+import ru.hofftech.consolepackages.service.command.impl.deletepackagetype.DeletePackageTypeCommandFactory;
+import ru.hofftech.consolepackages.service.command.impl.editpackagetype.EditPackageTypeCommandFactory;
+import ru.hofftech.consolepackages.service.command.impl.exit.ExitCommandFactory;
+import ru.hofftech.consolepackages.service.command.impl.findpackagetype.FindPackageTypeCommandFactory;
+import ru.hofftech.consolepackages.service.command.impl.placepackage.PlacePackageCommandFactory;
+import ru.hofftech.consolepackages.service.command.impl.unloadtruck.UnloadTruckCommandFactory;
 import ru.hofftech.consolepackages.service.packageitem.PackageFactory;
 import ru.hofftech.consolepackages.service.packageitem.PackageFromFileReader;
 import ru.hofftech.consolepackages.service.packageitem.PackageFromStringReader;
@@ -38,16 +46,14 @@ public class ApplicationConfig {
     @Bean
     public AbstractFactoryProvider abstractFactoryProvider() {
         return new AbstractFactoryProvider(
-                packageFromFileReader(),
-                packageFromStringReader(),
-                truckToPackagesService(),
-                reportWriterFactory(),
-                packageTypeRepository(),
-                packagePlaceAlgorithmFactory(),
-                packagePlaceReportEngineFactory(),
-                truckJsonFileReader(),
-                packageBillingService(),
-                userBillingReportEngine()
+                createBillingReportCommandFactory(),
+                placePackageCommandFactory(),
+                unloadTruckCommandFactory(),
+                createPackageTypeCommandFactory(),
+                findPackageTypeCommandFactory(),
+                exitCommandFactory(),
+                deletePackageTypeCommandFactory(),
+                editPackageTypeCommandFactory()
         );
     }
 
@@ -147,5 +153,57 @@ public class ApplicationConfig {
     @Bean
     public UserBillingReportEngine userBillingReportEngine() {
         return new UserBillingReportImpl(billingOrderRepository());
+    }
+
+    @Bean
+    public CreateBillingReportCommandFactory createBillingReportCommandFactory() {
+        return new CreateBillingReportCommandFactory(userBillingReportEngine());
+    }
+
+    @Bean
+    public PlacePackageCommandFactory placePackageCommandFactory() {
+        return new PlacePackageCommandFactory(
+                packageFromFileReader(),
+                reportWriterFactory(),
+                packagePlaceAlgorithmFactory(),
+                packagePlaceReportEngineFactory(),
+                packageFromStringReader(),
+                packageBillingService()
+        );
+    }
+
+    @Bean
+    public UnloadTruckCommandFactory unloadTruckCommandFactory() {
+        return new UnloadTruckCommandFactory(
+                truckToPackagesService(),
+                reportWriterFactory(),
+                truckJsonFileReader(),
+                packageBillingService()
+        );
+    }
+
+    @Bean
+    public CreatePackageTypeCommandFactory createPackageTypeCommandFactory(){
+        return new CreatePackageTypeCommandFactory(packageTypeRepository());
+    }
+
+    @Bean
+    public FindPackageTypeCommandFactory findPackageTypeCommandFactory(){
+        return new FindPackageTypeCommandFactory(packageTypeRepository(), reportWriterFactory());
+    }
+
+    @Bean
+    public ExitCommandFactory exitCommandFactory() {
+        return new ExitCommandFactory();
+    }
+
+    @Bean
+    public DeletePackageTypeCommandFactory deletePackageTypeCommandFactory() {
+        return new DeletePackageTypeCommandFactory(packageTypeRepository());
+    }
+
+    @Bean
+    public EditPackageTypeCommandFactory editPackageTypeCommandFactory() {
+        return new EditPackageTypeCommandFactory(packageTypeRepository());
     }
 }

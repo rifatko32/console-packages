@@ -2,9 +2,10 @@ package ru.hofftech.consolepackages.service.command.impl.placepackage;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ru.hofftech.consolepackages.datastorage.model.entity.OperationType;
+import ru.hofftech.consolepackages.model.Package;
 import ru.hofftech.consolepackages.service.billing.PackageBillingService;
 import ru.hofftech.consolepackages.service.command.Command;
-import ru.hofftech.consolepackages.model.Package;
 import ru.hofftech.consolepackages.service.packageitem.PackageFromFileReader;
 import ru.hofftech.consolepackages.service.packageitem.PackageFromStringReader;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
@@ -42,13 +43,7 @@ public class PlacePackagesCommand implements Command {
 
         var trucks = TruckFactory.createTrucks(context.getTrucks());
 
-        var packages = new ArrayList<Package>();
-
-        if (context.getFilePath() != null && !context.getFilePath().isEmpty()) {
-            packages = packageFromFileReader.readPackages(context.getFilePath());
-        } else if (context.getPackagesText() != null && !context.getPackagesText().isEmpty()) {
-            packages = packageFromStringReader.readPackages(context.getPackagesText());
-        }
+        var packages = readPackages();
 
         var packagePlaceEngine = placeEngineFactory.createPackagePlaceEngine(context.getAlgorithmType());
         packagePlaceEngine.placePackages(packages, trucks);
@@ -60,13 +55,23 @@ public class PlacePackagesCommand implements Command {
 
         if (reportWriter != null) {
             reportWriter.writeReport(packagePlaceReport);
-        }
-        else {
+        } else {
             context.setResult(packagePlaceReport.toPlainString());
         }
 
-        packageBillingService.creatLoadPackageBill(trucks, context.getClientId());
+        packageBillingService.creatPackageBill(trucks, context.getClientId(), OperationType.LOAD);
 
         log.info("End of handling file: {}", context.getFilePath());
+    }
+
+    private ArrayList<Package> readPackages() {
+        var packages = new ArrayList<Package>();
+
+        if (context.getFilePath() != null && !context.getFilePath().isEmpty()) {
+            packages = packageFromFileReader.readPackages(context.getFilePath());
+        } else if (context.getPackagesText() != null && !context.getPackagesText().isEmpty()) {
+            packages = packageFromStringReader.readPackages(context.getPackagesText());
+        }
+        return packages;
     }
 }

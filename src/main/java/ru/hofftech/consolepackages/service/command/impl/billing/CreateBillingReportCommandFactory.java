@@ -1,7 +1,6 @@
 package ru.hofftech.consolepackages.service.command.impl.billing;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.shell.standard.ShellOption;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.command.CommandAbstractFactory;
 import ru.hofftech.consolepackages.service.command.CommandContext;
@@ -9,15 +8,14 @@ import ru.hofftech.consolepackages.service.command.CommandParser;
 import ru.hofftech.consolepackages.service.report.billing.UserBillingReportEngine;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import static ru.hofftech.consolepackages.util.DateUtils.parseDate;
 
 @RequiredArgsConstructor
 public class CreateBillingReportCommandFactory implements CommandAbstractFactory {
-    private static final String USERID = "user";
+    private static final String USER_ID = "user";
     private static final String FROM_DATE = "from";
     private static final String TO_DATE = "to";
-    private static final String DATEFORMAT = "dd.MM.yyyy";
 
     private final UserBillingReportEngine userBillingReportEngine;
 
@@ -30,7 +28,7 @@ public class CreateBillingReportCommandFactory implements CommandAbstractFactory
     public CommandContext createCommandContext(String strCommand) throws ParseException {
         var commandKeyValues = CommandParser.parseCommandKeys(strCommand);
 
-        var userId = commandKeyValues.get(USERID);
+        var userId = commandKeyValues.get(USER_ID);
         var fromDate = parseDate(commandKeyValues.get(FROM_DATE));
         var toDate = parseDate(commandKeyValues.get(TO_DATE));
 
@@ -39,11 +37,6 @@ public class CreateBillingReportCommandFactory implements CommandAbstractFactory
                 .fromDate(fromDate)
                 .toDate(toDate)
                 .build();
-    }
-
-    private static Date parseDate(String dateString) throws ParseException {
-        var sdf = new SimpleDateFormat(DATEFORMAT);
-        return sdf.parse(dateString);
     }
 
 /**

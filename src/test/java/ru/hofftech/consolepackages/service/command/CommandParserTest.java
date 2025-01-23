@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CommandParserTest {
     @Test
-    public void testParseCommandType_LoadCommand() {
+    void testParseCommandType_LoadCommand() {
         String command = "load -packages-file \"packages.txt\" -trucks \"6x6;6x6;6x6\" -type \"width\" -out json-file -out-filename \"trucks.json\"";
         CommandType expectedType = CommandType.LOAD_PACKAGES;
         CommandType actualType = CommandParser.parseCommandType(command);
@@ -18,7 +18,7 @@ public class CommandParserTest {
     }
 
     @Test
-    public void testParseCommandType_UnloadCommand() {
+    void testParseCommandType_UnloadCommand() {
         String command = "unload -infile \"trucks.json\" -outfile \"packages.txt\"";
         CommandType expectedType = CommandType.UNLOAD_TRUCK;
         CommandType actualType = CommandParser.parseCommandType(command);
@@ -26,7 +26,7 @@ public class CommandParserTest {
     }
 
     @Test
-    public void testParseCommandType_ExitCommand() {
+    void testParseCommandType_ExitCommand() {
         String command = "exit";
         CommandType expectedType = CommandType.EXIT;
         CommandType actualType = CommandParser.parseCommandType(command);
@@ -34,7 +34,7 @@ public class CommandParserTest {
     }
 
     @Test
-    public void testParseCommandType_CreateCommand() {
+    void testParseCommandType_CreateCommand() {
         String command = "create -name \"type wheel\" -form \"xxx\\nx x\\nxxxx\" -description \"o\"";
         CommandType expectedType = CommandType.CREATE_PACKAGE_TYPE;
         CommandType actualType = CommandParser.parseCommandType(command);
@@ -42,7 +42,7 @@ public class CommandParserTest {
     }
 
     @Test
-    public void testParseCommandType_FindCommand() {
+    void testParseCommandType_FindCommand() {
         String command = "find -name \"type 1\"";
         CommandType expectedType = CommandType.FIND_PACKAGE_TYPE;
         CommandType actualType = CommandParser.parseCommandType(command);
@@ -50,7 +50,7 @@ public class CommandParserTest {
     }
 
     @Test
-    public void testParseCommandType_DeleteCommand() {
+    void testParseCommandType_DeleteCommand() {
         String command = "delete -name \"type 1\"";
         CommandType expectedType = CommandType.DELETE_PACKAGE_TYPE;
         CommandType actualType = CommandParser.parseCommandType(command);
@@ -58,7 +58,7 @@ public class CommandParserTest {
     }
 
     @Test
-    public void testParseCommandType_EditCommand() {
+    void testParseCommandType_EditCommand() {
         String command = "edit -name \"type 3\" -form \"xxx\\nxxx\\nxxx\" -description \"X\"";
         CommandType expectedType = CommandType.EDIT_PACKAGE_TYPE;
         CommandType actualType = CommandParser.parseCommandType(command);
@@ -66,7 +66,7 @@ public class CommandParserTest {
     }
 
     @Test
-    public void testParseCommandType_InvalidCommand() {
+    void testParseCommandType_InvalidCommand() {
         String command = "invalid command";
         try {
             CommandParser.parseCommandType(command);
@@ -77,7 +77,7 @@ public class CommandParserTest {
     }
 
     @Test
-    public void testParseCommandKeys() {
+    void testParseCommandKeys() {
         String command = "load --packages-file \"packages.txt\" --trucks \"6x6;6x6;6x6\" --type \"width\" --out json-file --out-filename \"trucks.json\"";
         Map<String, String> expectedKeys = new HashMap<>();
         expectedKeys.put("packages-file", "packages.txt");

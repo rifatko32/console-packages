@@ -6,31 +6,32 @@ import lombok.RequiredArgsConstructor;
 import ru.hofftech.consolepackages.service.command.CommandContextWithResult;
 import ru.hofftech.consolepackages.service.report.PlaneStringReport;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
 @RequiredArgsConstructor
 public class CreateBillingReportContext extends CommandContextWithResult<String> {
     private final String userid;
-    private final Date fromDate;
-    private final Date toDate;
+    private final LocalDate fromDate;
+    private final LocalDate toDate;
 
     public static class Builder {
         private String userid;
-        private Date fromDate;
-        private Date toDate;
+        private LocalDate fromDate;
+        private LocalDate toDate;
 
         public Builder userid(String userid) {
             this.userid = userid;
             return this;
         }
 
-        public Builder fromDate(Date fromDate) {
+        public Builder fromDate(LocalDate fromDate) {
             this.fromDate = fromDate;
             return this;
         }
 
-        public Builder toDate(Date toDate) {
+        public Builder toDate(LocalDate toDate) {
             this.toDate = toDate;
             return this;
         }

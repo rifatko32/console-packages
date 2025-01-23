@@ -15,7 +15,7 @@ public class EqualDistributionPlaceAlgorithmTest {
     private final EqualDistributionPlaceAlgorithm algorithm = new EqualDistributionPlaceAlgorithm();
 
     @Test
-    public void testPlacePackageRecords_EqualNumberOfPackagesAndTrucks() {
+    void testPlacePackageRecords_EqualNumberOfPackagesAndTrucks() {
         // Arrange
         List<Package> packages = new ArrayList<>();
         packages.add(new Package("d", "typeName", "999\\n999\\n999"));
@@ -34,7 +34,7 @@ public class EqualDistributionPlaceAlgorithmTest {
     }
 
     @Test
-    public void testPlacePackageRecords_MorePackagesThanTrucks() {
+    void testPlacePackageRecords_MorePackagesThanTrucks() {
         // Arrange
         List<Package> packages = new ArrayList<>();
         packages.add(new Package("d", "typeName", "999\\n999\\n999"));
@@ -54,7 +54,7 @@ public class EqualDistributionPlaceAlgorithmTest {
     }
 
     @Test
-    public void testPlacePackageRecords_MoreTrucksThanPackages() {
+    void testPlacePackageRecords_MoreTrucksThanPackages() {
         // Arrange
         List<Package> packages = new ArrayList<>();
         packages.add(new Package("d", "typeName", "999\\n999\\n999"));
@@ -75,7 +75,7 @@ public class EqualDistributionPlaceAlgorithmTest {
     }
 
     @Test
-    public void testPlacePackageRecords_EmptyPackagesList() {
+    void testPlacePackageRecords_EmptyPackagesList() {
         // Arrange
         List<Package> packages = new ArrayList<>();
 
@@ -92,7 +92,7 @@ public class EqualDistributionPlaceAlgorithmTest {
     }
 
     @Test
-    public void testPlacePackageRecords_TooManyPackages() {
+    void testPlacePackageRecords_TooManyPackages() {
         // Arrange
         List<Package> packages = new ArrayList<>();
         packages.add(new Package("d", "typeName", "999\\n999\\n999"));

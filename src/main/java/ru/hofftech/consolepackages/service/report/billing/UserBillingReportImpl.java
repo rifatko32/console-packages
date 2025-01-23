@@ -8,12 +8,14 @@ import ru.hofftech.consolepackages.service.report.PlaneStringReport;
 import ru.hofftech.consolepackages.service.report.billing.model.BillOrderGroup;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
+import static ru.hofftech.consolepackages.util.DateUtils.DATE_FORMAT;
 
 /**
  * Implementation of {@link UserBillingReportEngine} that generates a report of billing orders for a user by period.
@@ -36,7 +38,7 @@ public class UserBillingReportImpl implements UserBillingReportEngine {
      * @return a {@link PlaneStringReport} containing the billing orders grouped by date and operation type
      */
     @Override
-    public PlaneStringReport generateByPeriod(String userId, Date fromDate, Date toDate) {
+    public PlaneStringReport generateByPeriod(String userId, LocalDate fromDate, LocalDate toDate) {
         List<BillingOrder> orders = repository.receiveForUserByPeriod(userId, fromDate, toDate);
 
         if (orders.isEmpty()) {
@@ -73,7 +75,7 @@ public class UserBillingReportImpl implements UserBillingReportEngine {
                 .distinct()
                 .count();
 
-        var formatter = new SimpleDateFormat("yyyy.MM.dd");
+        var formatter = new SimpleDateFormat(DATE_FORMAT);
 
         return String.format(
                 "%s; %s; %s машин; %s посылок; %s рублей",

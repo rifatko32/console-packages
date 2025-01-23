@@ -6,9 +6,9 @@ load --packages-file "packages.txt" --trucks "6x6;6x6;6x6" --type "width" --out 
 
 load --packages-text "type wheel;type narrow weight;type 1;type 1" --trucks "3x3;3x3;6x2" --type "width" --out console --clientid "client1"
 
-unload --infile "trucks.json" --outfile "packages.txt" --clientid "client1"
+unload --infile "trucks.json" --out-filename "packages.txt" --clientid "client1"
 
-unload --infile "trucks.json" --outfile "packages.txt" --withcount true --clientid "client1"
+unload --infile "trucks.json" --out-filename "packages.txt" --withcount true --clientid "client1"
 
 create --name "type wheel" --form "xxx\nx x\nxxxx" --description "o" -ok
 
@@ -20,4 +20,4 @@ delete --name "type 1" -ok
 
 edit --name "type 3" --form "xxx\nxxx\nxxx" --description "X" -ok
 
-billing --user "client1" --from 20.01.2025 --to 21.01.2025
+billing --clientid "client1" --from 20.01.2025 --to 21.01.2025

@@ -1,23 +1,30 @@
 package ru.hofftech.consolepackages.datastorage.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
+import static ru.hofftech.consolepackages.util.DateUtils.DATE_FORMAT;
+
 @Getter
+@AllArgsConstructor
+@Builder
 public class BillingOrder {
 
-    private final String id;
+    private final String id = UUID.randomUUID().toString();
 
     @Setter
     private String clientId;
     @Setter
-    private Date orderDate;
+    private LocalDate orderDate;
     @Setter
     private BigDecimal amount;
     @Setter
@@ -29,27 +36,8 @@ public class BillingOrder {
     @Setter
     private OperationType operationType;
 
-    public BillingOrder(
-            String clientId,
-            Date orderDate,
-            BigDecimal amount,
-            Integer packageQty,
-            UUID truckId,
-            String comment,
-            OperationType operationType) {
-        id = UUID.randomUUID().toString();
-
-        this.clientId = clientId;
-        this.orderDate = orderDate;
-        this.amount = amount;
-        this.packageQty = packageQty;
-        this.truckId = truckId;
-        this.comment = comment;
-        this.operationType = operationType;
-    }
-
     public Date getDateWithoutTimeUsingFormat() {
-        var formatter = new SimpleDateFormat("yyyy.MM.dd");
+        var formatter = new SimpleDateFormat(DATE_FORMAT);
         try {
             return formatter.parse(formatter.format(new Date()));
         } catch (ParseException e) {

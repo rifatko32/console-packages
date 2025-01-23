@@ -75,7 +75,7 @@ public class UnloadTruckCommandFactory implements CommandAbstractFactory {
             String outFilePath,
             String withCount,
             String clientId) {
-        var withCountValue = !StringUtil.isNullOrEmpty(withCount) && Boolean.parseBoolean(withCount);
+        var withCountValue = Boolean.parseBoolean(withCount);
 
         if (StringUtil.isNullOrEmpty(clientId)) {
             throw new IllegalArgumentException("clientId is null or empty");

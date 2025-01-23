@@ -2,6 +2,7 @@ package ru.hofftech.consolepackages.service.report.billing;
 
 import ru.hofftech.consolepackages.service.report.PlaneStringReport;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -17,5 +18,5 @@ public interface UserBillingReportEngine {
      * @param toDate   the end date of the period
      * @return a {@link PlaneStringReport} containing the billing orders grouped by date and operation type
      */
-    PlaneStringReport generateByPeriod(String userId, Date fromDate, Date toDate);
+    PlaneStringReport generateByPeriod(String userId, LocalDate fromDate, LocalDate toDate);
 }

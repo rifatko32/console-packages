@@ -11,16 +11,11 @@ import java.util.Map;
 public interface PackageTypeRepository {
 
     /**
-     * Creates new package type in storage
-     * @param name package type name
-     * @param form package form
-     * @param descriptionNumber package description number
-     * @return created package type name
+     * Creates new package type
+     * @param packageType package type to create
+     * @return created package type
      */
-    String create(
-            String name,
-            String form,
-            String descriptionNumber);
+    PackageType create(PackageType packageType);
 
     /**
      * Finds package type in storage

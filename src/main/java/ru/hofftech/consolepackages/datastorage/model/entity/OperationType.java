@@ -1,6 +1,6 @@
 package ru.hofftech.consolepackages.datastorage.model.entity;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 public enum OperationType {
@@ -13,7 +13,7 @@ public enum OperationType {
 
     public final String label;
 
-    private static final Map<OperationType, String> valueToLabelMap = new HashMap<>();
+    private static final Map<OperationType, String> valueToLabelMap = new EnumMap<>(OperationType.class);
 
     static {
         for (OperationType e : values()) {

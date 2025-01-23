@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class PackagePlaceByWidthAlgorithmTest {
 
     @Test
-    public void testPlacePackageRecords_SimpleCase() {
+    void testPlacePackageRecords_SimpleCase() {
         // Arrange
         PackagePlaceByWidthAlgorithm algorithm = new PackagePlaceByWidthAlgorithm();
         List<Package> packages = new ArrayList<>();
@@ -33,7 +33,7 @@ public class PackagePlaceByWidthAlgorithmTest {
     }
 
     @Test
-    public void testPlacePackageRecords_TooManyPackages() {
+    void testPlacePackageRecords_TooManyPackages() {
         // Arrange
         PackagePlaceByWidthAlgorithm algorithm = new PackagePlaceByWidthAlgorithm();
         List<Package> packages = new ArrayList<>();
@@ -51,7 +51,7 @@ public class PackagePlaceByWidthAlgorithmTest {
     }
 
     @Test
-    public void testPlacePackageRecords_NoPackages() {
+    void testPlacePackageRecords_NoPackages() {
         // Arrange
         PackagePlaceByWidthAlgorithm algorithm = new PackagePlaceByWidthAlgorithm();
         List<Package> packages = new ArrayList<>();

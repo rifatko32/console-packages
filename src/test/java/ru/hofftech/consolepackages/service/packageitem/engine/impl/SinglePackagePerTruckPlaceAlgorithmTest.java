@@ -15,7 +15,7 @@ public class SinglePackagePerTruckPlaceAlgorithmTest {
     private final SinglePackagePerTruckPlaceAlgorithm algorithm = new SinglePackagePerTruckPlaceAlgorithm();
 
     @Test
-    public void testPlacePackageRecords_SimpleCase() {
+    void testPlacePackageRecords_SimpleCase() {
         // Arrange
         List<Package> packages = new ArrayList<>();
         packages.add(new Package("d", "typeName1", "999\\n999\\n999"));
@@ -34,7 +34,7 @@ public class SinglePackagePerTruckPlaceAlgorithmTest {
     }
 
     @Test
-    public void testPlacePackageRecords_TooManyPackages() {
+    void testPlacePackageRecords_TooManyPackages() {
         // Arrange
         List<Package> packages = new ArrayList<>();
         packages.add(new Package("x", "typeName1", "999\\n999\\n999"));
@@ -50,7 +50,7 @@ public class SinglePackagePerTruckPlaceAlgorithmTest {
     }
 
     @Test
-    public void testPlacePackageRecords_NoPackages() {
+    void testPlacePackageRecords_NoPackages() {
         // Arrange
         List<Package> packages = new ArrayList<>();
         List<Truck> trucks = new ArrayList<>();
