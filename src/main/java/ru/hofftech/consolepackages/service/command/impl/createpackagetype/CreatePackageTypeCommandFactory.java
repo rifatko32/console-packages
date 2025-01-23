@@ -7,6 +7,10 @@ import ru.hofftech.consolepackages.service.command.CommandAbstractFactory;
 import ru.hofftech.consolepackages.service.command.CommandContext;
 import ru.hofftech.consolepackages.service.command.CommandParser;
 
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateDescription;
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateForm;
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateName;
+
 /**
  * The class implements the factory of commands for creating a package type.
  */
@@ -45,10 +49,18 @@ public class CreatePackageTypeCommandFactory implements CommandAbstractFactory {
         var form = commandKeyValues.get(FORM);
         var description = commandKeyValues.get(DESCRIPTION);
 
-        return new CreatePackageTypeContext.Builder()
+        validateParameters(name, form, description);
+
+        return CreatePackageTypeContext.builder()
                 .name(name)
                 .form(form)
                 .description(description).build();
+    }
+
+    private void validateParameters(String name, String form, String description) {
+        validateName(name);
+        validateForm(form);
+        validateDescription(description);
     }
 
     /**
@@ -60,7 +72,7 @@ public class CreatePackageTypeCommandFactory implements CommandAbstractFactory {
      * @return the context of the command to edit a package type
      */
     public CommandContext createCommandContextByParameters(String name, String form, String description) {
-        return new CreatePackageTypeContext.Builder()
+        return CreatePackageTypeContext.builder()
                 .name(name)
                 .form(form)
                 .description(description)

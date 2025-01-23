@@ -83,10 +83,10 @@ public class LoadCommandController {
      */
     @ShellMethod(key = UNLOAD_COMMAND_PATTERN)
     public String unloadTruck(
-            @ShellOption(value = {INFILE}, defaultValue = "") String inFilePath,
+            @ShellOption(value = {INFILE}) String inFilePath,
             @ShellOption(value = {OUT_FILENAME}) String outfile,
             @ShellOption(value = {WITH_COUNT}, defaultValue = "") String withCount,
-            @ShellOption(value = {CLIENT_ID}, defaultValue = "") String clientId
+            @ShellOption(value = {CLIENT_ID}) String clientId
     ) {
         var context = unloadTruckCommandFactory.createCommandContextByParameters(inFilePath, outfile, withCount, clientId);
         var command = unloadTruckCommandFactory.createCommand(context);

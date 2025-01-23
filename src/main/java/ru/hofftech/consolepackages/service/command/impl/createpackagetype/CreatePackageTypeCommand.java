@@ -22,9 +22,10 @@ public class CreatePackageTypeCommand implements Command {
     @Override
     public void execute() {
         packageTypeRepository.create(
-                new PackageType(
-                        context.name(),
-                        context.form(),
-                        context.description()));
+                new PackageType.Builder()
+                        .name(context.name())
+                        .form(context.form())
+                        .descriptionNumber(context.description())
+                        .build());
     }
 }

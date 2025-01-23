@@ -6,14 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.UUID;
 
-import static ru.hofftech.consolepackages.util.DateUtils.DATE_FORMAT;
-
+/**
+ * Billing order entity.
+ */
 @Getter
 @AllArgsConstructor
 @Builder
@@ -35,13 +33,4 @@ public class BillingOrder {
     private String comment;
     @Setter
     private OperationType operationType;
-
-    public Date getDateWithoutTimeUsingFormat() {
-        var formatter = new SimpleDateFormat(DATE_FORMAT);
-        try {
-            return formatter.parse(formatter.format(new Date()));
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

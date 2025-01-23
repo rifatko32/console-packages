@@ -13,6 +13,10 @@ import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFact
 import ru.hofftech.consolepackages.service.truck.TruckToPackagesService;
 import ru.hofftech.consolepackages.util.TruckJsonFileReader;
 
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateClientId;
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateInfile;
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateOutFilename;
+
 /**
  * The class implements the factory of commands for unloading packages from trucks
  * and generating a report of the unloaded packages.
@@ -60,7 +64,9 @@ public class UnloadTruckCommandFactory implements CommandAbstractFactory {
         var withCount = commandKeyValues.containsKey(WITH_COUNT);
         var clientId = commandKeyValues.get(CLIENT_ID);
 
-        return new UnloadTruckContext.Builder()
+        validateParameters(clientId, inFilePath, outFilePath);
+
+        return UnloadTruckContext.builder()
                 .inFilePath(inFilePath)
                 .outFilePath(outFilePath)
                 .withCount(withCount)
@@ -68,6 +74,12 @@ public class UnloadTruckCommandFactory implements CommandAbstractFactory {
                 .reportOutputChannelType(ReportOutputChannelType.TXT_FILE)
                 .clientId(clientId)
                 .build();
+    }
+
+    private static void validateParameters(String clientId, String inFilePath, String outFilePath) {
+        validateClientId(clientId);
+        validateInfile(inFilePath);
+        validateOutFilename(outFilePath);
     }
 
     public CommandContext createCommandContextByParameters(
@@ -81,7 +93,7 @@ public class UnloadTruckCommandFactory implements CommandAbstractFactory {
             throw new IllegalArgumentException("clientId is null or empty");
         }
 
-        return new UnloadTruckContext.Builder()
+        return UnloadTruckContext.builder()
                 .inFilePath(inFilePath)
                 .outFilePath(outFilePath)
                 .withCount(withCountValue)

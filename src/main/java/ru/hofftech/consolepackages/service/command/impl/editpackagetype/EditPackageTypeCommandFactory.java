@@ -1,11 +1,15 @@
 package ru.hofftech.consolepackages.service.command.impl.editpackagetype;
 
+import ch.qos.logback.core.util.StringUtil;
 import lombok.RequiredArgsConstructor;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.command.CommandAbstractFactory;
 import ru.hofftech.consolepackages.service.command.CommandContext;
 import ru.hofftech.consolepackages.service.command.CommandParser;
+
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateFormDescription;
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateName;
 
 /**
  * The class implements the factory of commands for editing a package type.
@@ -44,7 +48,10 @@ public class EditPackageTypeCommandFactory implements CommandAbstractFactory {
         var form = commandKeyValues.get(FORM);
         var description = commandKeyValues.get(DESCRIPTION);
 
-        return new EditPackageTypeContext.Builder()
+        validateName(name);
+        validateFormDescription(form, description);
+
+        return  EditPackageTypeContext.builder()
                 .name(name)
                 .form(form)
                 .description(description)
@@ -60,7 +67,10 @@ public class EditPackageTypeCommandFactory implements CommandAbstractFactory {
      * @return the context of the command to edit a package type
      */
     public CommandContext createCommandContextByParameters(String name, String form, String description) {
-        return new EditPackageTypeContext.Builder()
+
+        validateFormDescription(form, description);
+
+        return EditPackageTypeContext.builder()
                 .name(name)
                 .form(form)
                 .description(description)

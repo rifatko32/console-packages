@@ -9,6 +9,7 @@ import ru.hofftech.consolepackages.service.report.billing.model.BillOrderGroup;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,7 +51,7 @@ public class UserBillingReportImpl implements UserBillingReportEngine {
         var groupedOrders = orders
                 .stream()
                 .collect(groupingBy(
-                        bo -> new BillOrderGroup(bo.getDateWithoutTimeUsingFormat(), bo.getOperationType()),
+                        bo -> new BillOrderGroup(bo.getOrderDate(), bo.getOperationType()),
                         toList()));
 
         for (var entry : groupedOrders.entrySet()) {
@@ -75,11 +76,11 @@ public class UserBillingReportImpl implements UserBillingReportEngine {
                 .distinct()
                 .count();
 
-        var formatter = new SimpleDateFormat(DATE_FORMAT);
+        var formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
         return String.format(
                 "%s; %s; %s машин; %s посылок; %s рублей",
-                formatter.format(orderGroup.orderDate()),
+                orderGroup.orderDate().format(formatter),
                 OperationType.returnLabel(orderGroup.operationType()),
                 truckIdCount,
                 packageQtySum,

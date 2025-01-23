@@ -9,6 +9,8 @@ import ru.hofftech.consolepackages.service.command.CommandParser;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportOutputChannelType;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
 
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateName;
+
 /**
  * The class implements the factory of commands for finding a package type by name.
  */
@@ -44,7 +46,9 @@ public class FindPackageTypeCommandFactory implements CommandAbstractFactory {
         var channelType = ReportOutputChannelType.fromLabel(commandKeyValues.get(OUT_KEY));
         var name = commandKeyValues.get(NAME);
 
-        return new FindPackageTypeContext.Builder()
+        validateName(name);
+
+        return FindPackageTypeContext.builder()
                 .name(name)
                 .reportOutputChannelType(channelType)
                 .build();
@@ -57,8 +61,9 @@ public class FindPackageTypeCommandFactory implements CommandAbstractFactory {
      * @return the context of the command to find a package type by name
      */
     public CommandContext createCommandContextByParameters(String name) {
-        return new FindPackageTypeContext.Builder()
+        return FindPackageTypeContext.builder()
                 .name(name)
+                .reportOutputChannelType(ReportOutputChannelType.NONE)
                 .build();
     }
 }

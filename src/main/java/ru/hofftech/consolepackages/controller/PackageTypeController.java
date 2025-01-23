@@ -32,6 +32,9 @@ public class PackageTypeController {
 
     private final AbstractFactoryProvider abstractFactoryProvider;
     private final CreatePackageTypeCommandFactory createPackageTypeCommandFactory;
+    private final FindPackageTypeCommandFactory findPackageTypeCommandFactory;
+    private final EditPackageTypeCommandFactory editPackageTypeCommandFactory;
+    private final DeletePackageTypeCommandFactory deletePackageTypeCommandFactory;
 
     /**
      * Returns a list of all package types.
@@ -44,7 +47,7 @@ public class PackageTypeController {
     ) {
         var factory = abstractFactoryProvider.returnCommandAbstractFactory(FIND_COMMAND_PATTERN);
 
-        var context = ((FindPackageTypeCommandFactory) factory).createCommandContextByParameters(name);
+        var context = findPackageTypeCommandFactory.createCommandContextByParameters(name);
         var command = factory.createCommand(context);
         command.execute();
 
@@ -65,7 +68,7 @@ public class PackageTypeController {
     ) {
         var factory = abstractFactoryProvider.returnCommandAbstractFactory(CREATE_COMMAND_PATTERN);
 
-        var context = ((CreatePackageTypeCommandFactory) factory).createCommandContextByParameters(name, form, description);
+        var context = createPackageTypeCommandFactory.createCommandContextByParameters(name, form, description);
         var command = factory.createCommand(context);
         command.execute();
 
@@ -84,7 +87,7 @@ public class PackageTypeController {
     ) {
         var factory = abstractFactoryProvider.returnCommandAbstractFactory(DELETE_COMMAND_PATTERN);
 
-        var context = ((DeletePackageTypeCommandFactory) factory).createCommandContextByParameters(name);
+        var context = deletePackageTypeCommandFactory.createCommandContextByParameters(name);
         var command = factory.createCommand(context);
         command.execute();
 
@@ -102,12 +105,12 @@ public class PackageTypeController {
     @ShellMethod(key = EDIT_COMMAND_PATTERN)
     public String editPackageType(
             @ShellOption(value = {NAME}) String name,
-            @ShellOption(value = {FORM}) String form,
-            @ShellOption(value = {DESCRIPTION}) String description
+            @ShellOption(value = {FORM}, defaultValue = "") String form,
+            @ShellOption(value = {DESCRIPTION}, defaultValue = "") String description
     ) {
         var factory = abstractFactoryProvider.returnCommandAbstractFactory(EDIT_COMMAND_PATTERN);
 
-        var context = ((EditPackageTypeCommandFactory) factory).createCommandContextByParameters(name, form, description);
+        var context = editPackageTypeCommandFactory.createCommandContextByParameters(name, form, description);
         var command = factory.createCommand(context);
         command.execute();
 

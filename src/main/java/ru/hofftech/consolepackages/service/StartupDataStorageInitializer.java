@@ -21,82 +21,46 @@ public class StartupDataStorageInitializer {
      */
     @PostConstruct
     public void createDefaultPackageTypes() {
-        packageTypeRepository.create(
-                new PackageType(
-                        "type 1",
-                        "1",
-                        "1"));
+        packageTypeRepository.create(new PackageType.Builder()
+                .name("type 1")
+                .form("1")
+                .descriptionNumber("1")
+                .build());
 
-        packageTypeRepository.create(
-                new PackageType(
-                        "type 2",
-                        "22",
-                        "2"));
+        packageTypeRepository.create(new PackageType.Builder()
+                .name("type 2")
+                .form("22")
+                .descriptionNumber("2")
+                .build());
 
-        packageTypeRepository.create(
-                new PackageType(
-                        "type 3",
-                        "333",
-                        "3"));
+        packageTypeRepository.create(new PackageType.Builder()
+                .name("type 3")
+                .form("333")
+                .descriptionNumber("3")
+                .build());
 
-        packageTypeRepository.create(
-                new PackageType(
-                        "type 4",
-                        "4444",
-                        "4"));
+        packageTypeRepository.create(new PackageType.Builder()
+                .name("type 4")
+                .form("4444")
+                .descriptionNumber("4")
+                .build());
 
-        packageTypeRepository.create(
-                new PackageType(
-                        "type 5",
-                        "55555",
-                        "5"));
+        packageTypeRepository.create(new PackageType.Builder()
+                .name("type 5")
+                .form("55555")
+                .descriptionNumber("5")
+                .build());
 
-        packageTypeRepository.create(
-                new PackageType(
-                        "type 6",
-                        "666\\n666",
-                        "6"));
+        packageTypeRepository.create(new PackageType.Builder()
+                .name("type 6")
+                .form("666\\n666")
+                .descriptionNumber("6")
+                .build());
 
-        packageTypeRepository.create(
-                new PackageType(
-                        "type 7",
-                        "777\\n7777",
-                        "7"));
-
-        packageTypeRepository.create(
-                new PackageType(
-                        "type 8",
-                        "8888\\n8888",
-                        "8"));
-
-        packageTypeRepository.create(
-                new PackageType(
-                        "type 9",
-                        "999\\n999\\n999",
-                        "9"));
-
-        packageTypeRepository.create(
-                new PackageType(
-                        "type wide weight",
-                        "x  x\\nxxxx\\nx  x",
-                        "x"));
-
-        packageTypeRepository.create(
-                new PackageType(
-                        "type narrow weight",
-                        "x x\\nxxx\\nx x",
-                        "x"));
-
-        packageTypeRepository.create(
-                new PackageType(
-                        "type bracket",
-                        "xxxx\\nx  x",
-                        "x"));
-
-        packageTypeRepository.create(
-                new PackageType(
-                        "type wheel",
-                        "xxx\\nx x\\nxxx",
-                        "y"));
+        packageTypeRepository.create(new PackageType.Builder()
+                .name("type 7")
+                .form("777\\n7777")
+                .descriptionNumber("7")
+                .build());
     }
 }

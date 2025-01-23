@@ -18,6 +18,10 @@ import ru.hofftech.consolepackages.service.report.packageitem.PackagePlaceReport
 import java.util.Arrays;
 import java.util.Objects;
 
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateClientId;
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validatePackagesTextFilePath;
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateTrucks;
+
 /**
  * The class implements the factory of commands for placing packages into trucks.
  */
@@ -79,7 +83,11 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
         var outputFileName = commandKeyValues.get(OUT_FILENAME_KEY);
         var clientId = commandKeyValues.get(CLIENT_ID);
 
-        return new PlacePackageContext.Builder()
+        validateTrucks(trucks);
+        validatePackagesTextFilePath(packagesText, filePath);
+        validateClientId(clientId);
+
+        return PlacePackageContext.builder()
                 .trucks(trucks)
                 .algorithmType(algorithmType)
                 .filePath(filePath)
@@ -111,7 +119,9 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
             String packagesText,
             String clientId) {
 
-        return new PlacePackageContext.Builder()
+        validatePackagesTextFilePath(packagesText, filePath);
+
+        return PlacePackageContext.builder()
                 .trucks(Arrays.stream(trucks.split(TRUCKS_DELIMITER)).toList())
                 .algorithmType(PackagePlaceAlgorithmType.fromLabel(algorithmType))
                 .filePath(filePath)

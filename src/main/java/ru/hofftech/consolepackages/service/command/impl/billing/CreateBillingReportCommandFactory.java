@@ -9,11 +9,12 @@ import ru.hofftech.consolepackages.service.report.billing.UserBillingReportEngin
 
 import java.text.ParseException;
 
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateClientId;
 import static ru.hofftech.consolepackages.util.DateUtils.parseDate;
 
 @RequiredArgsConstructor
 public class CreateBillingReportCommandFactory implements CommandAbstractFactory {
-    private static final String USER_ID = "user";
+    private static final String CLIENT_ID = "clientid";
     private static final String FROM_DATE = "from";
     private static final String TO_DATE = "to";
 
@@ -28,11 +29,13 @@ public class CreateBillingReportCommandFactory implements CommandAbstractFactory
     public CommandContext createCommandContext(String strCommand) throws ParseException {
         var commandKeyValues = CommandParser.parseCommandKeys(strCommand);
 
-        var userId = commandKeyValues.get(USER_ID);
+        var userId = commandKeyValues.get(CLIENT_ID);
         var fromDate = parseDate(commandKeyValues.get(FROM_DATE));
         var toDate = parseDate(commandKeyValues.get(TO_DATE));
 
-        return new CreateBillingReportContext.Builder()
+        validateClientId(userId);
+
+        return CreateBillingReportContext.builder()
                 .userid(userId)
                 .fromDate(fromDate)
                 .toDate(toDate)
@@ -52,7 +55,7 @@ public class CreateBillingReportCommandFactory implements CommandAbstractFactory
         var fromDate = parseDate(fromDateStr);
         var toDate = parseDate(toDateStr);
 
-        return new CreateBillingReportContext.Builder()
+        return CreateBillingReportContext.builder()
                 .userid(userId)
                 .fromDate(fromDate)
                 .toDate(toDate)

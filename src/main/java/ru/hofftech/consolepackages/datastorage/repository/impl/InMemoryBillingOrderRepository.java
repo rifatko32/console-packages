@@ -4,7 +4,6 @@ import ru.hofftech.consolepackages.datastorage.model.entity.BillingOrder;
 import ru.hofftech.consolepackages.datastorage.repository.BillingOrderRepository;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,9 +27,9 @@ public class InMemoryBillingOrderRepository implements BillingOrderRepository {
     @Override
     public List<BillingOrder> receiveForUserByPeriod(String clientId, LocalDate startDate, LocalDate endDate) {
         return billingOrders.values().stream()
-                .filter(b -> b.getClientId().equals(clientId)
-                        && b.getOrderDate().isAfter(startDate)
-                        && b.getOrderDate().isBefore(endDate))
+                .filter(billOrder -> billOrder.getClientId().equals(clientId)
+                        && billOrder.getOrderDate().isAfter(startDate)
+                        && billOrder.getOrderDate().isBefore(endDate))
                 .toList();
     }
 }

@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class PackageBillingServiceImpl implements PackageBillingService {
             var billingOrder = billingOrderRepository.save(
                     BillingOrder.builder()
                             .clientId(clientId)
-                            .orderDate(LocalDate.from(Instant.now(Clock.system(ZoneOffset.UTC))))
+                            .orderDate(LocalDate.now(ZoneId.of("UTC")))
                             .amount(totalTruckPrice)
                             .packageQty(truck.calcPackagesCount())
                             .truckId(truck.getId())

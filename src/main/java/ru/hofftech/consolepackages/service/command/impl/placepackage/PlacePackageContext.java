@@ -1,6 +1,7 @@
 package ru.hofftech.consolepackages.service.command.impl.placepackage;
 
 import ch.qos.logback.core.util.StringUtil;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -28,6 +29,7 @@ import java.util.List;
  */
 @Getter
 @Setter
+@Builder
 @RequiredArgsConstructor
 public class PlacePackageContext extends CommandContextWithResult<String> {
     private final List<String> trucks;
@@ -38,75 +40,4 @@ public class PlacePackageContext extends CommandContextWithResult<String> {
     private final String outputFileName;
     private final String packagesText;
     private final String clientId;
-
-    public static class Builder {
-        private List<String> trucks;
-        private PackagePlaceAlgorithmType algorithmType;
-        private String filePath;
-        private ReportEngineType reportEngineType;
-        private ReportOutputChannelType reportOutputChannelType;
-        private String outputFileName;
-        private String packagesText;
-        private String clientId;
-
-        public Builder clientId(String clientId) {
-            this.clientId = clientId;
-            return this;
-        }
-
-        public Builder trucks(List<String> trucks) {
-            this.trucks = trucks;
-            return this;
-        }
-
-        public Builder algorithmType(PackagePlaceAlgorithmType algorithmType) {
-            this.algorithmType = algorithmType;
-            return this;
-        }
-
-        public Builder filePath(String filePath) {
-            this.filePath = filePath;
-            return this;
-        }
-
-        public Builder reportEngineType(ReportEngineType reportEngineType) {
-            this.reportEngineType = reportEngineType;
-            return this;
-        }
-
-        public Builder reportOutputChannelType(ReportOutputChannelType reportOutputChannelType) {
-            this.reportOutputChannelType = reportOutputChannelType;
-            return this;
-        }
-
-        public Builder outputFileName(String outputFileName) {
-            this.outputFileName = outputFileName;
-            return this;
-        }
-
-        public Builder packagesText(String packagesText) {
-            this.packagesText = packagesText;
-            return this;
-        }
-
-        public PlacePackageContext build() {
-            if (trucks == null || trucks.isEmpty()) {
-                throw new IllegalArgumentException("trucks is null or empty");
-            }
-
-            if (algorithmType == null) {
-                throw new IllegalArgumentException("algorithmType is null");
-            }
-
-            if (StringUtil.isNullOrEmpty(packagesText) && StringUtil.isNullOrEmpty(filePath)) {
-                throw new IllegalArgumentException("packagesText or filePath is null");
-            }
-
-            if (StringUtil.isNullOrEmpty(clientId)) {
-                throw new IllegalArgumentException("clientId is null or empty");
-            }
-
-            return new PlacePackageContext(trucks, algorithmType, filePath, reportEngineType, reportOutputChannelType, outputFileName, packagesText, clientId);
-        }
-    }
 }
