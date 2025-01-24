@@ -18,12 +18,20 @@ public class EqualDistributionPlaceAlgorithmTest {
     void testPlacePackageRecords_EqualNumberOfPackagesAndTrucks() {
         // Arrange
         List<Package> packages = new ArrayList<>();
-        packages.add(new Package("d", "typeName", "999\\n999\\n999"));
-        packages.add(new Package("d", "typeName", "999\\n999\\n999"));
+        packages.add(new Package.Builder()
+                .description("d")
+                .typeName("typeName")
+                .form("999\\n999\\n999")
+                .build());
+        packages.add(new Package.Builder()
+                .description("d")
+                .typeName("typeName")
+                .form("999\\n999\\n999")
+                .build());
 
         List<Truck> trucks = new ArrayList<>();
-        trucks.add(new Truck(100, 100));
-        trucks.add(new Truck(100, 100));
+        trucks.add(new Truck.Builder().width(100).height(100).build());
+        trucks.add(new Truck.Builder().width(100).height(100).build());
 
         // Act
         algorithm.placePackageRecords(packages, trucks);
@@ -37,13 +45,25 @@ public class EqualDistributionPlaceAlgorithmTest {
     void testPlacePackageRecords_MorePackagesThanTrucks() {
         // Arrange
         List<Package> packages = new ArrayList<>();
-        packages.add(new Package("d", "typeName", "999\\n999\\n999"));
-        packages.add(new Package("d", "typeName", "999\\n999\\n999"));
-        packages.add(new Package("d", "typeName", "999\\n999\\n999"));
+        packages.add(new Package.Builder()
+                .description("d")
+                .typeName("typeName")
+                .form("999\\n999\\n999")
+                .build());
+        packages.add(new Package.Builder()
+                .description("d")
+                .typeName("typeName")
+                .form("999\\n999\\n999")
+                .build());
+        packages.add(new Package.Builder()
+                .description("d")
+                .typeName("typeName")
+                .form("999\\n999\\n999")
+                .build());
 
         List<Truck> trucks = new ArrayList<>();
-        trucks.add(new Truck(100, 100));
-        trucks.add(new Truck(100, 100));
+        trucks.add(new Truck.Builder().width(100).height(100).build());
+        trucks.add(new Truck.Builder().width(100).height(100).build());
 
         // Act
         algorithm.placePackageRecords(packages, trucks);
@@ -57,13 +77,21 @@ public class EqualDistributionPlaceAlgorithmTest {
     void testPlacePackageRecords_MoreTrucksThanPackages() {
         // Arrange
         List<Package> packages = new ArrayList<>();
-        packages.add(new Package("d", "typeName", "999\\n999\\n999"));
-        packages.add(new Package("d", "typeName", "999\\n999\\n999"));
+        packages.add(new Package.Builder()
+                .description("d")
+                .typeName("typeName")
+                .form("999\\n999\\n999")
+                .build());
+        packages.add(new Package.Builder()
+                .description("d")
+                .typeName("typeName")
+                .form("999\\n999\\n999")
+                .build());
 
         List<Truck> trucks = new ArrayList<>();
-        trucks.add(new Truck(100, 100));
-        trucks.add(new Truck(100, 100));
-        trucks.add(new Truck(100, 100));
+        trucks.add(new Truck.Builder().width(100).height(100).build());
+        trucks.add(new Truck.Builder().width(100).height(100).build());
+        trucks.add(new Truck.Builder().width(100).height(100).build());
 
         // Act
         algorithm.placePackageRecords(packages, trucks);
@@ -80,8 +108,8 @@ public class EqualDistributionPlaceAlgorithmTest {
         List<Package> packages = new ArrayList<>();
 
         List<Truck> trucks = new ArrayList<>();
-        trucks.add(new Truck(100, 100));
-        trucks.add(new Truck(100, 100));
+        trucks.add(new Truck.Builder().width(100).height(100).build());
+        trucks.add(new Truck.Builder().width(100).height(100).build());
 
         // Act
         algorithm.placePackageRecords(packages, trucks);
@@ -95,11 +123,19 @@ public class EqualDistributionPlaceAlgorithmTest {
     void testPlacePackageRecords_TooManyPackages() {
         // Arrange
         List<Package> packages = new ArrayList<>();
-        packages.add(new Package("d", "typeName", "999\\n999\\n999"));
-        packages.add(new Package("d", "typeName", "999\\n999\\n999"));
+        packages.add(new Package.Builder()
+                .description("d")
+                .typeName("typeName")
+                .form("999\\n999\\n999")
+                .build());
+        packages.add(new Package.Builder()
+                .description("d")
+                .typeName("typeName")
+                .form("999\\n999\\n999")
+                .build());
 
         List<Truck> trucks = new ArrayList<>();
-        trucks.add(new Truck(3, 3));
+        trucks.add(new Truck.Builder().width(3).height(3).build());
 
         // Act and Assert
         assertThatThrownBy(() -> algorithm.placePackageRecords(packages, trucks))

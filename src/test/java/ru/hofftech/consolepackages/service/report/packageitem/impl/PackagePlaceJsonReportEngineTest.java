@@ -17,8 +17,8 @@ public class PackagePlaceJsonReportEngineTest {
     void testGenerateReport_SimpleCase() {
         // Arrange
         List<Truck> trucks = new ArrayList<>();
-        trucks.add(new Truck(100, 100));
-        trucks.add(new Truck(100, 100));
+        trucks.add(new Truck.Builder().width(100).height(100).build());
+        trucks.add(new Truck.Builder().width(100).height(100).build());
 
         // Act
         PlaneStringReport report = engine.generateReport(trucks);

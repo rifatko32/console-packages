@@ -17,12 +17,20 @@ public class PackagePlaceByWidthAlgorithmTest {
         // Arrange
         PackagePlaceByWidthAlgorithm algorithm = new PackagePlaceByWidthAlgorithm();
         List<Package> packages = new ArrayList<>();
-        packages.add(new Package("d", "typeName1", "999\\n999\\n999"));
-        packages.add(new Package("d", "typeName2", "999\\n999"));
+        packages.add(new Package.Builder()
+                .description("d")
+                .typeName("typeName1")
+                .form("999\\n999\\n999")
+                .build());
+        packages.add(new Package.Builder()
+                .description("d")
+                .typeName("typeName2")
+                .form("999\\n999")
+                .build());
 
         List<Truck> trucks = new ArrayList<>();
-        trucks.add(new Truck(10, 10));
-        trucks.add(new Truck(10, 10));
+        trucks.add(new Truck.Builder().width(10).height(10).build());
+        trucks.add(new Truck.Builder().width(10).height(10).build());
 
         // Act
         algorithm.placePackageRecords(packages, trucks);
@@ -37,12 +45,24 @@ public class PackagePlaceByWidthAlgorithmTest {
         // Arrange
         PackagePlaceByWidthAlgorithm algorithm = new PackagePlaceByWidthAlgorithm();
         List<Package> packages = new ArrayList<>();
-        packages.add(new Package("x", "typeName1", "999\\n999\\n999"));
-        packages.add(new Package("x", "typeName1", "999\\n999\\n999"));
-        packages.add(new Package("x", "typeName1", "999\\n999\\n999"));
+        packages.add(new Package.Builder()
+                .description("d")
+                .typeName("typeName1")
+                .form("999\\n999\\n999")
+                .build());
+        packages.add(new Package.Builder()
+                .description("d")
+                .typeName("typeName1")
+                .form("999\\n999\\n999")
+                .build());
+        packages.add(new Package.Builder()
+                .description("d")
+                .typeName("typeName1")
+                .form("999\\n999\\n999")
+                .build());
 
         List<Truck> trucks = new ArrayList<>();
-        trucks.add(new Truck(3, 3));
+        trucks.add(new Truck.Builder().width(3).height(3).build());
 
         // Act and Assert
         assertThatThrownBy(() -> algorithm.placePackageRecords(packages, trucks))
@@ -56,7 +76,7 @@ public class PackagePlaceByWidthAlgorithmTest {
         PackagePlaceByWidthAlgorithm algorithm = new PackagePlaceByWidthAlgorithm();
         List<Package> packages = new ArrayList<>();
         List<Truck> trucks = new ArrayList<>();
-        trucks.add(new Truck(10, 10));
+        trucks.add(new Truck.Builder().width(10).height(10).build());
 
         // Act
         algorithm.placePackageRecords(packages, trucks);
