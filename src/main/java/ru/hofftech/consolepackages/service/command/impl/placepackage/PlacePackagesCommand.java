@@ -2,8 +2,10 @@ package ru.hofftech.consolepackages.service.command.impl.placepackage;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.hofftech.consolepackages.service.command.Command;
+import ru.hofftech.consolepackages.datastorage.model.entity.OperationType;
 import ru.hofftech.consolepackages.model.Package;
+import ru.hofftech.consolepackages.service.billing.PackageBillingService;
+import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.packageitem.PackageFromFileReader;
 import ru.hofftech.consolepackages.service.packageitem.PackageFromStringReader;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
@@ -30,6 +32,7 @@ public class PlacePackagesCommand implements Command {
     private final PlacePackageContext context;
     private final PackagePlaceAlgorithmFactory placeEngineFactory;
     private final PackagePlaceReportEngineFactory reportEngineFactory;
+    private final PackageBillingService packageBillingService;
 
     /**
      * Executes the command to place packages into trucks based on a specified algorithm.
@@ -40,13 +43,7 @@ public class PlacePackagesCommand implements Command {
 
         var trucks = TruckFactory.createTrucks(context.getTrucks());
 
-        var packages = new ArrayList<Package>();
-
-        if (context.getFilePath() != null && !context.getFilePath().isEmpty()) {
-            packages = packageFromFileReader.readPackages(context.getFilePath());
-        } else if (context.getPackagesText() != null && !context.getPackagesText().isEmpty()) {
-            packages = packageFromStringReader.readPackages(context.getPackagesText());
-        }
+        var packages = readPackages();
 
         var packagePlaceEngine = placeEngineFactory.createPackagePlaceEngine(context.getAlgorithmType());
         packagePlaceEngine.placePackages(packages, trucks);
@@ -58,10 +55,23 @@ public class PlacePackagesCommand implements Command {
 
         if (reportWriter != null) {
             reportWriter.writeReport(packagePlaceReport);
+        } else {
+            context.setResult(packagePlaceReport.toPlainString());
         }
-        
-        context.setResult(packagePlaceReport.toPlainString());
+
+        packageBillingService.creatPackageBill(trucks, context.getClientId(), OperationType.LOAD);
 
         log.info("End of handling file: {}", context.getFilePath());
+    }
+
+    private ArrayList<Package> readPackages() {
+        var packages = new ArrayList<Package>();
+
+        if (context.getFilePath() != null && !context.getFilePath().isEmpty()) {
+            packages = packageFromFileReader.readPackages(context.getFilePath());
+        } else if (context.getPackagesText() != null && !context.getPackagesText().isEmpty()) {
+            packages = packageFromStringReader.readPackages(context.getPackagesText());
+        }
+        return packages;
     }
 }

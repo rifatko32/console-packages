@@ -17,7 +17,7 @@ import static ru.hofftech.consolepackages.service.packageitem.PackageSizeCalcula
 @Getter
 public class Package {
 
-    private final UUID id;
+    private final UUID id = UUID.randomUUID();
     private final String description;
     private final int width;
     private final int height;
@@ -28,8 +28,6 @@ public class Package {
             String description,
             String typeName,
             String form) {
-        id = UUID.randomUUID();
-
         this.width = calcPackageTypeWidth(form);
         this.height = calcPackageTypeHeight(form);
         this.typeName = typeName;
@@ -93,6 +91,19 @@ public class Package {
     }
 
     /**
+     * Calculates volume of package.
+     *
+     * <p>
+     * Volume of package is the number of slots in the truck that the package takes.
+     * </p>
+     *
+     * @return volume of package
+     */
+    public Integer calcVolume() {
+        return mapToListOfFillingSlots(width - 1, height - 1).size();
+    }
+
+    /**
      * String representation of package.
      *
      * @return string representation of package
@@ -100,5 +111,30 @@ public class Package {
     @Override
     public String toString() {
         return typeName;
+    }
+
+    public static class Builder {
+        private String description;
+        private String typeName;
+        private String form;
+
+        public Builder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder typeName(String typeName) {
+            this.typeName = typeName;
+            return this;
+        }
+
+        public Builder form(String form) {
+            this.form = form;
+            return this;
+        }
+
+        public Package build() {
+            return new Package(description, typeName, form);
+        }
     }
 }

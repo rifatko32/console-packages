@@ -20,12 +20,11 @@ public class Truck {
     private final String[][] backTruckSlots; // координаты ячеек в кузове
     private final int width; //кол-во столбцов координата x
     private final int height; //кол-во строк координата y
-    private final UUID id;
+    private final UUID id = UUID.randomUUID();
 
     private final List<Package> packages;
 
     public Truck(int width, int height) {
-        id = UUID.randomUUID();
         this.width = width;
         this.height = height;
         backTruckSlots = new String[height][width];
@@ -53,7 +52,6 @@ public class Truck {
             backTruckSlots[slot.coordinateY()][slot.coordinateX()] = fillValue;
         }
     }
-
 
     /**
      * Checks if the slot with the specified coordinates is filled.
@@ -132,5 +130,28 @@ public class Truck {
      */
     public String getBackTruckSlotValue(int y, int x) {
         return backTruckSlots[y][x] == null ? " " : backTruckSlots[y][x];
+    }
+
+    public Integer calcPackagesCount() {
+        return packages.size();
+    }
+
+    public static class Builder {
+        private int width;
+        private int height;
+
+        public Builder width(int width) {
+            this.width = width;
+            return this;
+        }
+
+        public Builder height(int height) {
+            this.height = height;
+            return this;
+        }
+
+        public Truck build() {
+            return new Truck(width, height);
+        }
     }
 }

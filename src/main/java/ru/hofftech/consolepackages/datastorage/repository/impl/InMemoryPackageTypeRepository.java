@@ -16,20 +16,15 @@ public class InMemoryPackageTypeRepository implements PackageTypeRepository {
     private final Map<String, PackageType> packageTypes = new HashMap<>();
 
     /**
-     * Creates new package type in storage.
-     * @param name package type name.
-     * @param form package form.
-     * @param descriptionNumber package description number.
-     * @return created package type name.
+     * In-memory package type repository.
+     *
+     * @author Natalia.Strelkova
      */
     @Override
-    public String create(
-            String name,
-            String form,
-            String descriptionNumber) {
-        packageTypes.put(name, new PackageType(name, form, descriptionNumber));
+    public PackageType create(PackageType packageType) {
+        packageTypes.put(packageType.getName(), packageType);
 
-        return name;
+        return packageType;
     }
 
     /**

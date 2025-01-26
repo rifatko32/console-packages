@@ -1,5 +1,7 @@
 package ru.hofftech.consolepackages.service.command.impl.placepackage;
 
+import ch.qos.logback.core.util.StringUtil;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -27,6 +29,7 @@ import java.util.List;
  */
 @Getter
 @Setter
+@Builder
 @RequiredArgsConstructor
 public class PlacePackageContext extends CommandContextWithResult<String> {
     private final List<String> trucks;
@@ -36,4 +39,5 @@ public class PlacePackageContext extends CommandContextWithResult<String> {
     private final ReportOutputChannelType reportOutputChannelType;
     private final String outputFileName;
     private final String packagesText;
+    private final String clientId;
 }

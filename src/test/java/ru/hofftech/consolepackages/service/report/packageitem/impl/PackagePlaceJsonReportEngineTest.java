@@ -14,11 +14,11 @@ public class PackagePlaceJsonReportEngineTest {
     private final PackagePlaceJsonReportEngine engine = new PackagePlaceJsonReportEngine();
 
     @Test
-    public void testGenerateReport_SimpleCase() {
+    void testGenerateReport_SimpleCase() {
         // Arrange
         List<Truck> trucks = new ArrayList<>();
-        trucks.add(new Truck(100, 100));
-        trucks.add(new Truck(100, 100));
+        trucks.add(new Truck.Builder().width(100).height(100).build());
+        trucks.add(new Truck.Builder().width(100).height(100).build());
 
         // Act
         PlaneStringReport report = engine.generateReport(trucks);
@@ -28,7 +28,7 @@ public class PackagePlaceJsonReportEngineTest {
     }
 
     @Test
-    public void testGenerateReport_EmptyTrucks() {
+    void testGenerateReport_EmptyTrucks() {
         // Arrange
         List<Truck> trucks = new ArrayList<>();
 
@@ -40,7 +40,7 @@ public class PackagePlaceJsonReportEngineTest {
     }
 
     @Test
-    public void testGenerateReport_NullTrucks() {
+    void testGenerateReport_NullTrucks() {
         // Act
         var report = engine.generateReport(null);
 

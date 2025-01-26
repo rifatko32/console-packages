@@ -1,5 +1,8 @@
 package ru.hofftech.consolepackages.service.command;
 
+import lombok.experimental.UtilityClass;
+import ru.hofftech.consolepackages.exception.CommandParseException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -9,6 +12,7 @@ import static ru.hofftech.consolepackages.service.command.CommandConstants.COMMA
 /**
  * The class parses commands and their parameters from a string.
  */
+@UtilityClass
 public class CommandParser {
     public static CommandType parseCommandType(String strCommand) {
         if (strCommand.startsWith(CommandConstants.LOAD_COMMAND_PATTERN)) {
@@ -39,7 +43,11 @@ public class CommandParser {
             return CommandType.EDIT_PACKAGE_TYPE;
         }
 
-        throw new RuntimeException("Invalid command: " + strCommand);
+        if (strCommand.startsWith(CommandConstants.BILLING_COMMAND_PATTERN)) {
+            return CommandType.USER_BILLING_REPORT;
+        }
+
+        throw new CommandParseException("Invalid command: " + strCommand);
     }
 
     /**

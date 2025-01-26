@@ -1,5 +1,6 @@
 package ru.hofftech.consolepackages.service.truck;
 
+import ru.hofftech.consolepackages.exception.TruckCreatingException;
 import ru.hofftech.consolepackages.model.Truck;
 
 import java.util.List;
@@ -39,6 +40,13 @@ public class TruckFactory {
      */
     private static Truck createTruck(String t) {
         String[] split = t.split(TRUCK_DELIMITER);
-        return new Truck(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+        try {
+            return new Truck.Builder()
+                    .width(Integer.parseInt(split[0]))
+                    .height(Integer.parseInt(split[1]))
+                    .build();
+        } catch (Exception e) {
+            throw new TruckCreatingException(e);
+        }
     }
 }

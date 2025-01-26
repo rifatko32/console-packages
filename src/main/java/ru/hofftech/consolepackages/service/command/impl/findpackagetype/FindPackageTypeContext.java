@@ -1,5 +1,7 @@
 package ru.hofftech.consolepackages.service.command.impl.findpackagetype;
 
+import ch.qos.logback.core.util.StringUtil;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
  */
 @Getter
 @Setter
+@Builder
 @RequiredArgsConstructor
 public class FindPackageTypeContext extends CommandContextWithResult<ArrayList<PackageType>> {
     private final String name;

@@ -1,6 +1,8 @@
 package ru.hofftech.consolepackages.datastorage.model.entity;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 
@@ -23,6 +25,7 @@ import static ru.hofftech.consolepackages.service.packageitem.PackageSizeCalcula
  * @see ru.hofftech.consolepackages.service.packageitem.PackageSizeCalculator
  */
 @Getter
+@RequiredArgsConstructor
 public class PackageType {
 
     @Setter
@@ -33,12 +36,12 @@ public class PackageType {
     private Integer width;
     private Integer height;
 
-    public PackageType(String name, String form, String descriptionNumber) {
+    private PackageType(String name, String form, String descriptionNumber) {
         this.name = name;
         this.form = form;
         this.descriptionNumber = descriptionNumber;
-        this.width = calcPackageTypeWidth(form);
-        this.height = calcPackageTypeHeight(form);
+        width = calcPackageTypeWidth(form);
+        height = calcPackageTypeHeight(form);
     }
 
     /**
@@ -70,7 +73,36 @@ public class PackageType {
      */
     public void setForm(String form) {
         this.form = form;
-        this.width = calcPackageTypeWidth(form);
-        this.height = calcPackageTypeHeight(form);
+        width = calcPackageTypeWidth(form);
+        height = calcPackageTypeHeight(form);
+    }
+
+    public static class Builder {
+        private String name;
+        private String form;
+        private String descriptionNumber;
+        private Integer width;
+        private Integer height;
+
+        public Builder() {}
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder form(String form) {
+            this.form = form;
+            return this;
+        }
+
+        public Builder descriptionNumber(String descriptionNumber) {
+            this.descriptionNumber = descriptionNumber;
+            return this;
+        }
+
+        public PackageType build() {
+            return new PackageType(name, form, descriptionNumber);
+        }
     }
 }

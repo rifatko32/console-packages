@@ -1,6 +1,7 @@
 package ru.hofftech.consolepackages.service.command.impl.placepackage;
 
 import lombok.RequiredArgsConstructor;
+import ru.hofftech.consolepackages.service.billing.PackageBillingService;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.command.CommandAbstractFactory;
 import ru.hofftech.consolepackages.service.command.CommandContext;
@@ -17,6 +18,10 @@ import ru.hofftech.consolepackages.service.report.packageitem.PackagePlaceReport
 import java.util.Arrays;
 import java.util.Objects;
 
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateClientId;
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validatePackagesTextFilePath;
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateTrucks;
+
 /**
  * The class implements the factory of commands for placing packages into trucks.
  */
@@ -30,6 +35,7 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
     private static final String PACKAGES_TEXT_KEY = "packages-text";
     private static final String OUT_FILENAME_KEY = "out-filename";
     private static final String OUT_JSON_FILE_VALUE = "json-file";
+    private static final String CLIENT_ID = "clientid";
 
 
     private final PackageFromFileReader packageFromFileReader;
@@ -37,7 +43,7 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
     private final PackagePlaceAlgorithmFactory placeEngineFactory;
     private final PackagePlaceReportEngineFactory reportEngineFactory;
     private final PackageFromStringReader packageFromStringReader;
-
+    private final PackageBillingService packageBillingService;
 
     /**
      * Creates a command for placing packages into trucks.
@@ -53,9 +59,9 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
                 reportWriterFactory,
                 (PlacePackageContext) commandContext,
                 placeEngineFactory,
-                reportEngineFactory);
+                reportEngineFactory,
+                packageBillingService);
     }
-
 
     /**
      * Creates the context of the command to place packages into trucks.
@@ -75,7 +81,55 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
         var channelType = ReportOutputChannelType.fromLabel(commandKeyValues.get(OUT_KEY));
         var reportEngineType = Objects.equals(commandKeyValues.get(OUT_KEY), OUT_JSON_FILE_VALUE) ? ReportEngineType.JSON : ReportEngineType.STRING;
         var outputFileName = commandKeyValues.get(OUT_FILENAME_KEY);
+        var clientId = commandKeyValues.get(CLIENT_ID);
 
-        return new PlacePackageContext(trucks, algorithmType, filePath, reportEngineType, channelType, outputFileName, packagesText);
+        validateTrucks(trucks);
+        validatePackagesTextFilePath(packagesText, filePath);
+        validateClientId(clientId);
+
+        return PlacePackageContext.builder()
+                .trucks(trucks)
+                .algorithmType(algorithmType)
+                .filePath(filePath)
+                .reportEngineType(reportEngineType)
+                .reportOutputChannelType(channelType)
+                .outputFileName(outputFileName)
+                .packagesText(packagesText)
+                .clientId(clientId)
+                .build();
+    }
+
+    /**
+     * Creates the context of the command to place packages into trucks by parameters.
+     *
+     * @param trucks         comma-separated list of truck names
+     * @param algorithmType  type of the algorithm to use while placing packages
+     * @param filePath       path to the file with packages
+     * @param outputFileName name of the file to write the report to
+     * @param outParameter   parameter to specify the report output channel
+     * @param packagesText   text with packages to place
+     * @return the context of the command to place packages into trucks
+     */
+    public CommandContext createCommandContextByParameters(
+            String trucks,
+            String algorithmType,
+            String filePath,
+            String outParameter,
+            String outputFileName,
+            String packagesText,
+            String clientId) {
+
+        validatePackagesTextFilePath(packagesText, filePath);
+
+        return PlacePackageContext.builder()
+                .trucks(Arrays.stream(trucks.split(TRUCKS_DELIMITER)).toList())
+                .algorithmType(PackagePlaceAlgorithmType.fromLabel(algorithmType))
+                .filePath(filePath)
+                .reportEngineType(Objects.equals(outParameter, OUT_JSON_FILE_VALUE) ? ReportEngineType.JSON : ReportEngineType.STRING)
+                .reportOutputChannelType(ReportOutputChannelType.fromLabel(outParameter))
+                .outputFileName(outputFileName)
+                .packagesText(packagesText)
+                .clientId(clientId)
+                .build();
     }
 }

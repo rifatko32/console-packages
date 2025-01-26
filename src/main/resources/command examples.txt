@@ -1,21 +1,23 @@
-load -packages-file "packages.txt" -trucks "6x6;6x6;6x6" -type "width" -out json-file -out-filename "trucks.json"
+load --packages-file "packages.txt" --trucks "6x6;6x6;6x6" --type "width" --out json-file --out-filename "trucks.json" --clientid "client1"
 
-load -packages-file "packages.txt" -trucks "6x6;6x6;6x6" -type "width" -out console
+load --packages-file "packages.txt" --trucks "6x6;6x6;6x6" --type "width" --clientid "client1"
 
-load -packages-file "packages.txt" -trucks "6x6;6x6;6x6" -type "width" -out tgbot
+load --packages-file "packages.txt" --trucks "6x6;6x6;6x6" --type "width" --out tgbot --clientid "client1"
 
-load -packages-text "type wheel;type narrow weight;type 1;type 1" -trucks "3x3;3x3;6x2" -type "width" -out console
+load --packages-text "type wheel;type narrow weight;type 1;type 1" --trucks "3x3;3x3;6x2" --type "width" --out console --clientid "client1"
 
-unload -infile "trucks.json" -outfile "packages.txt"
+unload --infile "trucks.json" --out-filename "packages.txt" --clientid "client1"
 
-unload -infile "trucks.json" -outfile "packages.txt" -withcount
+unload --infile "trucks.json" --out-filename "packages.txt" --withcount true --clientid "client1"
 
-create -name "type wheel" -form "xxx\nx x\nxxxx" -description "o"
+create --name "type wheel" --form "xxx\nx x\nxxxx" --description "o" -ok
 
-find -name "type 1" -out console
+find --name "type 1" -out console -ok
 
 find -name "type 1" -out tgbot
 
-delete -name "type 1"
+delete --name "type 1" -ok
 
-edit -name "type 3" -form "xxx\nxxx\nxxx" -description "X"
+edit --name "type 3" --form "xxx\nxxx\nxxx" --description "X" -ok
+
+billing --clientid "client1" --from 20.01.2025 --to 21.01.2025

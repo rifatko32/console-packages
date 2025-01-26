@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class PackageSizeCalculatorTest {
 
     @Test
-    public void testCalcPackageTypeWidth_SimpleCase() {
+    void testCalcPackageTypeWidth_SimpleCase() {
         // Arrange
         String form = "10\\n20\\n30";
 
@@ -20,7 +20,7 @@ public class PackageSizeCalculatorTest {
     }
 
     @Test
-    public void testCalcPackageTypeWidth_EmptyForm() {
+    void testCalcPackageTypeWidth_EmptyForm() {
         // Arrange
         String form = "";
 
@@ -32,14 +32,14 @@ public class PackageSizeCalculatorTest {
     }
 
     @Test
-    public void testCalcPackageTypeWidth_NullForm() {
+    void testCalcPackageTypeWidth_NullForm() {
         // Act and Assert
         assertThatThrownBy(() -> PackageSizeCalculator.calcPackageTypeWidth(null))
                 .isInstanceOf(NullPointerException.class);
     }
 
     @Test
-    public void testCalcPackageTypeHeight_SimpleCase() {
+    void testCalcPackageTypeHeight_SimpleCase() {
         // Arrange
         String form = "10\\n20\\n30";
 
@@ -51,7 +51,7 @@ public class PackageSizeCalculatorTest {
     }
 
     @Test
-    public void testCalcPackageTypeHeight_EmptyForm() {
+    void testCalcPackageTypeHeight_EmptyForm() {
         // Arrange
         String form = "";
 
@@ -63,7 +63,7 @@ public class PackageSizeCalculatorTest {
     }
 
     @Test
-    public void testCalcPackageTypeHeight_NullForm() {
+    void testCalcPackageTypeHeight_NullForm() {
         // Act and Assert
         assertThatThrownBy(() -> PackageSizeCalculator.calcPackageTypeHeight(null))
                 .isInstanceOf(NullPointerException.class);

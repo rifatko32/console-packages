@@ -17,6 +17,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class TruckJsonFileReader {
+
     private final Gson gson;
 
     /**

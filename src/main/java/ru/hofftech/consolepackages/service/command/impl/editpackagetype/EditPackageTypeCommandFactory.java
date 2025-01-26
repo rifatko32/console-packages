@@ -1,12 +1,15 @@
 package ru.hofftech.consolepackages.service.command.impl.editpackagetype;
 
+import ch.qos.logback.core.util.StringUtil;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.command.CommandAbstractFactory;
 import ru.hofftech.consolepackages.service.command.CommandContext;
 import ru.hofftech.consolepackages.service.command.CommandParser;
+
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateFormDescription;
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateName;
 
 /**
  * The class implements the factory of commands for editing a package type.
@@ -42,14 +45,35 @@ public class EditPackageTypeCommandFactory implements CommandAbstractFactory {
         var commandKeyValues = CommandParser.parseCommandKeys(strCommand);
 
         var name = commandKeyValues.get(NAME);
-
-        if (StringUtils.isEmpty(name)) {
-            throw new IllegalArgumentException("Name is empty");
-        }
-
         var form = commandKeyValues.get(FORM);
         var description = commandKeyValues.get(DESCRIPTION);
 
-        return new EditPackageTypeContext(name, form, description);
+        validateName(name);
+        validateFormDescription(form, description);
+
+        return  EditPackageTypeContext.builder()
+                .name(name)
+                .form(form)
+                .description(description)
+                .build();
+    }
+
+    /**
+     * Creates the context of the command to edit a package type by parameters.
+     *
+     * @param name        the name of the package type
+     * @param form        the form of the package type
+     * @param description the description of the package type
+     * @return the context of the command to edit a package type
+     */
+    public CommandContext createCommandContextByParameters(String name, String form, String description) {
+
+        validateFormDescription(form, description);
+
+        return EditPackageTypeContext.builder()
+                .name(name)
+                .form(form)
+                .description(description)
+                .build();
     }
 }
