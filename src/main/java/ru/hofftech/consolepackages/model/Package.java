@@ -1,5 +1,6 @@
 package ru.hofftech.consolepackages.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import ru.hofftech.consolepackages.service.packageitem.BackTruckSlot;
 

@@ -1,21 +1,14 @@
 package ru.hofftech.consolepackages.service.report.billing;
 
 import lombok.RequiredArgsConstructor;
-import ru.hofftech.consolepackages.datastorage.model.entity.BillingOrder;
 import ru.hofftech.consolepackages.datastorage.model.entity.OperationType;
-import ru.hofftech.consolepackages.datastorage.repository.BillingOrderRepository;
+import ru.hofftech.consolepackages.model.dto.billing.BillingByUserSummaryResponse;
+import ru.hofftech.consolepackages.service.billing.PackageBillingService;
 import ru.hofftech.consolepackages.service.report.PlaneStringReport;
-import ru.hofftech.consolepackages.service.report.billing.model.BillOrderGroup;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.toList;
 import static ru.hofftech.consolepackages.util.DateUtils.DATE_FORMAT;
 
 /**
@@ -28,7 +21,7 @@ import static ru.hofftech.consolepackages.util.DateUtils.DATE_FORMAT;
 @RequiredArgsConstructor
 public class UserBillingReportImpl implements UserBillingReportEngine {
 
-    private final BillingOrderRepository repository;
+    private final PackageBillingService packageBillingService;
 
     /**
      * Generates a report of billing orders for a user within a specified period.
@@ -40,7 +33,7 @@ public class UserBillingReportImpl implements UserBillingReportEngine {
      */
     @Override
     public PlaneStringReport generateByPeriod(String userId, LocalDate fromDate, LocalDate toDate) {
-        List<BillingOrder> orders = repository.receiveForUserByPeriod(userId, fromDate, toDate);
+        var orders = packageBillingService.returnBillingSummaryByClient(userId, fromDate, toDate);
 
         if (orders.isEmpty()) {
             return new PlaneStringReport();
@@ -48,42 +41,20 @@ public class UserBillingReportImpl implements UserBillingReportEngine {
 
         var result = new PlaneStringReport();
 
-        var groupedOrders = orders
-                .stream()
-                .collect(groupingBy(
-                        bo -> new BillOrderGroup(bo.getOrderDate(), bo.getOperationType()),
-                        toList()));
-
-        for (var entry : groupedOrders.entrySet()) {
-            result.addReportString(generateByOrder(entry.getKey(), entry.getValue()));
+        for (var order : orders) {
+            result.addReportString(formatToreportString(order));
         }
 
         return result;
     }
 
-    private String generateByOrder(BillOrderGroup orderGroup, List<BillingOrder> orders) {
-
-        var summary = orders.stream()
-                .collect(Collectors.summarizingDouble(bo -> bo.getAmount().doubleValue()))
-                .getSum();
-
-        var packageQtySum = orders.stream()
-                .mapToInt(BillingOrder::getPackageQty)
-                .sum();
-
-        var truckIdCount = orders.stream()
-                .map(BillingOrder::getTruckId)
-                .distinct()
-                .count();
-
-        var formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
-
+    private String formatToreportString(BillingByUserSummaryResponse orderSummary) {
         return String.format(
                 "%s; %s; %s машин; %s посылок; %s рублей",
-                orderGroup.orderDate().format(formatter),
-                OperationType.returnLabel(orderGroup.operationType()),
-                truckIdCount,
-                packageQtySum,
-                summary);
+                orderSummary.date().format(DateTimeFormatter.ofPattern(DATE_FORMAT)),
+                OperationType.returnLabel(orderSummary.operationType()),
+                orderSummary.truckCount(),
+                orderSummary.packageCount(),
+                orderSummary.amount());
     }
 }

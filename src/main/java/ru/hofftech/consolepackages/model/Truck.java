@@ -1,6 +1,7 @@
 package ru.hofftech.consolepackages.model;
 
 import lombok.Getter;
+import lombok.Setter;
 import ru.hofftech.consolepackages.service.packageitem.BackTruckSlot;
 
 import java.util.ArrayList;
@@ -18,11 +19,14 @@ import java.util.UUID;
 @Getter
 public class Truck {
     private final String[][] backTruckSlots; // координаты ячеек в кузове
-    private final int width; //кол-во столбцов координата x
-    private final int height; //кол-во строк координата y
-    private final UUID id = UUID.randomUUID();
-
-    private final List<Package> packages;
+    @Setter
+    private int width; //кол-во столбцов координата x
+    @Setter
+    private int height; //кол-во строк координата y
+    @Setter
+    private UUID id = UUID.randomUUID();
+    @Setter
+    private List<Package> packages;
 
     public Truck(int width, int height) {
         this.width = width;

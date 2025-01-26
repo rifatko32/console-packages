@@ -8,14 +8,17 @@ import ru.hofftech.consolepackages.datastorage.model.entity.BillingOrder;
 import ru.hofftech.consolepackages.datastorage.model.entity.OperationType;
 import ru.hofftech.consolepackages.datastorage.repository.BillingOrderRepository;
 import ru.hofftech.consolepackages.model.Truck;
+import ru.hofftech.consolepackages.model.dto.billing.BillingByUserSummaryResponse;
+import ru.hofftech.consolepackages.model.dto.billing.BillOrderGroup;
 
 import java.math.BigDecimal;
-import java.time.Clock;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -32,6 +35,53 @@ public class PackageBillingServiceImpl implements PackageBillingService {
     @Override
     public void creatPackageBill(List<Truck> trucks, String clientId, OperationType operationType) {
         createBillsByTracks(trucks, operationType == OperationType.LOAD ? loadPrice : unloadPrice, clientId, operationType);
+    }
+
+    @Override
+    public List<BillingByUserSummaryResponse> returnBillingSummaryByClient(String clientId, LocalDate fromDate, LocalDate toDate) {
+        List<BillingOrder> orders = billingOrderRepository.receiveForUserByPeriod(clientId, fromDate, toDate);
+
+        if (orders.isEmpty()) {
+            return new ArrayList<>(0);
+        }
+
+        var result = new ArrayList<BillingByUserSummaryResponse>();
+
+        var groupedOrders = orders
+                .stream()
+                .collect(groupingBy(
+                        bo -> new BillOrderGroup(bo.getOrderDate(), bo.getOperationType()),
+                        toList()));
+
+        for (var entry : groupedOrders.entrySet()) {
+            result.add(generateByOrderResponse(entry.getKey(), entry.getValue()));
+        }
+
+        return result;
+    }
+
+    private BillingByUserSummaryResponse generateByOrderResponse(BillOrderGroup orderGroup, List<BillingOrder> orders) {
+
+        var summary = orders.stream()
+                .map(BillingOrder::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        var packageQtySum = orders.stream()
+                .mapToInt(BillingOrder::getPackageQty)
+                .sum();
+
+        var truckIdCount = orders.stream()
+                .map(BillingOrder::getTruckId)
+                .distinct()
+                .count();
+
+        return new BillingByUserSummaryResponse(
+                orderGroup.orderDate(),
+                orderGroup.operationType(),
+                truckIdCount,
+                packageQtySum,
+                summary
+        );
     }
 
     private void createBillsByTracks(List<Truck> trucks, Integer price, String clientId, OperationType operationType) {

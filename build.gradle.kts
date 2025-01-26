@@ -23,13 +23,21 @@ val versions = mapOf(
     "junit-jupiter" to "",
     "assertj-core" to "3.6.1",
     "mockito-core" to "5.14.2",
-    "shell-starter" to "3.4.0"
+    "shell-starter" to "3.4.0",
+    "mapstruct" to "1.6.3",
+    "lombokMapstructBindingVersion" to "0.2.0"
 )
 
 dependencies {
+    annotationProcessor("org.mapstruct:mapstruct-processor:${versions["mapstruct"]}")
+    annotationProcessor("org.projectlombok:lombok-mapstruct-binding:${versions["lombokMapstructBindingVersion"]}")
+
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.shell:spring-shell-starter:${versions["shell-starter"]}")
     implementation("org.projectlombok:lombok:${versions["lombok"]}")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.mapstruct:mapstruct:${versions["mapstruct"]}")
+
     annotationProcessor("org.projectlombok:lombok:${versions["lombok"]}")
 
     implementation("org.slf4j:slf4j-api:${versions["slf4j-api"]}")

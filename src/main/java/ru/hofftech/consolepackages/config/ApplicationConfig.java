@@ -7,6 +7,8 @@ import ru.hofftech.consolepackages.datastorage.repository.BillingOrderRepository
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.datastorage.repository.impl.InMemoryBillingOrderRepository;
 import ru.hofftech.consolepackages.datastorage.repository.impl.InMemoryPackageTypeRepository;
+import ru.hofftech.consolepackages.mapper.loadpackage.PackageMapper;
+import ru.hofftech.consolepackages.mapper.loadpackage.TruckMapper;
 import ru.hofftech.consolepackages.service.StartupDataStorageInitializer;
 import ru.hofftech.consolepackages.service.billing.PackageBillingService;
 import ru.hofftech.consolepackages.service.billing.PackageBillingServiceImpl;
@@ -23,13 +25,18 @@ import ru.hofftech.consolepackages.service.command.impl.unloadtruck.UnloadTruckC
 import ru.hofftech.consolepackages.service.packageitem.PackageFactory;
 import ru.hofftech.consolepackages.service.packageitem.PackageFromFileReader;
 import ru.hofftech.consolepackages.service.packageitem.PackageFromStringReader;
+import ru.hofftech.consolepackages.service.packageitem.PlacePackageService;
+import ru.hofftech.consolepackages.service.packageitem.PlacePackageServiceImpl;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
+import ru.hofftech.consolepackages.service.packagetype.PackageTypeService;
+import ru.hofftech.consolepackages.service.packagetype.PackageTypeServiceImpl;
 import ru.hofftech.consolepackages.service.report.billing.UserBillingReportEngine;
 import ru.hofftech.consolepackages.service.report.billing.UserBillingReportImpl;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
 import ru.hofftech.consolepackages.service.report.packageitem.PackagePlaceReportEngineFactory;
 import ru.hofftech.consolepackages.service.report.truck.TruckUnloadingReportEngineFactory;
-import ru.hofftech.consolepackages.service.truck.TruckToPackagesService;
+import ru.hofftech.consolepackages.service.truck.UnloadTruckService;
+import ru.hofftech.consolepackages.service.truck.UnloadTruckServiceImpl;
 import ru.hofftech.consolepackages.service.truck.TruckUnloadingAlgorithm;
 import ru.hofftech.consolepackages.telegram.PackageTelegramBot;
 import ru.hofftech.consolepackages.util.PackageFileReader;
@@ -85,11 +92,11 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public TruckToPackagesService truckToPackagesService() {
-        return new TruckToPackagesService(
-                truckUnloadingReportEngineFactory(),
-                truckUnloadingAlgorithm()
-        );
+    public UnloadTruckService unloadTruckService() {
+        return new UnloadTruckServiceImpl(
+                truckUnloadingAlgorithm(),
+                packageMapper(),
+                truckMapper());
     }
 
     @Bean
@@ -152,7 +159,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserBillingReportEngine userBillingReportEngine() {
-        return new UserBillingReportImpl(billingOrderRepository());
+        return new UserBillingReportImpl(packageBillingService());
     }
 
     @Bean
@@ -175,11 +182,11 @@ public class ApplicationConfig {
     @Bean
     public UnloadTruckCommandFactory unloadTruckCommandFactory() {
         return new UnloadTruckCommandFactory(
-                truckToPackagesService(),
+                unloadTruckService(),
                 reportWriterFactory(),
                 truckJsonFileReader(),
-                packageBillingService()
-        );
+                packageBillingService(),
+                truckUnloadingReportEngineFactory());
     }
 
     @Bean
@@ -205,5 +212,30 @@ public class ApplicationConfig {
     @Bean
     public EditPackageTypeCommandFactory editPackageTypeCommandFactory() {
         return new EditPackageTypeCommandFactory(packageTypeRepository());
+    }
+
+    @Bean
+    public PackageTypeService packageTypeService() {
+        return new PackageTypeServiceImpl();
+    }
+
+    @Bean
+    public PlacePackageService placePackageService() {
+        return new PlacePackageServiceImpl(
+                packageFromStringReader(),
+                packageFactory(),
+                packagePlaceAlgorithmFactory(),
+                packageBillingService(),
+                truckMapper());
+    }
+
+    @Bean
+    public TruckMapper truckMapper() {
+        return org.mapstruct.factory.Mappers.getMapper(TruckMapper.class);
+    }
+
+    @Bean
+    public PackageMapper packageMapper() {
+        return org.mapstruct.factory.Mappers.getMapper(PackageMapper.class);
     }
 }
