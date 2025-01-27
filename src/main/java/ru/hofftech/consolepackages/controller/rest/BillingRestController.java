@@ -1,5 +1,7 @@
 package ru.hofftech.consolepackages.controller.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import java.util.List;
 /**
  * REST controller for billing operations.
  */
+@Tag(name = "Billing Controller", description = "REST API для управления биллингом клиентов")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/billing")
@@ -34,6 +37,7 @@ public class BillingRestController {
      * @return a list of {@link BillingByUserSummaryResponse} objects
      */
     @GetMapping("/{clientId}")
+    @Operation(summary = "Возвращает список счетов по клиенту")
     public ResponseEntity<List<BillingByUserSummaryResponse>> returnBillingByClient(
             @PathVariable String clientId,
             @RequestParam @NotNull LocalDate fromDate,

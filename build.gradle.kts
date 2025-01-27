@@ -25,7 +25,8 @@ val versions = mapOf(
     "mockito-core" to "5.14.2",
     "shell-starter" to "3.4.0",
     "mapstruct" to "1.6.3",
-    "lombokMapstructBindingVersion" to "0.2.0"
+    "lombokMapstructBindingVersion" to "0.2.0",
+    "webmvc" to "2.8.3"
 )
 
 dependencies {
@@ -37,6 +38,7 @@ dependencies {
     implementation("org.projectlombok:lombok:${versions["lombok"]}")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.mapstruct:mapstruct:${versions["mapstruct"]}")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${versions["webmvc"]}")
 
     annotationProcessor("org.projectlombok:lombok:${versions["lombok"]}")
 

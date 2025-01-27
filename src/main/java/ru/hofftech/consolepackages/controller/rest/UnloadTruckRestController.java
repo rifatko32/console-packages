@@ -1,5 +1,6 @@
 package ru.hofftech.consolepackages.controller.rest;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import ru.hofftech.consolepackages.model.dto.unloadtruck.UnloadTruckDto;
 import ru.hofftech.consolepackages.model.dto.unloadtruck.UnloadTruckResponse;
 import ru.hofftech.consolepackages.service.truck.UnloadTruckService;
 
+@Tag(name = "Unload Controller", description = "REST API для разгрузки посылок")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/trucks")

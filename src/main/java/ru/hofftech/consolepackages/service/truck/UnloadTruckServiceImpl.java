@@ -63,9 +63,6 @@ public class UnloadTruckServiceImpl implements UnloadTruckService {
     public UnloadTruckResponse unloadTruck(UnloadTruckDto unloadTruckDto) {
         var result = new UnloadTruckResponse();
 
-        /*var packageDtos = unloadTruckDto.trucks().stream().map(PlacePackageTruckDto::packages).flatMap(List::stream).toList();
-        var packages = packageMapper.reverseMapUnloadPackages(packageDtos);*/
-
         var trucks = truckMapper.reverseMapTrucks(unloadTruckDto.trucks());
         var packages = unloadTruck(trucks);
 

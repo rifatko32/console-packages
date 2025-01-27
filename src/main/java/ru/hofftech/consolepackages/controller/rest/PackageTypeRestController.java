@@ -1,5 +1,7 @@
 package ru.hofftech.consolepackages.controller.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import java.util.List;
 /**
  * REST controller to manage package types.
  */
+@Tag(name = "PackageType Controller", description = "REST API для управления типами посылок")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/package-types")
@@ -35,6 +38,7 @@ public class PackageTypeRestController {
      * @param name Package type name
      * @return Package type
      */
+    @Operation(summary = "Возвращает тип пакета по имени")
     @GetMapping("{name}")
     public ResponseEntity<PackageType> findPackageType(@PathVariable String name) {
         return new ResponseEntity<>(packageTypeService.findPackageType(name), HttpStatus.OK);
@@ -47,6 +51,7 @@ public class PackageTypeRestController {
      * @param size Page size
      * @return List of package types
      */
+    @Operation(summary = "Возвращает типы пакетов")
     @GetMapping()
     public ResponseEntity<List<PackageType>> findPackageTypes(Integer page, Integer size) {
         return new ResponseEntity<>(packageTypeService.findPackageTypes(page, size), HttpStatus.OK);
@@ -58,6 +63,7 @@ public class PackageTypeRestController {
      * @param createPackageTypeDto Package type creation data
      * @return Created package type
      */
+    @Operation(summary = "Создает тип пакета")
     @PostMapping()
     public ResponseEntity<PackageType> createPackageType(@RequestBody @NotNull CreatePackageTypeDto createPackageTypeDto) {
         return new ResponseEntity<>(packageTypeService.createPackageType(createPackageTypeDto), HttpStatus.OK);
@@ -69,6 +75,7 @@ public class PackageTypeRestController {
      * @param name Package type name
      * @return ResponseEntity with status 204 No Content
      */
+    @Operation(summary = "Удаляет тип пакета")
     @DeleteMapping("{name}")
     public ResponseEntity deletePackageType(@PathVariable String name) {
         packageTypeService.deletePackageType(name);
@@ -81,6 +88,7 @@ public class PackageTypeRestController {
      * @param editPackageTypeDto Data for editing the package type
      * @return Updated package type
      */
+    @Operation(summary = "Редактирует тип пакета")
     @PutMapping("{name}")
     public ResponseEntity<PackageType> editPackageType(@RequestBody @NotNull EditPackageTypeDto editPackageTypeDto) {
         return new ResponseEntity<>(packageTypeService.editPackageType(editPackageTypeDto), HttpStatus.OK);
