@@ -13,7 +13,7 @@ public interface PackageMapper {
 
     @AfterMapping
     default Package afterPlacePackageMapping(PlacePackageDto placePackageDto) {
-        return new Package(placePackageDto.getDescription(), placePackageDto.getTypeName(), placePackageDto.getForm());
+        return new Package(placePackageDto.getDescription(), placePackageDto.getTypeId(), placePackageDto.getForm());
     }
 
     PlacePackageDto mapPackage(Package packageItem);

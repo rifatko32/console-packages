@@ -20,12 +20,12 @@ public class EqualDistributionPlaceAlgorithmTest {
         List<Package> packages = new ArrayList<>();
         packages.add(new Package.Builder()
                 .description("d")
-                .typeName("typeName")
+                .typeId(1L)
                 .form("999\\n999\\n999")
                 .build());
         packages.add(new Package.Builder()
                 .description("d")
-                .typeName("typeName")
+                .typeId(1L)
                 .form("999\\n999\\n999")
                 .build());
 
@@ -47,17 +47,17 @@ public class EqualDistributionPlaceAlgorithmTest {
         List<Package> packages = new ArrayList<>();
         packages.add(new Package.Builder()
                 .description("d")
-                .typeName("typeName")
+                .typeId(1L)
                 .form("999\\n999\\n999")
                 .build());
         packages.add(new Package.Builder()
                 .description("d")
-                .typeName("typeName")
+                .typeId(1L)
                 .form("999\\n999\\n999")
                 .build());
         packages.add(new Package.Builder()
                 .description("d")
-                .typeName("typeName")
+                .typeId(1L)
                 .form("999\\n999\\n999")
                 .build());
 
@@ -79,12 +79,12 @@ public class EqualDistributionPlaceAlgorithmTest {
         List<Package> packages = new ArrayList<>();
         packages.add(new Package.Builder()
                 .description("d")
-                .typeName("typeName")
+                .typeId(1L)
                 .form("999\\n999\\n999")
                 .build());
         packages.add(new Package.Builder()
                 .description("d")
-                .typeName("typeName")
+                .typeId(1L)
                 .form("999\\n999\\n999")
                 .build());
 
@@ -125,12 +125,12 @@ public class EqualDistributionPlaceAlgorithmTest {
         List<Package> packages = new ArrayList<>();
         packages.add(new Package.Builder()
                 .description("d")
-                .typeName("typeName")
+                .typeId(1L)
                 .form("999\\n999\\n999")
                 .build());
         packages.add(new Package.Builder()
                 .description("d")
-                .typeName("typeName")
+                .typeId(1L)
                 .form("999\\n999\\n999")
                 .build());
 

@@ -21,9 +21,9 @@ public class CreatePackageTypeCommand implements Command {
      */
     @Override
     public void execute() {
-        packageTypeRepository.create(
+        packageTypeRepository.save(
                 new PackageType.Builder()
-                        .name(context.name())
+                        .id(context.id())
                         .form(context.form())
                         .descriptionNumber(context.description())
                         .build());

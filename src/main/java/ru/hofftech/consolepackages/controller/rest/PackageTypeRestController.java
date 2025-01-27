@@ -35,13 +35,13 @@ public class PackageTypeRestController {
     /**
      * Finds a package type by name.
      *
-     * @param name Package type name
+     * @param id Package type id
      * @return Package type
      */
     @Operation(summary = "Возвращает тип пакета по имени")
-    @GetMapping("{name}")
-    public ResponseEntity<PackageType> findPackageType(@PathVariable String name) {
-        return new ResponseEntity<>(packageTypeService.findPackageType(name), HttpStatus.OK);
+    @GetMapping("{id}")
+    public ResponseEntity<PackageType> findPackageType(@PathVariable Long id) {
+        return new ResponseEntity<>(packageTypeService.findPackageType(id), HttpStatus.OK);
     }
 
     /**
@@ -72,13 +72,13 @@ public class PackageTypeRestController {
     /**
      * Deletes a package type.
      *
-     * @param name Package type name
+     * @param id Package type id
      * @return ResponseEntity with status 204 No Content
      */
     @Operation(summary = "Удаляет тип пакета")
-    @DeleteMapping("{name}")
-    public ResponseEntity deletePackageType(@PathVariable String name) {
-        packageTypeService.deletePackageType(name);
+    @DeleteMapping("{id}")
+    public ResponseEntity deletePackageType(@PathVariable Long id) {
+        packageTypeService.deletePackageType(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
@@ -89,8 +89,8 @@ public class PackageTypeRestController {
      * @return Updated package type
      */
     @Operation(summary = "Редактирует тип пакета")
-    @PutMapping("{name}")
-    public ResponseEntity<PackageType> editPackageType(@RequestBody @NotNull EditPackageTypeDto editPackageTypeDto) {
-        return new ResponseEntity<>(packageTypeService.editPackageType(editPackageTypeDto), HttpStatus.OK);
+    @PutMapping("{id}")
+    public ResponseEntity<PackageType> editPackageType(@PathVariable Long id, @RequestBody @NotNull EditPackageTypeDto editPackageTypeDto) {
+        return new ResponseEntity<>(packageTypeService.editPackageType(id, editPackageTypeDto), HttpStatus.OK);
     }
 }

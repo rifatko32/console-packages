@@ -18,7 +18,7 @@ import ru.hofftech.consolepackages.service.truck.UnloadTruckService;
 @RequestMapping("/api/v1/trucks")
 public class UnloadTruckRestController {
 
-    private UnloadTruckService unloadTruckService;
+    private final UnloadTruckService unloadTruckService;
 
     @PostMapping
     public ResponseEntity<UnloadTruckResponse> unloadTruck(@RequestBody UnloadTruckDto unloadTruckDto) {

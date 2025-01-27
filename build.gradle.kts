@@ -40,6 +40,7 @@ dependencies {
     implementation("org.mapstruct:mapstruct:${versions["mapstruct"]}")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${versions["webmvc"]}")
 
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-database-postgresql")

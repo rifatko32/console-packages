@@ -1,15 +1,14 @@
 package ru.hofftech.consolepackages.config;
 
 import com.google.gson.Gson;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.hofftech.consolepackages.datastorage.repository.BillingOrderRepository;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
-import ru.hofftech.consolepackages.datastorage.repository.impl.InMemoryBillingOrderRepository;
-import ru.hofftech.consolepackages.datastorage.repository.impl.InMemoryPackageTypeRepository;
 import ru.hofftech.consolepackages.mapper.loadpackage.PackageMapper;
+import ru.hofftech.consolepackages.mapper.loadpackage.PackageTypeMapper;
 import ru.hofftech.consolepackages.mapper.loadpackage.TruckMapper;
-import ru.hofftech.consolepackages.service.StartupDataStorageInitializer;
 import ru.hofftech.consolepackages.service.billing.PackageBillingService;
 import ru.hofftech.consolepackages.service.billing.PackageBillingServiceImpl;
 import ru.hofftech.consolepackages.service.command.AbstractFactoryProvider;
@@ -43,7 +42,11 @@ import ru.hofftech.consolepackages.util.PackageFileReader;
 import ru.hofftech.consolepackages.util.TruckJsonFileReader;
 
 @Configuration
+@RequiredArgsConstructor
 public class ApplicationConfig {
+
+    private final PackageTypeRepository packageTypeRepository;
+    private final BillingOrderRepository billingOrderRepository;
 
     @Bean
     public Gson gson() {
@@ -65,21 +68,6 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public StartupDataStorageInitializer startupDataStorageInitializer() {
-        return new StartupDataStorageInitializer(packageTypeRepository());
-    }
-
-    @Bean
-    public PackageTypeRepository packageTypeRepository() {
-        return new InMemoryPackageTypeRepository();
-    }
-
-    @Bean
-    public BillingOrderRepository billingOrderRepository() {
-        return new InMemoryBillingOrderRepository();
-    }
-
-    @Bean
     public PackageFileReader packageFileReader() {
         return new PackageFileReader();
     }
@@ -95,8 +83,8 @@ public class ApplicationConfig {
     public UnloadTruckService unloadTruckService() {
         return new UnloadTruckServiceImpl(
                 truckUnloadingAlgorithm(),
-                packageMapper(),
-                truckMapper());
+                truckMapper(),
+                packageBillingService());
     }
 
     @Bean
@@ -131,7 +119,7 @@ public class ApplicationConfig {
 
     @Bean
     public PackageFactory packageFactory() {
-        return new PackageFactory(packageTypeRepository());
+        return new PackageFactory(packageTypeRepository);
     }
 
     @Bean
@@ -154,7 +142,7 @@ public class ApplicationConfig {
 
     @Bean
     public PackageBillingService packageBillingService() {
-        return new PackageBillingServiceImpl(billingOrderRepository());
+        return new PackageBillingServiceImpl(billingOrderRepository);
     }
 
     @Bean
@@ -191,12 +179,12 @@ public class ApplicationConfig {
 
     @Bean
     public CreatePackageTypeCommandFactory createPackageTypeCommandFactory(){
-        return new CreatePackageTypeCommandFactory(packageTypeRepository());
+        return new CreatePackageTypeCommandFactory(packageTypeRepository);
     }
 
     @Bean
     public FindPackageTypeCommandFactory findPackageTypeCommandFactory(){
-        return new FindPackageTypeCommandFactory(packageTypeRepository(), reportWriterFactory());
+        return new FindPackageTypeCommandFactory(packageTypeRepository, reportWriterFactory());
     }
 
     @Bean
@@ -206,17 +194,17 @@ public class ApplicationConfig {
 
     @Bean
     public DeletePackageTypeCommandFactory deletePackageTypeCommandFactory() {
-        return new DeletePackageTypeCommandFactory(packageTypeRepository());
+        return new DeletePackageTypeCommandFactory(packageTypeRepository);
     }
 
     @Bean
     public EditPackageTypeCommandFactory editPackageTypeCommandFactory() {
-        return new EditPackageTypeCommandFactory(packageTypeRepository());
+        return new EditPackageTypeCommandFactory(packageTypeRepository);
     }
 
     @Bean
     public PackageTypeService packageTypeService() {
-        return new PackageTypeServiceImpl();
+        return new PackageTypeServiceImpl(packageTypeRepository, packageTypeMapper());
     }
 
     @Bean
@@ -237,5 +225,10 @@ public class ApplicationConfig {
     @Bean
     public PackageMapper packageMapper() {
         return org.mapstruct.factory.Mappers.getMapper(PackageMapper.class);
+    }
+
+    @Bean
+    public PackageTypeMapper packageTypeMapper() {
+        return org.mapstruct.factory.Mappers.getMapper(PackageTypeMapper.class);
     }
 }

@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.hofftech.consolepackages.model.dto.billing.BillingByUserSummaryResponse;
 import ru.hofftech.consolepackages.service.billing.PackageBillingService;
+import ru.hofftech.consolepackages.util.DateUtils;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -36,12 +38,12 @@ public class BillingRestController {
      * @param toDate   the end date of the period
      * @return a list of {@link BillingByUserSummaryResponse} objects
      */
-    @GetMapping("/{clientId}")
+    @GetMapping("{clientId}")
     @Operation(summary = "Возвращает список счетов по клиенту")
     public ResponseEntity<List<BillingByUserSummaryResponse>> returnBillingByClient(
             @PathVariable String clientId,
-            @RequestParam @NotNull LocalDate fromDate,
-            @RequestParam @NotNull LocalDate toDate
+            @RequestParam @NotNull @DateTimeFormat(pattern = DateUtils.DATE_FORMAT) LocalDate fromDate,
+            @RequestParam @NotNull @DateTimeFormat(pattern = DateUtils.DATE_FORMAT) LocalDate toDate
     ) {
         return new ResponseEntity<>(packageBillingService.returnBillingSummaryByClient(clientId, fromDate, toDate), HttpStatus.OK);
     }

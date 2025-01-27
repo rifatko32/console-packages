@@ -20,7 +20,6 @@ public class PlacePackageDto {
     private Integer width;
     private Integer height;
     @NotBlank
-    private String typeName;
-    @NotBlank
     private String form;
+    private Long typeId;
 }

@@ -1,11 +1,14 @@
 package ru.hofftech.consolepackages.service.packageitem;
 
 import lombok.RequiredArgsConstructor;
+import ru.hofftech.consolepackages.datastorage.model.entity.PackageType;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.model.Package;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Factory to generate packages from strings.
@@ -22,17 +25,29 @@ public class PackageFactory {
      * @return list of packages
      */
     public ArrayList<ru.hofftech.consolepackages.model.Package> generatePackages(List<String> packageStrings) {
-        var packageTypes = packageTypeRepository.findByNames(packageStrings);
+
+        var packageTypeIds = packageStrings
+                .stream()
+                .map(String::trim)
+                .map(Long::parseLong)
+                .toList();
+
+        var packageTypes = packageTypeRepository.findByIds(packageTypeIds)
+                .stream()
+                .collect(Collectors.toMap(PackageType::getId, p -> p));
+
         var packages = new ArrayList<ru.hofftech.consolepackages.model.Package>();
 
-        for (String packageString : packageStrings) {
-            if (!packageTypes.containsKey(packageString)) {
+        for (var packageTypeId : packageTypeIds) {
+            var curPackageType = packageTypes.get(packageTypeId);
+
+            if (curPackageType == null) {
                 continue;
             }
-            var curPackageType = packageTypes.get(packageString); //curPackageType
+
             packages.add(new Package(
                     curPackageType.getDescriptionNumber(),
-                    curPackageType.getName(),
+                    curPackageType.getId(),
                     curPackageType.getForm()
             ));
         }

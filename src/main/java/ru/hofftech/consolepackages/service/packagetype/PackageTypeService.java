@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface PackageTypeService {
 
-    PackageType findPackageType(String name);
+    PackageType findPackageType(Long id);
 
     List<PackageType> findPackageTypes(Integer page, Integer size);
 
     PackageType createPackageType(CreatePackageTypeDto createPackageTypeDto);
 
-    PackageType editPackageType(EditPackageTypeDto createPackageTypeDto);
+    PackageType editPackageType(Long id, EditPackageTypeDto createPackageTypeDto);
 
-    void deletePackageType(String name);
+    void deletePackageType(Long id);
 }

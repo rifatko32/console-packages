@@ -3,6 +3,7 @@ package ru.hofftech.consolepackages.service.truck;
 import kotlin.Pair;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ru.hofftech.consolepackages.datastorage.model.entity.OperationType;
 import ru.hofftech.consolepackages.mapper.loadpackage.PackageMapper;
 import ru.hofftech.consolepackages.mapper.loadpackage.TruckMapper;
 import ru.hofftech.consolepackages.model.Package;
@@ -10,6 +11,7 @@ import ru.hofftech.consolepackages.model.Truck;
 import ru.hofftech.consolepackages.model.dto.unloadtruck.PackageCountResponse;
 import ru.hofftech.consolepackages.model.dto.unloadtruck.UnloadTruckDto;
 import ru.hofftech.consolepackages.model.dto.unloadtruck.UnloadTruckResponse;
+import ru.hofftech.consolepackages.service.billing.PackageBillingService;
 import ru.hofftech.consolepackages.service.report.PlaneStringReport;
 
 import java.util.ArrayList;
@@ -30,8 +32,8 @@ import java.util.stream.Collectors;
 public class UnloadTruckServiceImpl implements UnloadTruckService {
 
     private final TruckUnloadingAlgorithm truckUnloadingAlgorithm;
-    private final PackageMapper packageMapper;
     private final TruckMapper truckMapper;
+    private final PackageBillingService packageBillingService;
 
     /**
      * Retrieves packages from trucks specified in the JSON file and generates a report.
@@ -70,28 +72,30 @@ public class UnloadTruckServiceImpl implements UnloadTruckService {
 
         for (var pair : packagePairs) {
             result.addPackageCountResponse(PackageCountResponse.builder()
-                    .packageTypeName(pair.getFirst())
+                    .packageTypeId(pair.getFirst())
                     .count(pair.getSecond())
                     .build());
         }
 
+        packageBillingService.creatPackageBill(trucks, unloadTruckDto.clientId(), OperationType.UNLOAD);
+
         return result;
     }
 
-    public List<Pair<String, Integer>> calcPackages(List<Package> packages) {
+    public List<Pair<Long, Integer>> calcPackages(List<Package> packages) {
 
-        var result = new ArrayList<Pair<String, Integer>>();
+        var result = new ArrayList<Pair<Long, Integer>>();
 
         var groupedTypeNames = packages
                 .stream()
-                .map(Package::getTypeName)
+                .map(Package::getTypeId)
                 .collect(Collectors.groupingBy(p -> p, Collectors.counting()));
 
         var keys = new ArrayList<>(groupedTypeNames.keySet());
 
-        for (String packageTypeName : keys) {
-            var packageCount = groupedTypeNames.get(packageTypeName);
-            result.add(new Pair<>(packageTypeName, packageCount.intValue()));
+        for (var packageTypeId : keys) {
+            var packageCount = groupedTypeNames.get(packageTypeId);
+            result.add(new Pair<>(packageTypeId, packageCount.intValue()));
         }
 
         return result;

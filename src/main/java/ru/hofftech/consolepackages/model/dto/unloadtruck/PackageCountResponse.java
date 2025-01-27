@@ -5,7 +5,7 @@ import lombok.Builder;
 
 @Builder
 public record PackageCountResponse(
-        @NotBlank String packageTypeName,
+        @NotBlank Long packageTypeId,
         Integer count
 ) {
 }

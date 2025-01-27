@@ -86,6 +86,11 @@ public class PackageBillingServiceImpl implements PackageBillingService {
 
     private void createBillsByTracks(List<Truck> trucks, Integer price, String clientId, OperationType operationType) {
         for (Truck truck : trucks) {
+
+            if (truck.getPackages().isEmpty()) {
+                continue;
+            }
+
             BigDecimal totalTruckPrice = new BigDecimal(0);
             for (ru.hofftech.consolepackages.model.Package curPackage : truck.getPackages()) {
                 totalTruckPrice = calcPrice(price, curPackage, totalTruckPrice);

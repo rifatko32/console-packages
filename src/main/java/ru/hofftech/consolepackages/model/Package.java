@@ -22,16 +22,16 @@ public class Package {
     private final String description;
     private final int width;
     private final int height;
-    private final String typeName;
+    private final Long typeId;
     private final String form;
 
     public Package(
             String description,
-            String typeName,
+            Long typeId,
             String form) {
         this.width = calcPackageTypeWidth(form);
         this.height = calcPackageTypeHeight(form);
-        this.typeName = typeName;
+        this.typeId = typeId;
         this.form = form;
         this.description = description;
     }
@@ -111,12 +111,12 @@ public class Package {
      */
     @Override
     public String toString() {
-        return typeName;
+        return typeId.toString();
     }
 
     public static class Builder {
         private String description;
-        private String typeName;
+        private Long typeId;
         private String form;
 
         public Builder description(String description) {
@@ -124,8 +124,8 @@ public class Package {
             return this;
         }
 
-        public Builder typeName(String typeName) {
-            this.typeName = typeName;
+        public Builder typeId(Long typeId) {
+            this.typeId = typeId;
             return this;
         }
 
@@ -135,7 +135,7 @@ public class Package {
         }
 
         public Package build() {
-            return new Package(description, typeName, form);
+            return new Package(description, typeId, form);
         }
     }
 }
