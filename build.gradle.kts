@@ -40,6 +40,10 @@ dependencies {
     implementation("org.mapstruct:mapstruct:${versions["mapstruct"]}")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${versions["webmvc"]}")
 
+    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+    implementation("org.flywaydb:flyway-core")
+    implementation("org.flywaydb:flyway-database-postgresql")
+
     annotationProcessor("org.projectlombok:lombok:${versions["lombok"]}")
 
     implementation("org.slf4j:slf4j-api:${versions["slf4j-api"]}")
@@ -48,6 +52,8 @@ dependencies {
     implementation("com.google.code.gson:gson:${versions["gson"]}")
     implementation("org.telegram:telegrambots-longpolling:${versions["telegrambots-longpolling"]}")
     implementation("org.telegram:telegrambots-client:${versions["telegrambots-client"]}")
+
+    runtimeOnly ("org.postgresql:postgresql")
 
     testImplementation(platform("org.junit:junit-bom:${versions["junit-bom"]}"))
     testImplementation("org.junit.jupiter:junit-jupiter:${versions["junit-jupiter"]}")
