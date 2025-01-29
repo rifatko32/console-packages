@@ -2,7 +2,7 @@ package ru.hofftech.consolepackages.service.report.billing;
 
 import lombok.RequiredArgsConstructor;
 import ru.hofftech.consolepackages.datastorage.model.entity.OperationType;
-import ru.hofftech.consolepackages.model.dto.billing.BillingByUserSummaryResponse;
+import ru.hofftech.consolepackages.model.dto.billing.BillingResponse;
 import ru.hofftech.consolepackages.service.billing.PackageBillingService;
 import ru.hofftech.consolepackages.service.report.PlaneStringReport;
 
@@ -48,7 +48,7 @@ public class UserBillingReportImpl implements UserBillingReportEngine {
         return result;
     }
 
-    private String formatToreportString(BillingByUserSummaryResponse orderSummary) {
+    private String formatToreportString(BillingResponse orderSummary) {
         return String.format(
                 "%s; %s; %s машин; %s посылок; %s рублей",
                 orderSummary.date().format(DateTimeFormatter.ofPattern(DATE_FORMAT)),

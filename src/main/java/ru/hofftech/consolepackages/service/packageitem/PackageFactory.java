@@ -32,7 +32,7 @@ public class PackageFactory {
                 .map(Long::parseLong)
                 .toList();
 
-        var packageTypes = packageTypeRepository.findByIds(packageTypeIds)
+        var packageTypes = packageTypeRepository.findPackageTypesByIdIsIn(packageTypeIds)
                 .stream()
                 .collect(Collectors.toMap(PackageType::getId, p -> p));
 

@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +27,7 @@ public class LoadPackageRestController {
     @Operation(summary = "Грузит посылки по текстовому описанию")
     @PostMapping
     public ResponseEntity<PlacePackagesResponse> placePackagesFromText(@NotNull @RequestBody PlacePackagesFromTextDto loadPackagesFromTextDto) {
-        return new ResponseEntity<>(placePackageService.placePackagesFromString(loadPackagesFromTextDto), HttpStatus.OK);
+        return ResponseEntity.ok(placePackageService.placePackagesFromString(loadPackagesFromTextDto));
     }
 
     @Operation(summary = "Грузит посылки из файла")
@@ -36,6 +35,6 @@ public class LoadPackageRestController {
     public ResponseEntity<PlacePackagesResponse> placePackagesFromFile(
             @RequestPart("file") MultipartFile file,
             @RequestBody PlacePackagesFromFileDto loadPackagesFromFileDto) {
-        return new ResponseEntity<>(placePackageService.placePackagesFromFile(loadPackagesFromFileDto, file), HttpStatus.OK);
+        return ResponseEntity.ok(placePackageService.placePackagesFromFile(loadPackagesFromFileDto, file));
     }
 }

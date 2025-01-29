@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import ru.hofftech.consolepackages.datastorage.repository.BillingOrderRepository;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.mapper.loadpackage.PackageMapper;
-import ru.hofftech.consolepackages.mapper.loadpackage.PackageTypeMapper;
+import ru.hofftech.consolepackages.mapper.packagetype.PackageTypeMapper;
 import ru.hofftech.consolepackages.mapper.loadpackage.TruckMapper;
 import ru.hofftech.consolepackages.service.billing.PackageBillingService;
 import ru.hofftech.consolepackages.service.billing.PackageBillingServiceImpl;
@@ -40,6 +40,8 @@ import ru.hofftech.consolepackages.service.truck.TruckUnloadingAlgorithm;
 import ru.hofftech.consolepackages.telegram.PackageTelegramBot;
 import ru.hofftech.consolepackages.util.PackageFileReader;
 import ru.hofftech.consolepackages.util.TruckJsonFileReader;
+
+import java.time.Clock;
 
 @Configuration
 @RequiredArgsConstructor
@@ -142,7 +144,9 @@ public class ApplicationConfig {
 
     @Bean
     public PackageBillingService packageBillingService() {
-        return new PackageBillingServiceImpl(billingOrderRepository);
+        return new PackageBillingServiceImpl(
+                billingOrderRepository,
+                clock());
     }
 
     @Bean
@@ -230,5 +234,10 @@ public class ApplicationConfig {
     @Bean
     public PackageTypeMapper packageTypeMapper() {
         return org.mapstruct.factory.Mappers.getMapper(PackageTypeMapper.class);
+    }
+
+    @Bean
+    public Clock clock() {
+        return Clock.systemUTC();
     }
 }

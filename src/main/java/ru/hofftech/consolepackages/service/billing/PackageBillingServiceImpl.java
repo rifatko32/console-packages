@@ -8,10 +8,11 @@ import ru.hofftech.consolepackages.datastorage.model.entity.BillingOrder;
 import ru.hofftech.consolepackages.datastorage.model.entity.OperationType;
 import ru.hofftech.consolepackages.datastorage.repository.BillingOrderRepository;
 import ru.hofftech.consolepackages.model.Truck;
-import ru.hofftech.consolepackages.model.dto.billing.BillingByUserSummaryResponse;
+import ru.hofftech.consolepackages.model.dto.billing.BillingResponse;
 import ru.hofftech.consolepackages.model.dto.billing.BillOrderGroup;
 
 import java.math.BigDecimal;
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import static java.util.stream.Collectors.toList;
 public class PackageBillingServiceImpl implements PackageBillingService {
 
     private final BillingOrderRepository billingOrderRepository;
+    private final Clock clock;
 
     @Value("${spring.bill.load-price}")
     private Integer loadPrice;
@@ -38,19 +40,19 @@ public class PackageBillingServiceImpl implements PackageBillingService {
     }
 
     @Override
-    public List<BillingByUserSummaryResponse> returnBillingSummaryByClient(String clientId, LocalDate fromDate, LocalDate toDate) {
-        List<BillingOrder> orders = billingOrderRepository.receiveForUserByPeriod(clientId, fromDate, toDate);
+    public List<BillingResponse> returnBillingSummaryByClient(String clientId, LocalDate fromDate, LocalDate toDate) {
+        List<BillingOrder> orders = billingOrderRepository.readBillingOrdersByClientIdAndOrderDateBetween(clientId, fromDate, toDate);
 
         if (orders.isEmpty()) {
             return new ArrayList<>(0);
         }
 
-        var result = new ArrayList<BillingByUserSummaryResponse>();
+        var result = new ArrayList<BillingResponse>();
 
         var groupedOrders = orders
                 .stream()
                 .collect(groupingBy(
-                        bo -> new BillOrderGroup(bo.getOrderDate(), bo.getOperationType()),
+                        billingOrder -> new BillOrderGroup(billingOrder.getOrderDate(), billingOrder.getOperationType()),
                         toList()));
 
         for (var entry : groupedOrders.entrySet()) {
@@ -60,7 +62,7 @@ public class PackageBillingServiceImpl implements PackageBillingService {
         return result;
     }
 
-    private BillingByUserSummaryResponse generateByOrderResponse(BillOrderGroup orderGroup, List<BillingOrder> orders) {
+    private BillingResponse generateByOrderResponse(BillOrderGroup orderGroup, List<BillingOrder> orders) {
 
         var summary = orders.stream()
                 .map(BillingOrder::getAmount)
@@ -75,13 +77,13 @@ public class PackageBillingServiceImpl implements PackageBillingService {
                 .distinct()
                 .count();
 
-        return new BillingByUserSummaryResponse(
-                orderGroup.orderDate(),
-                orderGroup.operationType(),
-                truckIdCount,
-                packageQtySum,
-                summary
-        );
+        return BillingResponse.builder()
+                .date(orderGroup.orderDate())
+                .operationType(orderGroup.operationType())
+                .truckCount(truckIdCount)
+                .packageCount(packageQtySum)
+                .amount(summary)
+                .build();
     }
 
     private void createBillsByTracks(List<Truck> trucks, Integer price, String clientId, OperationType operationType) {
@@ -91,7 +93,7 @@ public class PackageBillingServiceImpl implements PackageBillingService {
                 continue;
             }
 
-            BigDecimal totalTruckPrice = new BigDecimal(0);
+            var totalTruckPrice = BigDecimal.ZERO;
             for (ru.hofftech.consolepackages.model.Package curPackage : truck.getPackages()) {
                 totalTruckPrice = calcPrice(price, curPackage, totalTruckPrice);
             }
@@ -99,7 +101,7 @@ public class PackageBillingServiceImpl implements PackageBillingService {
             var billingOrder = billingOrderRepository.save(
                     BillingOrder.builder()
                             .clientId(clientId)
-                            .orderDate(LocalDate.now(ZoneId.of("UTC")))
+                            .orderDate(LocalDate.ofInstant(clock.instant(), ZoneId.of("UTC")))
                             .amount(totalTruckPrice)
                             .packageQty(truck.calcPackagesCount())
                             .truckId(truck.getId())

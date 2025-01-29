@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +13,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.hofftech.consolepackages.datastorage.model.entity.PackageType;
 import ru.hofftech.consolepackages.model.dto.packagetype.CreatePackageTypeDto;
 import ru.hofftech.consolepackages.model.dto.packagetype.EditPackageTypeDto;
+import ru.hofftech.consolepackages.model.dto.packagetype.PackageTypeResponse;
 import ru.hofftech.consolepackages.service.packagetype.PackageTypeService;
 
 import java.util.List;
@@ -40,8 +39,8 @@ public class PackageTypeRestController {
      */
     @Operation(summary = "Возвращает тип пакета по имени")
     @GetMapping("{id}")
-    public ResponseEntity<PackageType> findPackageType(@PathVariable Long id) {
-        return new ResponseEntity<>(packageTypeService.findPackageType(id), HttpStatus.OK);
+    public ResponseEntity<PackageTypeResponse> findPackageType(@PathVariable Long id) {
+        return ResponseEntity.ok(packageTypeService.findPackageType(id));
     }
 
     /**
@@ -53,8 +52,8 @@ public class PackageTypeRestController {
      */
     @Operation(summary = "Возвращает типы пакетов")
     @GetMapping()
-    public ResponseEntity<List<PackageType>> findPackageTypes(Integer page, Integer size) {
-        return new ResponseEntity<>(packageTypeService.findPackageTypes(page, size), HttpStatus.OK);
+    public ResponseEntity<List<PackageTypeResponse>> findPackageTypes(@NotNull Integer page, @NotNull Integer size) {
+        return ResponseEntity.ok(packageTypeService.findPackageTypes(page, size));
     }
 
     /**
@@ -65,8 +64,8 @@ public class PackageTypeRestController {
      */
     @Operation(summary = "Создает тип пакета")
     @PostMapping()
-    public ResponseEntity<PackageType> createPackageType(@RequestBody @NotNull CreatePackageTypeDto createPackageTypeDto) {
-        return new ResponseEntity<>(packageTypeService.createPackageType(createPackageTypeDto), HttpStatus.OK);
+    public ResponseEntity<PackageTypeResponse> createPackageType(@RequestBody @NotNull CreatePackageTypeDto createPackageTypeDto) {
+        return ResponseEntity.ok(packageTypeService.createPackageType(createPackageTypeDto));
     }
 
     /**
@@ -77,9 +76,9 @@ public class PackageTypeRestController {
      */
     @Operation(summary = "Удаляет тип пакета")
     @DeleteMapping("{id}")
-    public ResponseEntity deletePackageType(@PathVariable Long id) {
+    public ResponseEntity.HeadersBuilder<?> deletePackageType(@PathVariable Long id) {
         packageTypeService.deletePackageType(id);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent();
     }
 
     /**
@@ -90,7 +89,7 @@ public class PackageTypeRestController {
      */
     @Operation(summary = "Редактирует тип пакета")
     @PutMapping("{id}")
-    public ResponseEntity<PackageType> editPackageType(@PathVariable Long id, @RequestBody @NotNull EditPackageTypeDto editPackageTypeDto) {
-        return new ResponseEntity<>(packageTypeService.editPackageType(id, editPackageTypeDto), HttpStatus.OK);
+    public ResponseEntity<PackageTypeResponse> editPackageType(@PathVariable Long id, @RequestBody @NotNull EditPackageTypeDto editPackageTypeDto) {
+        return ResponseEntity.ok(packageTypeService.editPackageType(id, editPackageTypeDto));
     }
 }

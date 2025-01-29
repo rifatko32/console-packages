@@ -25,8 +25,6 @@ public interface BillingOrderRepository  extends JpaRepository<BillingOrder, Lon
      * @param endDate   the end date of the period
      * @return list of billing orders
      */
-    @Query("select billingOrder from BillingOrder billingOrder " +
-            "where billingOrder.clientId = :clientId " +
-            "and billingOrder.orderDate between :startDate and :endDate")
-    List<BillingOrder> receiveForUserByPeriod(String clientId, LocalDate startDate, LocalDate endDate);
+    List<BillingOrder> readBillingOrdersByClientIdAndOrderDateBetween(String clientId, LocalDate startDate, LocalDate endDate);
+
 }

@@ -82,7 +82,7 @@ public class UnloadTruckServiceImpl implements UnloadTruckService {
         return result;
     }
 
-    public List<Pair<Long, Integer>> calcPackages(List<Package> packages) {
+    private List<Pair<Long, Integer>> calcPackages(List<Package> packages) {
 
         var result = new ArrayList<Pair<Long, Integer>>();
 

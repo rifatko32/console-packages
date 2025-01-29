@@ -5,7 +5,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -44,7 +43,7 @@ public class PackageType {
     private Integer width;
     private Integer height;
 
-    private PackageType(Long id, String form, String descriptionNumber) {
+    private PackageType(String form, String descriptionNumber) {
         this.form = form;
         this.descriptionNumber = descriptionNumber;
         width = calcPackageTypeWidth(form);
@@ -107,7 +106,7 @@ public class PackageType {
         }
 
         public PackageType build() {
-            return new PackageType(id, form, descriptionNumber);
+            return new PackageType(form, descriptionNumber);
         }
     }
 }
