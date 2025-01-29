@@ -21,23 +21,21 @@ import java.util.Objects;
 import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateClientId;
 import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validatePackagesTextFilePath;
 import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateTrucks;
+import static ru.hofftech.consolepackages.service.packageitem.PlacePackageConst.CLIENT_ID;
+import static ru.hofftech.consolepackages.service.packageitem.PlacePackageConst.OUT_FILENAME_KEY;
+import static ru.hofftech.consolepackages.service.packageitem.PlacePackageConst.OUT_JSON_FILE_VALUE;
+import static ru.hofftech.consolepackages.service.packageitem.PlacePackageConst.OUT_KEY;
+import static ru.hofftech.consolepackages.service.packageitem.PlacePackageConst.PACKAGES_FILE_KEY;
+import static ru.hofftech.consolepackages.service.packageitem.PlacePackageConst.PACKAGES_TEXT_KEY;
+import static ru.hofftech.consolepackages.service.packageitem.PlacePackageConst.TRUCKS_DELIMITER;
+import static ru.hofftech.consolepackages.service.packageitem.PlacePackageConst.TRUCKS_KEY;
+import static ru.hofftech.consolepackages.service.packageitem.PlacePackageConst.TYPE_KEY;
 
 /**
  * The class implements the factory of commands for placing packages into trucks.
  */
 @RequiredArgsConstructor
 public class PlacePackageCommandFactory implements CommandAbstractFactory {
-    private static final String OUT_KEY = "out";
-    private static final String TYPE_KEY = "type";
-    private static final String TRUCKS_KEY = "trucks";
-    private static final String TRUCKS_DELIMITER = ";";
-    private static final String PACKAGES_FILE_KEY = "packages-file";
-    private static final String PACKAGES_TEXT_KEY = "packages-text";
-    private static final String OUT_FILENAME_KEY = "out-filename";
-    private static final String OUT_JSON_FILE_VALUE = "json-file";
-    private static final String CLIENT_ID = "clientid";
-
-
     private final PackageFromFileReader packageFromFileReader;
     private final ReportWriterFactory reportWriterFactory;
     private final PackagePlaceAlgorithmFactory placeEngineFactory;

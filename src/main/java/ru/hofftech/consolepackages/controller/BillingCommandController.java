@@ -4,26 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.hofftech.consolepackages.service.command.AbstractFactoryProvider;
 import ru.hofftech.consolepackages.service.command.CommandContextWithResult;
 import ru.hofftech.consolepackages.service.command.impl.billing.CreateBillingReportCommandFactory;
-import ru.hofftech.consolepackages.service.command.impl.createpackagetype.CreatePackageTypeCommandFactory;
-import ru.hofftech.consolepackages.service.command.impl.deletepackagetype.DeletePackageTypeCommandFactory;
-import ru.hofftech.consolepackages.service.command.impl.editpackagetype.EditPackageTypeCommandFactory;
-import ru.hofftech.consolepackages.service.command.impl.findpackagetype.FindPackageTypeCommandFactory;
 
 import java.text.ParseException;
 
 import static ru.hofftech.consolepackages.service.command.CommandConstants.BILLING_COMMAND_PATTERN;
-import static ru.hofftech.consolepackages.service.command.CommandConstants.CREATE_COMMAND_PATTERN;
-import static ru.hofftech.consolepackages.service.command.CommandConstants.DELETE_COMMAND_PATTERN;
-import static ru.hofftech.consolepackages.service.command.CommandConstants.EDIT_COMMAND_PATTERN;
-import static ru.hofftech.consolepackages.service.command.CommandConstants.FIND_COMMAND_PATTERN;
 import static ru.hofftech.consolepackages.shellconstants.CommandOptions.CLIENT_ID;
-import static ru.hofftech.consolepackages.shellconstants.CommandOptions.DESCRIPTION;
-import static ru.hofftech.consolepackages.shellconstants.CommandOptions.FORM;
 import static ru.hofftech.consolepackages.shellconstants.CommandOptions.FROM;
-import static ru.hofftech.consolepackages.shellconstants.CommandOptions.NAME;
 import static ru.hofftech.consolepackages.shellconstants.CommandOptions.TO;
 
 /**

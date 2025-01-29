@@ -10,7 +10,9 @@ import ru.hofftech.consolepackages.service.command.CommandParser;
 import ru.hofftech.consolepackages.service.report.ReportEngineType;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportOutputChannelType;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
-import ru.hofftech.consolepackages.service.truck.TruckToPackagesService;
+import ru.hofftech.consolepackages.service.report.truck.TruckUnloadingReportEngineFactory;
+import ru.hofftech.consolepackages.service.truck.UnloadTruckService;
+import ru.hofftech.consolepackages.service.truck.UnloadTruckServiceImpl;
 import ru.hofftech.consolepackages.util.TruckJsonFileReader;
 
 import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateClientId;
@@ -28,10 +30,11 @@ public class UnloadTruckCommandFactory implements CommandAbstractFactory {
     private static final String WITH_COUNT = "withcount";
     private static final String CLIENT_ID = "clientid";
 
-    private final TruckToPackagesService truckToPackagesService;
+    private final UnloadTruckService unloadTruckService;
     private final ReportWriterFactory reportWriterFactory;
     private final TruckJsonFileReader fileReader;
     private final PackageBillingService packageBillingService;
+    private final TruckUnloadingReportEngineFactory reportEngineFactory;
 
     /**
      * Creates a command to unload packages from trucks and generate a report of the unloaded packages.
@@ -42,11 +45,12 @@ public class UnloadTruckCommandFactory implements CommandAbstractFactory {
     @Override
     public Command createCommand(CommandContext commandContext) {
         return new UnloadTrucksCommand(
-                truckToPackagesService,
+                unloadTruckService,
                 reportWriterFactory,
                 (UnloadTruckContext) commandContext,
                 fileReader,
-                packageBillingService);
+                packageBillingService,
+                reportEngineFactory);
     }
 
     /**

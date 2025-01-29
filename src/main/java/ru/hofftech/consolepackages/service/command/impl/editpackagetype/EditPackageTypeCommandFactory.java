@@ -1,6 +1,5 @@
 package ru.hofftech.consolepackages.service.command.impl.editpackagetype;
 
-import ch.qos.logback.core.util.StringUtil;
 import lombok.RequiredArgsConstructor;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.service.command.Command;
@@ -9,7 +8,7 @@ import ru.hofftech.consolepackages.service.command.CommandContext;
 import ru.hofftech.consolepackages.service.command.CommandParser;
 
 import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateFormDescription;
-import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateName;
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateId;
 
 /**
  * The class implements the factory of commands for editing a package type.
@@ -17,7 +16,7 @@ import static ru.hofftech.consolepackages.service.command.CommandParametersValid
 @RequiredArgsConstructor
 public class EditPackageTypeCommandFactory implements CommandAbstractFactory {
 
-    private static final String NAME = "name";
+    private static final String ID = "id";
     private static final String FORM = "form";
     private static final String DESCRIPTION = "description";
 
@@ -44,15 +43,15 @@ public class EditPackageTypeCommandFactory implements CommandAbstractFactory {
     public CommandContext createCommandContext(String strCommand) {
         var commandKeyValues = CommandParser.parseCommandKeys(strCommand);
 
-        var name = commandKeyValues.get(NAME);
+        var id = Long.parseLong(commandKeyValues.get(ID));
         var form = commandKeyValues.get(FORM);
         var description = commandKeyValues.get(DESCRIPTION);
 
-        validateName(name);
+        validateId(id);
         validateFormDescription(form, description);
 
         return  EditPackageTypeContext.builder()
-                .name(name)
+                .id(id)
                 .form(form)
                 .description(description)
                 .build();
@@ -61,17 +60,17 @@ public class EditPackageTypeCommandFactory implements CommandAbstractFactory {
     /**
      * Creates the context of the command to edit a package type by parameters.
      *
-     * @param name        the name of the package type
+     * @param id          the id of the package type
      * @param form        the form of the package type
      * @param description the description of the package type
      * @return the context of the command to edit a package type
      */
-    public CommandContext createCommandContextByParameters(String name, String form, String description) {
+    public CommandContext createCommandContextByParameters(Long id, String form, String description) {
 
         validateFormDescription(form, description);
 
         return EditPackageTypeContext.builder()
-                .name(name)
+                .id(id)
                 .form(form)
                 .description(description)
                 .build();

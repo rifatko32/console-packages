@@ -19,6 +19,6 @@ public class DeletePackageTypeCommand implements Command {
      */
     @Override
     public void execute() {
-        packageTypeRepository.delete(context.name());
+        packageTypeRepository.deleteById(context.id());
     }
 }

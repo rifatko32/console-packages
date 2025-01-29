@@ -8,20 +8,25 @@ import ru.hofftech.consolepackages.datastorage.model.entity.BillingOrder;
 import ru.hofftech.consolepackages.datastorage.model.entity.OperationType;
 import ru.hofftech.consolepackages.datastorage.repository.BillingOrderRepository;
 import ru.hofftech.consolepackages.model.Truck;
+import ru.hofftech.consolepackages.model.dto.billing.BillingResponse;
+import ru.hofftech.consolepackages.model.dto.billing.BillOrderGroup;
 
 import java.math.BigDecimal;
 import java.time.Clock;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @RequiredArgsConstructor
 public class PackageBillingServiceImpl implements PackageBillingService {
 
     private final BillingOrderRepository billingOrderRepository;
+    private final Clock clock;
 
     @Value("${spring.bill.load-price}")
     private Integer loadPrice;
@@ -34,9 +39,61 @@ public class PackageBillingServiceImpl implements PackageBillingService {
         createBillsByTracks(trucks, operationType == OperationType.LOAD ? loadPrice : unloadPrice, clientId, operationType);
     }
 
+    @Override
+    public List<BillingResponse> returnBillingSummaryByClient(String clientId, LocalDate fromDate, LocalDate toDate) {
+        List<BillingOrder> orders = billingOrderRepository.readBillingOrdersByClientIdAndOrderDateBetween(clientId, fromDate, toDate);
+
+        if (orders.isEmpty()) {
+            return new ArrayList<>(0);
+        }
+
+        var result = new ArrayList<BillingResponse>();
+
+        var groupedOrders = orders
+                .stream()
+                .collect(groupingBy(
+                        billingOrder -> new BillOrderGroup(billingOrder.getOrderDate(), billingOrder.getOperationType()),
+                        toList()));
+
+        for (var entry : groupedOrders.entrySet()) {
+            result.add(generateByOrderResponse(entry.getKey(), entry.getValue()));
+        }
+
+        return result;
+    }
+
+    private BillingResponse generateByOrderResponse(BillOrderGroup orderGroup, List<BillingOrder> orders) {
+
+        var summary = orders.stream()
+                .map(BillingOrder::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        var packageQtySum = orders.stream()
+                .mapToInt(BillingOrder::getPackageQty)
+                .sum();
+
+        var truckIdCount = orders.stream()
+                .map(BillingOrder::getTruckId)
+                .distinct()
+                .count();
+
+        return BillingResponse.builder()
+                .date(orderGroup.orderDate())
+                .operationType(orderGroup.operationType())
+                .truckCount(truckIdCount)
+                .packageCount(packageQtySum)
+                .amount(summary)
+                .build();
+    }
+
     private void createBillsByTracks(List<Truck> trucks, Integer price, String clientId, OperationType operationType) {
         for (Truck truck : trucks) {
-            BigDecimal totalTruckPrice = new BigDecimal(0);
+
+            if (truck.getPackages().isEmpty()) {
+                continue;
+            }
+
+            var totalTruckPrice = BigDecimal.ZERO;
             for (ru.hofftech.consolepackages.model.Package curPackage : truck.getPackages()) {
                 totalTruckPrice = calcPrice(price, curPackage, totalTruckPrice);
             }
@@ -44,7 +101,7 @@ public class PackageBillingServiceImpl implements PackageBillingService {
             var billingOrder = billingOrderRepository.save(
                     BillingOrder.builder()
                             .clientId(clientId)
-                            .orderDate(LocalDate.now(ZoneId.of("UTC")))
+                            .orderDate(LocalDate.ofInstant(clock.instant(), ZoneId.of("UTC")))
                             .amount(totalTruckPrice)
                             .packageQty(truck.calcPackagesCount())
                             .truckId(truck.getId())

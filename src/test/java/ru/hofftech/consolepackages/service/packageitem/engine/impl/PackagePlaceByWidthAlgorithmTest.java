@@ -19,12 +19,12 @@ public class PackagePlaceByWidthAlgorithmTest {
         List<Package> packages = new ArrayList<>();
         packages.add(new Package.Builder()
                 .description("d")
-                .typeName("typeName1")
+                .typeId(1L)
                 .form("999\\n999\\n999")
                 .build());
         packages.add(new Package.Builder()
                 .description("d")
-                .typeName("typeName2")
+                .typeId(2L)
                 .form("999\\n999")
                 .build());
 
@@ -47,17 +47,17 @@ public class PackagePlaceByWidthAlgorithmTest {
         List<Package> packages = new ArrayList<>();
         packages.add(new Package.Builder()
                 .description("d")
-                .typeName("typeName1")
+                .typeId(1L)
                 .form("999\\n999\\n999")
                 .build());
         packages.add(new Package.Builder()
                 .description("d")
-                .typeName("typeName1")
+                .typeId(1L)
                 .form("999\\n999\\n999")
                 .build());
         packages.add(new Package.Builder()
                 .description("d")
-                .typeName("typeName1")
+                .typeId(1L)
                 .form("999\\n999\\n999")
                 .build());
 

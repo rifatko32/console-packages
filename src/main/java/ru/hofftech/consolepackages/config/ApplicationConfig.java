@@ -1,13 +1,14 @@
 package ru.hofftech.consolepackages.config;
 
 import com.google.gson.Gson;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.hofftech.consolepackages.datastorage.repository.BillingOrderRepository;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
-import ru.hofftech.consolepackages.datastorage.repository.impl.InMemoryBillingOrderRepository;
-import ru.hofftech.consolepackages.datastorage.repository.impl.InMemoryPackageTypeRepository;
-import ru.hofftech.consolepackages.service.StartupDataStorageInitializer;
+import ru.hofftech.consolepackages.mapper.loadpackage.PackageMapper;
+import ru.hofftech.consolepackages.mapper.packagetype.PackageTypeMapper;
+import ru.hofftech.consolepackages.mapper.loadpackage.TruckMapper;
 import ru.hofftech.consolepackages.service.billing.PackageBillingService;
 import ru.hofftech.consolepackages.service.billing.PackageBillingServiceImpl;
 import ru.hofftech.consolepackages.service.command.AbstractFactoryProvider;
@@ -23,20 +24,31 @@ import ru.hofftech.consolepackages.service.command.impl.unloadtruck.UnloadTruckC
 import ru.hofftech.consolepackages.service.packageitem.PackageFactory;
 import ru.hofftech.consolepackages.service.packageitem.PackageFromFileReader;
 import ru.hofftech.consolepackages.service.packageitem.PackageFromStringReader;
+import ru.hofftech.consolepackages.service.packageitem.PlacePackageService;
+import ru.hofftech.consolepackages.service.packageitem.PlacePackageServiceImpl;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
+import ru.hofftech.consolepackages.service.packagetype.PackageTypeService;
+import ru.hofftech.consolepackages.service.packagetype.PackageTypeServiceImpl;
 import ru.hofftech.consolepackages.service.report.billing.UserBillingReportEngine;
 import ru.hofftech.consolepackages.service.report.billing.UserBillingReportImpl;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
 import ru.hofftech.consolepackages.service.report.packageitem.PackagePlaceReportEngineFactory;
 import ru.hofftech.consolepackages.service.report.truck.TruckUnloadingReportEngineFactory;
-import ru.hofftech.consolepackages.service.truck.TruckToPackagesService;
+import ru.hofftech.consolepackages.service.truck.UnloadTruckService;
+import ru.hofftech.consolepackages.service.truck.UnloadTruckServiceImpl;
 import ru.hofftech.consolepackages.service.truck.TruckUnloadingAlgorithm;
 import ru.hofftech.consolepackages.telegram.PackageTelegramBot;
 import ru.hofftech.consolepackages.util.PackageFileReader;
 import ru.hofftech.consolepackages.util.TruckJsonFileReader;
 
+import java.time.Clock;
+
 @Configuration
+@RequiredArgsConstructor
 public class ApplicationConfig {
+
+    private final PackageTypeRepository packageTypeRepository;
+    private final BillingOrderRepository billingOrderRepository;
 
     @Bean
     public Gson gson() {
@@ -58,21 +70,6 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public StartupDataStorageInitializer startupDataStorageInitializer() {
-        return new StartupDataStorageInitializer(packageTypeRepository());
-    }
-
-    @Bean
-    public PackageTypeRepository packageTypeRepository() {
-        return new InMemoryPackageTypeRepository();
-    }
-
-    @Bean
-    public BillingOrderRepository billingOrderRepository() {
-        return new InMemoryBillingOrderRepository();
-    }
-
-    @Bean
     public PackageFileReader packageFileReader() {
         return new PackageFileReader();
     }
@@ -85,11 +82,11 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public TruckToPackagesService truckToPackagesService() {
-        return new TruckToPackagesService(
-                truckUnloadingReportEngineFactory(),
-                truckUnloadingAlgorithm()
-        );
+    public UnloadTruckService unloadTruckService() {
+        return new UnloadTruckServiceImpl(
+                truckUnloadingAlgorithm(),
+                truckMapper(),
+                packageBillingService());
     }
 
     @Bean
@@ -124,7 +121,7 @@ public class ApplicationConfig {
 
     @Bean
     public PackageFactory packageFactory() {
-        return new PackageFactory(packageTypeRepository());
+        return new PackageFactory(packageTypeRepository);
     }
 
     @Bean
@@ -147,12 +144,14 @@ public class ApplicationConfig {
 
     @Bean
     public PackageBillingService packageBillingService() {
-        return new PackageBillingServiceImpl(billingOrderRepository());
+        return new PackageBillingServiceImpl(
+                billingOrderRepository,
+                clock());
     }
 
     @Bean
     public UserBillingReportEngine userBillingReportEngine() {
-        return new UserBillingReportImpl(billingOrderRepository());
+        return new UserBillingReportImpl(packageBillingService());
     }
 
     @Bean
@@ -175,21 +174,21 @@ public class ApplicationConfig {
     @Bean
     public UnloadTruckCommandFactory unloadTruckCommandFactory() {
         return new UnloadTruckCommandFactory(
-                truckToPackagesService(),
+                unloadTruckService(),
                 reportWriterFactory(),
                 truckJsonFileReader(),
-                packageBillingService()
-        );
+                packageBillingService(),
+                truckUnloadingReportEngineFactory());
     }
 
     @Bean
     public CreatePackageTypeCommandFactory createPackageTypeCommandFactory(){
-        return new CreatePackageTypeCommandFactory(packageTypeRepository());
+        return new CreatePackageTypeCommandFactory(packageTypeRepository);
     }
 
     @Bean
     public FindPackageTypeCommandFactory findPackageTypeCommandFactory(){
-        return new FindPackageTypeCommandFactory(packageTypeRepository(), reportWriterFactory());
+        return new FindPackageTypeCommandFactory(packageTypeRepository, reportWriterFactory());
     }
 
     @Bean
@@ -199,11 +198,46 @@ public class ApplicationConfig {
 
     @Bean
     public DeletePackageTypeCommandFactory deletePackageTypeCommandFactory() {
-        return new DeletePackageTypeCommandFactory(packageTypeRepository());
+        return new DeletePackageTypeCommandFactory(packageTypeRepository);
     }
 
     @Bean
     public EditPackageTypeCommandFactory editPackageTypeCommandFactory() {
-        return new EditPackageTypeCommandFactory(packageTypeRepository());
+        return new EditPackageTypeCommandFactory(packageTypeRepository);
+    }
+
+    @Bean
+    public PackageTypeService packageTypeService() {
+        return new PackageTypeServiceImpl(packageTypeRepository, packageTypeMapper());
+    }
+
+    @Bean
+    public PlacePackageService placePackageService() {
+        return new PlacePackageServiceImpl(
+                packageFromStringReader(),
+                packageFactory(),
+                packagePlaceAlgorithmFactory(),
+                packageBillingService(),
+                truckMapper());
+    }
+
+    @Bean
+    public TruckMapper truckMapper() {
+        return org.mapstruct.factory.Mappers.getMapper(TruckMapper.class);
+    }
+
+    @Bean
+    public PackageMapper packageMapper() {
+        return org.mapstruct.factory.Mappers.getMapper(PackageMapper.class);
+    }
+
+    @Bean
+    public PackageTypeMapper packageTypeMapper() {
+        return org.mapstruct.factory.Mappers.getMapper(PackageTypeMapper.class);
+    }
+
+    @Bean
+    public Clock clock() {
+        return Clock.systemUTC();
     }
 }

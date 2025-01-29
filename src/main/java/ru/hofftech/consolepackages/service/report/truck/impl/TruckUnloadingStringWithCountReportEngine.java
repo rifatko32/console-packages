@@ -41,7 +41,7 @@ public class TruckUnloadingStringWithCountReportEngine implements TruckUnloading
 
         var groupedTypeNames = packages
                 .stream()
-                .map(Package::getTypeName)
+                .map(Package::getTypeId)
                 .collect(Collectors.groupingBy(p -> p, Collectors.counting()));
 
         var keys = new ArrayList<>(groupedTypeNames.keySet());

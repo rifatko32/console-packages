@@ -17,7 +17,7 @@ public class EditPackageTypeCommand implements Command {
      */
     @Override
     public void execute() {
-        var packageType = packageTypeRepository.find(context.name());
+        var packageType = packageTypeRepository.findById(context.id()).orElse(null);
 
         if (packageType == null) {
             return;
@@ -31,6 +31,6 @@ public class EditPackageTypeCommand implements Command {
             packageType.setDescriptionNumber(context.description());
         }
 
-        packageTypeRepository.updatePackageType(packageType);
+        packageTypeRepository.save(packageType);
     }
 }

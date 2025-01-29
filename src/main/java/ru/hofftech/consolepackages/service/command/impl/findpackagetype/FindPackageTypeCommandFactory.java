@@ -9,7 +9,7 @@ import ru.hofftech.consolepackages.service.command.CommandParser;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportOutputChannelType;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
 
-import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateName;
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateId;
 
 /**
  * The class implements the factory of commands for finding a package type by name.
@@ -17,7 +17,7 @@ import static ru.hofftech.consolepackages.service.command.CommandParametersValid
 @RequiredArgsConstructor
 public class FindPackageTypeCommandFactory implements CommandAbstractFactory {
 
-    private static final String NAME = "name";
+    private static final String ID = "id";
     private static final String OUT_KEY = "out";
     private final PackageTypeRepository packageTypeRepository;
     private final ReportWriterFactory reportWriterFactory;
@@ -44,12 +44,12 @@ public class FindPackageTypeCommandFactory implements CommandAbstractFactory {
         var commandKeyValues = CommandParser.parseCommandKeys(strCommand);
 
         var channelType = ReportOutputChannelType.fromLabel(commandKeyValues.get(OUT_KEY));
-        var name = commandKeyValues.get(NAME);
+        var id = Long.parseLong(commandKeyValues.get(ID));
 
-        validateName(name);
+        validateId(id);
 
         return FindPackageTypeContext.builder()
-                .name(name)
+                .id(id)
                 .reportOutputChannelType(channelType)
                 .build();
     }
@@ -57,12 +57,12 @@ public class FindPackageTypeCommandFactory implements CommandAbstractFactory {
     /**
      * Creates the context of the command to find a package type by name.
      *
-     * @param name the name of the package type to find
+     * @param id the name of the package type to find
      * @return the context of the command to find a package type by name
      */
-    public CommandContext createCommandContextByParameters(String name) {
+    public CommandContext createCommandContextByParameters(Long id) {
         return FindPackageTypeContext.builder()
-                .name(name)
+                .id(id)
                 .reportOutputChannelType(ReportOutputChannelType.NONE)
                 .build();
     }

@@ -1,5 +1,1 @@
-type narrow weight
-type wheel
-type 1
-type 1
-type 2
+2

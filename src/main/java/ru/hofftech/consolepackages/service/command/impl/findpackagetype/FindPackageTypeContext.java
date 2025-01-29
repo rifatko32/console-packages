@@ -19,6 +19,6 @@ import java.util.ArrayList;
 @Builder
 @RequiredArgsConstructor
 public class FindPackageTypeContext extends CommandContextWithResult<ArrayList<PackageType>> {
-    private final String name;
+    private final Long id;
     private final ReportOutputChannelType reportOutputChannelType;
 }

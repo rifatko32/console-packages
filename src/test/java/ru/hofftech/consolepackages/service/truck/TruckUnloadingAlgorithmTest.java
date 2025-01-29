@@ -45,7 +45,7 @@ public class TruckUnloadingAlgorithmTest {
         Truck truck = new Truck.Builder().width(100).height(100).build();
         Package packageItem = new Package.Builder()
                 .description("Example package")
-                .typeName("TYPE1")
+                .typeId(1L)
                 .form("xxx")
                 .build();
         truck.loadPackage(packageItem);
@@ -66,12 +66,12 @@ public class TruckUnloadingAlgorithmTest {
         Truck truck1 = new Truck.Builder().width(100).height(100).build();
         Package packageItem1 = new Package.Builder()
                 .description("Package 1")
-                .typeName("TYPE1")
+                .typeId(1L)
                 .form("xx")
                 .build();
         Package packageItem2 = new Package.Builder()
                 .description("Package 2")
-                .typeName("TYPE2")
+                .typeId(2L)
                 .form("xxx")
                 .build();
         truck1.loadPackage(packageItem1);
@@ -81,7 +81,7 @@ public class TruckUnloadingAlgorithmTest {
         Truck truck2 = new Truck.Builder().width(100).height(100).build();
         Package packageItem3 = new Package.Builder()
                 .description("Package 3")
-                .typeName("TYPE3")
+                .typeId(3L)
                 .form("xxx\\nxxxx")
                 .build();
         truck2.loadPackage(packageItem3);

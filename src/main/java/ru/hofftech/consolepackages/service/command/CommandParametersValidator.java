@@ -78,12 +78,12 @@ public class CommandParametersValidator {
      * Ensures that the name is not null or empty. Throws an IllegalArgumentException if the name is null or empty.
      * </p>
      *
-     * @param name the name of the package type to validate
+     * @param id the name of the package type to validate
      * @throws IllegalArgumentException if the name is null or empty
      */
-    public static void validateName(String name) {
-        if (StringUtil.isNullOrEmpty(name)) {
-            throw new IllegalArgumentException("name is empty");
+    public static void validateId(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("id is null");
         }
     }
 

@@ -6,9 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @Slf4j
 @SpringBootApplication
-public class Main {
+public class ConsolePackagesApplication {
     public static void main(String[] args) {
         log.info("Starting console packages...");
-        SpringApplication.run(Main.class, args);
+        SpringApplication.run(ConsolePackagesApplication.class, args);
     }
 }

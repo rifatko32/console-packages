@@ -9,7 +9,7 @@ import ru.hofftech.consolepackages.service.command.CommandParser;
 
 import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateDescription;
 import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateForm;
-import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateName;
+import static ru.hofftech.consolepackages.service.command.CommandParametersValidator.validateId;
 
 /**
  * The class implements the factory of commands for creating a package type.
@@ -17,7 +17,7 @@ import static ru.hofftech.consolepackages.service.command.CommandParametersValid
 @RequiredArgsConstructor
 public class CreatePackageTypeCommandFactory implements CommandAbstractFactory {
 
-    private static final String NAME = "name";
+    private static final String NAME = "id";
     private static final String FORM = "form";
     private static final String DESCRIPTION = "description";
 
@@ -45,20 +45,20 @@ public class CreatePackageTypeCommandFactory implements CommandAbstractFactory {
     public CommandContext createCommandContext(String strCommand) {
         var commandKeyValues = CommandParser.parseCommandKeys(strCommand);
 
-        var name = commandKeyValues.get(NAME);
+        var id = Long.parseLong(commandKeyValues.get(NAME));
         var form = commandKeyValues.get(FORM);
         var description = commandKeyValues.get(DESCRIPTION);
 
-        validateParameters(name, form, description);
+        validateParameters(id, form, description);
 
         return CreatePackageTypeContext.builder()
-                .name(name)
+                .id(id)
                 .form(form)
                 .description(description).build();
     }
 
-    private void validateParameters(String name, String form, String description) {
-        validateName(name);
+    private void validateParameters(Long id, String form, String description) {
+        validateId(id);
         validateForm(form);
         validateDescription(description);
     }
@@ -66,14 +66,14 @@ public class CreatePackageTypeCommandFactory implements CommandAbstractFactory {
     /**
      * Creates the context of the command to edit a package type by parameters.
      *
-     * @param name        the name of the package type
+     * @param id          the id of the package type
      * @param form        the form of the package type
      * @param description the description of the package type
      * @return the context of the command to edit a package type
      */
-    public CommandContext createCommandContextByParameters(String name, String form, String description) {
+    public CommandContext createCommandContextByParameters(Long id, String form, String description) {
         return CreatePackageTypeContext.builder()
-                .name(name)
+                .id(id)
                 .form(form)
                 .description(description)
                 .build();
