@@ -5,7 +5,7 @@ import ru.hofftech.consolepackages.service.command.CommandContext;
 
 @Builder
 public record CreatePackageTypeContext(
-        String name,
+        Long id,
         String description,
         String form) implements CommandContext {
 }

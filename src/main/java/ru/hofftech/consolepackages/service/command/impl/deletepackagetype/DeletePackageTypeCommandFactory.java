@@ -12,7 +12,7 @@ import ru.hofftech.consolepackages.service.command.CommandParser;
  */
 @RequiredArgsConstructor
 public class DeletePackageTypeCommandFactory implements CommandAbstractFactory {
-    private static final String NAME = "name";
+    private static final String ID = "id";
 
     private final PackageTypeRepository packageTypeRepository;
 
@@ -38,22 +38,18 @@ public class DeletePackageTypeCommandFactory implements CommandAbstractFactory {
     public CommandContext createCommandContext(String strCommand) {
         var commandKeyValues = CommandParser.parseCommandKeys(strCommand);
 
-        var name = commandKeyValues.get(NAME);
+        var id = Long.parseLong(commandKeyValues.get(ID));
 
-        if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Name is empty");
-        }
-
-        return new DeletePackageTypeContext(name);
+        return new DeletePackageTypeContext(id);
     }
 
     /**
      * Creates the context of the command to find a package type by name.
      *
-     * @param name the name of the package type to find
+     * @param id the name of the package type to find
      * @return the context of the command to find a package type by name
      */
-    public CommandContext createCommandContextByParameters(String name) {
-        return new DeletePackageTypeContext(name);
+    public CommandContext createCommandContextByParameters(Long id) {
+        return new DeletePackageTypeContext(id);
     }
 }

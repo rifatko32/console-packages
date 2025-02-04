@@ -1,8 +1,12 @@
 package ru.hofftech.consolepackages.datastorage.model.entity;
 
-import lombok.Builder;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
@@ -25,19 +29,21 @@ import static ru.hofftech.consolepackages.service.packageitem.PackageSizeCalcula
  * @see ru.hofftech.consolepackages.service.packageitem.PackageSizeCalculator
  */
 @Getter
-@RequiredArgsConstructor
+@Setter
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class PackageType {
 
-    @Setter
-    private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String form;
-    @Setter
     private String descriptionNumber;
     private Integer width;
     private Integer height;
 
-    private PackageType(String name, String form, String descriptionNumber) {
-        this.name = name;
+    private PackageType(String form, String descriptionNumber) {
         this.form = form;
         this.descriptionNumber = descriptionNumber;
         width = calcPackageTypeWidth(form);
@@ -55,7 +61,7 @@ public class PackageType {
     @Override
     public String toString() {
         return "PackageType{" +
-                "name='" + name + '\'' +
+                "id='" + id + '\'' +
                 ", form='" + form + '\'' +
                 ", descriptionNumber='" + descriptionNumber + '\'' +
                 ", width=" + width +
@@ -78,16 +84,14 @@ public class PackageType {
     }
 
     public static class Builder {
-        private String name;
+        private Long id;
         private String form;
         private String descriptionNumber;
-        private Integer width;
-        private Integer height;
 
         public Builder() {}
 
-        public Builder name(String name) {
-            this.name = name;
+        public Builder id(Long id) {
+            this.id = id;
             return this;
         }
 
@@ -102,7 +106,7 @@ public class PackageType {
         }
 
         public PackageType build() {
-            return new PackageType(name, form, descriptionNumber);
+            return new PackageType(form, descriptionNumber);
         }
     }
 }

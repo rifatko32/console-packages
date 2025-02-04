@@ -1,8 +1,16 @@
 package ru.hofftech.consolepackages.datastorage.model.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -13,24 +21,22 @@ import java.util.UUID;
  * Billing order entity.
  */
 @Getter
-@AllArgsConstructor
+@Setter
+@Entity
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class BillingOrder {
 
-    private final String id = UUID.randomUUID().toString();
-
-    @Setter
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String clientId;
-    @Setter
     private LocalDate orderDate;
-    @Setter
     private BigDecimal amount;
-    @Setter
     private Integer packageQty;
-    @Setter
     private UUID truckId;
-    @Setter
     private String comment;
-    @Setter
+    @Enumerated(EnumType.STRING)
     private OperationType operationType;
 }
