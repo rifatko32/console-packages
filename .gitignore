@@ -33,3 +33,6 @@ reports/
 
 *.java~
 *.*~
+billing/build/
+package-service/build/generated/sources/annotationProcessor/java/main/ru/hofftech/consolepackages/mapper/loadpackage/PackageMapperImpl.java
+package-service/build/

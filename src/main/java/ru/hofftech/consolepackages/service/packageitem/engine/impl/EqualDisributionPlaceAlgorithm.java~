@@ -1,4 +1,0 @@
-package ru.hofftech.consolepackages.service.packageitem.engine.impl;
-
-public class EqualDisributionPlaceAlgorithm implements PackagePlaceAlgorithm{
-}
