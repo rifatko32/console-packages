@@ -8,5 +8,4 @@ public enum CommandType {
     FIND_PACKAGE_TYPE,
     DELETE_PACKAGE_TYPE,
     EDIT_PACKAGE_TYPE,
-    USER_BILLING_REPORT
 }

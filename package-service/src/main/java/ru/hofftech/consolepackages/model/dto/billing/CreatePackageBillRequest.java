@@ -1,13 +1,15 @@
-package ru.hofftech.billing.model.dto;
+package ru.hofftech.consolepackages.model.dto.billing;
 
 import jakarta.validation.constraints.NotNull;
-import ru.hofftech.billing.model.entity.OperationType;
+import lombok.Builder;
+import ru.hofftech.consolepackages.datastorage.model.entity.OperationType;
 
 import java.util.List;
 
+@Builder
 public record CreatePackageBillRequest(
         @NotNull
-        String requestId,
+        Long requestId,
         @NotNull
         String clientId,
         @NotNull

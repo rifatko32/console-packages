@@ -1,6 +1,5 @@
 package ru.hofftech.consolepackages.service.command;
 
-import ru.hofftech.consolepackages.service.command.impl.billing.CreateBillingReportCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.createpackagetype.CreatePackageTypeCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.deletepackagetype.DeletePackageTypeCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.editpackagetype.EditPackageTypeCommandFactory;
@@ -19,7 +18,6 @@ public class AbstractFactoryProvider {
     private final Map<CommandType, CommandAbstractFactory> abstractFactoryMap;
 
     public AbstractFactoryProvider(
-            CreateBillingReportCommandFactory createBillingReportCommandFactory,
             PlacePackageCommandFactory placePackageCommandFactory,
             UnloadTruckCommandFactory unloadTruckCommandFactory,
             CreatePackageTypeCommandFactory createPackageTypeCommandFactory,
@@ -35,7 +33,6 @@ public class AbstractFactoryProvider {
                 CommandType.FIND_PACKAGE_TYPE, findPackageTypeCommandFactory,
                 CommandType.DELETE_PACKAGE_TYPE, deletePackageTypeCommandFactor,
                 CommandType.EDIT_PACKAGE_TYPE, editPackageTypeCommandFactory,
-                CommandType.USER_BILLING_REPORT, createBillingReportCommandFactory,
                 CommandType.EXIT, exitCommandFactory);
     }
 

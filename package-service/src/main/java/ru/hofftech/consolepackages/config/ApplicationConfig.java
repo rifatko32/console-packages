@@ -2,10 +2,12 @@ package ru.hofftech.consolepackages.config;
 
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.hofftech.consolepackages.datastorage.repository.BillingOrderRepository;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
+import ru.hofftech.consolepackages.mapper.billing.BillingMapper;
 import ru.hofftech.consolepackages.mapper.loadpackage.PackageMapper;
 import ru.hofftech.consolepackages.mapper.packagetype.PackageTypeMapper;
 import ru.hofftech.consolepackages.mapper.loadpackage.TruckMapper;
@@ -13,7 +15,6 @@ import ru.hofftech.consolepackages.service.billing.PackageBillingService;
 import ru.hofftech.consolepackages.service.billing.PackageBillingServiceImpl;
 import ru.hofftech.consolepackages.service.command.AbstractFactoryProvider;
 import ru.hofftech.consolepackages.service.command.CommandReader;
-import ru.hofftech.consolepackages.service.command.impl.billing.CreateBillingReportCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.createpackagetype.CreatePackageTypeCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.deletepackagetype.DeletePackageTypeCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.editpackagetype.EditPackageTypeCommandFactory;
@@ -29,14 +30,13 @@ import ru.hofftech.consolepackages.service.packageitem.PlacePackageServiceImpl;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
 import ru.hofftech.consolepackages.service.packagetype.PackageTypeService;
 import ru.hofftech.consolepackages.service.packagetype.PackageTypeServiceImpl;
-import ru.hofftech.consolepackages.service.report.billing.UserBillingReportEngine;
-import ru.hofftech.consolepackages.service.report.billing.UserBillingReportImpl;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;
 import ru.hofftech.consolepackages.service.report.packageitem.PackagePlaceReportEngineFactory;
 import ru.hofftech.consolepackages.service.report.truck.TruckUnloadingReportEngineFactory;
 import ru.hofftech.consolepackages.service.truck.UnloadTruckService;
 import ru.hofftech.consolepackages.service.truck.UnloadTruckServiceImpl;
 import ru.hofftech.consolepackages.service.truck.TruckUnloadingAlgorithm;
+import ru.hofftech.consolepackages.stream.BillingStreamer;
 import ru.hofftech.consolepackages.telegram.PackageTelegramBot;
 import ru.hofftech.consolepackages.util.PackageFileReader;
 import ru.hofftech.consolepackages.util.TruckJsonFileReader;
@@ -49,6 +49,7 @@ public class ApplicationConfig {
 
     private final PackageTypeRepository packageTypeRepository;
     private final BillingOrderRepository billingOrderRepository;
+    private final StreamBridge streamBridge;
 
     @Bean
     public Gson gson() {
@@ -58,7 +59,6 @@ public class ApplicationConfig {
     @Bean
     public AbstractFactoryProvider abstractFactoryProvider() {
         return new AbstractFactoryProvider(
-                createBillingReportCommandFactory(),
                 placePackageCommandFactory(),
                 unloadTruckCommandFactory(),
                 createPackageTypeCommandFactory(),
@@ -146,17 +146,8 @@ public class ApplicationConfig {
     public PackageBillingService packageBillingService() {
         return new PackageBillingServiceImpl(
                 billingOrderRepository,
-                clock());
-    }
-
-    @Bean
-    public UserBillingReportEngine userBillingReportEngine() {
-        return new UserBillingReportImpl(packageBillingService());
-    }
-
-    @Bean
-    public CreateBillingReportCommandFactory createBillingReportCommandFactory() {
-        return new CreateBillingReportCommandFactory(userBillingReportEngine());
+                billingMapper(),
+                billingStreamer());
     }
 
     @Bean
@@ -227,6 +218,11 @@ public class ApplicationConfig {
     }
 
     @Bean
+    public BillingMapper billingMapper() {
+        return org.mapstruct.factory.Mappers.getMapper(BillingMapper.class);
+    }
+
+    @Bean
     public PackageMapper packageMapper() {
         return org.mapstruct.factory.Mappers.getMapper(PackageMapper.class);
     }
@@ -239,5 +235,10 @@ public class ApplicationConfig {
     @Bean
     public Clock clock() {
         return Clock.systemUTC();
+    }
+
+    @Bean
+    public BillingStreamer billingStreamer() {
+        return new BillingStreamer(streamBridge);
     }
 }

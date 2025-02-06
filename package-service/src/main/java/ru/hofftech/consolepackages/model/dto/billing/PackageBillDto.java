@@ -1,4 +1,4 @@
-package ru.hofftech.billing.model.dto;
+package ru.hofftech.consolepackages.model.dto.billing;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public record PackageBillDto(
         @NotNull
-        List<Double> packageVolumes,
+        List<Integer> packageVolumes,
         @NotNull
         UUID truckId) {
 }

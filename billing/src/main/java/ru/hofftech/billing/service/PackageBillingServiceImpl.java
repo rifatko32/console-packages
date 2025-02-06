@@ -3,22 +3,24 @@ package ru.hofftech.billing.service;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import ru.hofftech.billing.datastorage.BillingOrderRepository;
-import ru.hofftech.billing.model.dto.CreatePackageBillRequest;
-import ru.hofftech.billing.model.dto.PackageBillDto;
 import ru.hofftech.billing.model.dto.BillingResponse;
+import ru.hofftech.billing.model.dto.CreatePackageBillRequest;
+import ru.hofftech.billing.model.dto.GenerateReportByPeriodResponse;
+import ru.hofftech.billing.model.dto.PackageBillDto;
+import ru.hofftech.billing.model.entity.BillOrderGroup;
 import ru.hofftech.billing.model.entity.BillingOrder;
 import ru.hofftech.billing.model.entity.OperationType;
-import ru.hofftech.billing.model.entity.BillOrderGroup;
+import ru.hofftech.billing.utils.DateUtils;
 
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Value;
 
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
@@ -58,15 +60,37 @@ public class PackageBillingServiceImpl implements PackageBillingService {
     }
 
     /**
-     * Returns a billing report for a user within a specified period.
+     * Generates a report of package bills for a user within a specified period.
      *
-     * @param clientId the user id
+     * @param userId   the user id
      * @param fromDate the start date of the period
      * @param toDate   the end date of the period
-     * @return a list of {@link BillingResponse} objects
+     * @return a response containing the report
      */
     @Override
-    public List<BillingResponse> returnBillingSummaryByClient(String clientId, LocalDate fromDate, LocalDate toDate) {
+    public GenerateReportByPeriodResponse generateReportByPeriod(
+            @NotNull
+            String userId,
+            @NotNull
+            LocalDate fromDate,
+            @NotNull
+            LocalDate toDate) {
+        var orders = returnBillingSummaryByClient(userId, fromDate, toDate);
+
+        if (orders.isEmpty()) {
+            return new GenerateReportByPeriodResponse();
+        }
+
+        var result = new GenerateReportByPeriodResponse();
+
+        for (var order : orders) {
+            result.addReportString(formatToreportString(order));
+        }
+
+        return result;
+    }
+
+    private List<BillingResponse> returnBillingSummaryByClient(String clientId, LocalDate fromDate, LocalDate toDate) {
         List<BillingOrder> orders = billingOrderRepository.readBillingOrdersByClientIdAndOrderDateBetween(clientId, fromDate, toDate);
 
         if (orders.isEmpty()) {
@@ -86,6 +110,16 @@ public class PackageBillingServiceImpl implements PackageBillingService {
         }
 
         return result;
+    }
+
+    private String formatToreportString(BillingResponse orderSummary) {
+        return String.format(
+                "%s; %s; %s машин; %s посылок; %s рублей",
+                orderSummary.date().format(DateTimeFormatter.ofPattern(DateUtils.DATE_FORMAT)),
+                OperationType.returnLabel(orderSummary.operationType()),
+                orderSummary.truckCount(),
+                orderSummary.packageCount(),
+                orderSummary.amount());
     }
 
     private BillingResponse generateByOrderResponse(BillOrderGroup orderGroup, List<BillingOrder> orders) {

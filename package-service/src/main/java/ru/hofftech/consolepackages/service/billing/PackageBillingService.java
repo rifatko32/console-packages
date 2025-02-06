@@ -10,6 +10,4 @@ import java.util.List;
 public interface PackageBillingService {
 
     void creatPackageBill(List<Truck> trucks, String clientId, OperationType operationType);
-
-    List<BillingResponse> returnBillingSummaryByClient(String clientId, LocalDate fromDate, LocalDate toDate);
 }

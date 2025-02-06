@@ -13,7 +13,6 @@ public class CommandConstants {
     public static final String FIND_COMMAND_PATTERN = "find";
     public static final String DELETE_COMMAND_PATTERN = "delete";
     public static final String EDIT_COMMAND_PATTERN = "edit";
-    public static final String BILLING_COMMAND_PATTERN = "billing";
 
     public static final Pattern COMMAND_KEYS_PATTERN = Pattern.compile("--(\\S+)(?:\\s+\"([^\"]*)\"|\\s+(\\S+))?");
 }

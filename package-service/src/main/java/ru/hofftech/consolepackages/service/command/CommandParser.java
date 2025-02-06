@@ -43,10 +43,6 @@ public class CommandParser {
             return CommandType.EDIT_PACKAGE_TYPE;
         }
 
-        if (strCommand.startsWith(CommandConstants.BILLING_COMMAND_PATTERN)) {
-            return CommandType.USER_BILLING_REPORT;
-        }
-
         throw new CommandParseException("Invalid command: " + strCommand);
     }
 

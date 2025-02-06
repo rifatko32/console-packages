@@ -1,10 +1,10 @@
 package ru.hofftech.billing.service;
 
-import ru.hofftech.billing.model.dto.BillingResponse;
+import jakarta.validation.constraints.NotNull;
 import ru.hofftech.billing.model.dto.CreatePackageBillRequest;
+import ru.hofftech.billing.model.dto.GenerateReportByPeriodResponse;
 
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  * Service interface for package billing operations.
@@ -21,13 +21,20 @@ public interface PackageBillingService {
      */
     void creatPackageBill(CreatePackageBillRequest createPackageBillRequest);
 
+
     /**
-     * Retrieves a billing summary for a user within a specified period.
+     * Generates a report of package bills for a user within a specified period.
      *
-     * @param clientId the user id
+     * @param userId   the user id
      * @param fromDate the start date of the period
      * @param toDate   the end date of the period
-     * @return a list of {@link BillingResponse} objects
+     * @return a response containing the report
      */
-    List<BillingResponse> returnBillingSummaryByClient(String clientId, LocalDate fromDate, LocalDate toDate);
+    GenerateReportByPeriodResponse generateReportByPeriod(
+            @NotNull
+            String userId,
+            @NotNull
+            LocalDate fromDate,
+            @NotNull
+            LocalDate toDate);
 }
