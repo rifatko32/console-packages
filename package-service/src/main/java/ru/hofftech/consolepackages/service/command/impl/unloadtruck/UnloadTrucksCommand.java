@@ -3,7 +3,7 @@ package ru.hofftech.consolepackages.service.command.impl.unloadtruck;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.hofftech.consolepackages.datastorage.model.entity.OperationType;
-import ru.hofftech.consolepackages.service.billing.PackageBillingService;
+import ru.hofftech.consolepackages.service.outbox.OutboxMessageService;
 import ru.hofftech.consolepackages.service.report.truck.TruckUnloadingReportEngineFactory;
 import ru.hofftech.consolepackages.service.truck.UnloadTruckService;
 import ru.hofftech.consolepackages.service.command.Command;
@@ -25,7 +25,7 @@ public class UnloadTrucksCommand implements Command {
     private final ReportWriterFactory reportWriterFactory;
     private final UnloadTruckContext context;
     private final TruckJsonFileReader fileReader;
-    private final PackageBillingService packageBillingService;
+    private final OutboxMessageService outboxMessageService;
     private final TruckUnloadingReportEngineFactory reportEngineFactory;
 
     /**
@@ -48,7 +48,7 @@ public class UnloadTrucksCommand implements Command {
         var reportWriter = reportWriterFactory.createReportWriter(context.reportOutputChannelType(), context.outFilePath());
         reportWriter.writeReport(report);
 
-        packageBillingService.creatPackageBill(trucks, context.clientId(), OperationType.UNLOAD);
+        outboxMessageService.createOutboxMessage(trucks, context.clientId(), OperationType.UNLOAD);
 
         log.info("End of handling file: {}", context.inFilePath());
     }

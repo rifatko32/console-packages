@@ -10,7 +10,7 @@ import ru.hofftech.consolepackages.model.Truck;
 import ru.hofftech.consolepackages.model.dto.placepackage.PlacePackagesFromFileDto;
 import ru.hofftech.consolepackages.model.dto.placepackage.PlacePackagesFromTextDto;
 import ru.hofftech.consolepackages.model.dto.placepackage.PlacePackagesResponse;
-import ru.hofftech.consolepackages.service.billing.PackageBillingService;
+import ru.hofftech.consolepackages.service.outbox.OutboxMessageService;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
 import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmType;
 import ru.hofftech.consolepackages.service.truck.TruckFactory;
@@ -31,7 +31,7 @@ public class PlacePackageServiceImpl implements PlacePackageService {
     private final PackageFromStringReader packageFromStringReader;
     private final PackageFactory packageFactory;
     private final PackagePlaceAlgorithmFactory placeEngineFactory;
-    private final PackageBillingService packageBillingService;
+    private final OutboxMessageService outboxMessageService;
     private final TruckMapper truckMapper;
 
     @Override
@@ -54,7 +54,7 @@ public class PlacePackageServiceImpl implements PlacePackageService {
         var packagePlaceEngine = placeEngineFactory.createPackagePlaceEngine(loadPackagesFromTextDto1);
         packagePlaceEngine.placePackages(packages, trucks);
 
-        packageBillingService.creatPackageBill(trucks, loadPackagesFromTextDto2, OperationType.LOAD);
+        outboxMessageService.createOutboxMessage(trucks, loadPackagesFromTextDto2, OperationType.LOAD);
         return trucks;
     }
 

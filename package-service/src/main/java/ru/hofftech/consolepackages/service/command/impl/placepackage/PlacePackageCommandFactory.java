@@ -1,7 +1,7 @@
 package ru.hofftech.consolepackages.service.command.impl.placepackage;
 
 import lombok.RequiredArgsConstructor;
-import ru.hofftech.consolepackages.service.billing.PackageBillingService;
+import ru.hofftech.consolepackages.service.outbox.OutboxMessageService;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.command.CommandAbstractFactory;
 import ru.hofftech.consolepackages.service.command.CommandContext;
@@ -41,7 +41,7 @@ public class PlacePackageCommandFactory implements CommandAbstractFactory {
     private final PackagePlaceAlgorithmFactory placeEngineFactory;
     private final PackagePlaceReportEngineFactory reportEngineFactory;
     private final PackageFromStringReader packageFromStringReader;
-    private final PackageBillingService packageBillingService;
+    private final OutboxMessageService packageBillingService;
 
     /**
      * Creates a command for placing packages into trucks.

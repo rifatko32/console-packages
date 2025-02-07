@@ -2,7 +2,7 @@ package ru.hofftech.consolepackages.service.command.impl.unloadtruck;
 
 import ch.qos.logback.core.util.StringUtil;
 import lombok.RequiredArgsConstructor;
-import ru.hofftech.consolepackages.service.billing.PackageBillingService;
+import ru.hofftech.consolepackages.service.outbox.OutboxMessageService;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.command.CommandAbstractFactory;
 import ru.hofftech.consolepackages.service.command.CommandContext;
@@ -32,7 +32,7 @@ public class UnloadTruckCommandFactory implements CommandAbstractFactory {
     private final UnloadTruckService unloadTruckService;
     private final ReportWriterFactory reportWriterFactory;
     private final TruckJsonFileReader fileReader;
-    private final PackageBillingService packageBillingService;
+    private final OutboxMessageService packageBillingService;
     private final TruckUnloadingReportEngineFactory reportEngineFactory;
 
     /**

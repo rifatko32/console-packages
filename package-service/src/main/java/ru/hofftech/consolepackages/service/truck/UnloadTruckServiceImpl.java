@@ -10,7 +10,7 @@ import ru.hofftech.consolepackages.model.Truck;
 import ru.hofftech.consolepackages.model.dto.unloadtruck.PackageCountResponse;
 import ru.hofftech.consolepackages.model.dto.unloadtruck.UnloadTruckDto;
 import ru.hofftech.consolepackages.model.dto.unloadtruck.UnloadTruckResponse;
-import ru.hofftech.consolepackages.service.billing.PackageBillingService;
+import ru.hofftech.consolepackages.service.outbox.OutboxMessageService;
 import ru.hofftech.consolepackages.service.report.PlaneStringReport;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class UnloadTruckServiceImpl implements UnloadTruckService {
 
     private final TruckUnloadingAlgorithm truckUnloadingAlgorithm;
     private final TruckMapper truckMapper;
-    private final PackageBillingService packageBillingService;
+    private final OutboxMessageService outboxMessageService;
 
     /**
      * Retrieves packages from trucks specified in the JSON file and generates a report.
@@ -76,7 +76,7 @@ public class UnloadTruckServiceImpl implements UnloadTruckService {
                     .build());
         }
 
-        packageBillingService.creatPackageBill(trucks, unloadTruckDto.clientId(), OperationType.UNLOAD);
+        outboxMessageService.createOutboxMessage(trucks, unloadTruckDto.clientId(), OperationType.UNLOAD);
 
         return result;
     }

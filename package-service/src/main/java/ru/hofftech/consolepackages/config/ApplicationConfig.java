@@ -5,14 +5,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.hofftech.consolepackages.datastorage.repository.BillingOrderRepository;
+import ru.hofftech.consolepackages.datastorage.repository.OutboxMessageRepository;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.mapper.billing.BillingMapper;
 import ru.hofftech.consolepackages.mapper.loadpackage.PackageMapper;
 import ru.hofftech.consolepackages.mapper.packagetype.PackageTypeMapper;
 import ru.hofftech.consolepackages.mapper.loadpackage.TruckMapper;
-import ru.hofftech.consolepackages.service.billing.PackageBillingService;
-import ru.hofftech.consolepackages.service.billing.PackageBillingServiceImpl;
+import ru.hofftech.consolepackages.service.outbox.OutboxMessageService;
+import ru.hofftech.consolepackages.service.outbox.OutboxMessageServiceImpl;
 import ru.hofftech.consolepackages.service.command.AbstractFactoryProvider;
 import ru.hofftech.consolepackages.service.command.CommandReader;
 import ru.hofftech.consolepackages.service.command.impl.createpackagetype.CreatePackageTypeCommandFactory;
@@ -48,7 +48,7 @@ import java.time.Clock;
 public class ApplicationConfig {
 
     private final PackageTypeRepository packageTypeRepository;
-    private final BillingOrderRepository billingOrderRepository;
+    private final OutboxMessageRepository outboxMessageRepository;
     private final StreamBridge streamBridge;
 
     @Bean
@@ -143,11 +143,12 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public PackageBillingService packageBillingService() {
-        return new PackageBillingServiceImpl(
-                billingOrderRepository,
+    public OutboxMessageService packageBillingService() {
+        return new OutboxMessageServiceImpl(
                 billingMapper(),
-                billingStreamer());
+                outboxMessageRepository,
+                gson(),
+                clock());
     }
 
     @Bean
