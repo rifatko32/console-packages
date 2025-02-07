@@ -40,6 +40,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.mapstruct:mapstruct:${versions["mapstruct"]}")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${versions["webmvc"]}")
+
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
     implementation(platform("org.springframework.cloud:spring-cloud-dependencies:${versions["cloud"]}"))
     implementation("org.springframework.cloud:spring-cloud-starter-config")
