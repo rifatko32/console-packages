@@ -1,45 +1,33 @@
 services:
-  zookeeper:
-    image: confluentinc/cp-zookeeper:6.2.1
-    ports:
-      - 2181:2181
-    hostname: zookeeper
-    container_name: zookeeper
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    networks:
-    - service
-
   kafka:
-    image: confluentinc/cp-kafka:6.2.1
+    image: apache/kafka-native:3.8.0
     ports:
-      - 9093:9093
-    depends_on:
-      - zookeeper
+      - "9094:9094"
     environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENERS: INTERNAL://0.0.0.0:9092,OUTSIDE://0.0.0.0:9093
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,OUTSIDE://localhost:9093
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://localhost:9092,CONTROLLER://localhost:9093,EXTERNAL://localhost:9094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,EXTERNAL://localhost:9094
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_NUM_PARTITIONS: 10
     networks:
-    - service
+      - service
 
   kafka-ui:
-    image: provectuslabs/kafka-ui:latest
-    links:
-      - kafka:kafka
+    image: provectuslabs/kafka-ui:v0.7.2
     ports:
       - "8088:8080"
     environment:
-      KAFKA_CLUSTERS_0_NAME: kafka
+      KAFKA_CLUSTERS_0_NAME: Kafka
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
-      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
     networks:
-    - service
+      - service
 
   packages_db:
     image: postgres:17.1
@@ -54,7 +42,7 @@ services:
     volumes:
       - packages_data:/var/lib/postgresql/data
     networks:
-    - service
+      - service
     
   billing_db:
     image: postgres:17.1
@@ -69,7 +57,7 @@ services:
     volumes:
       - billing_data:/var/lib/postgresql/data
     networks:
-    - service
+      - service
 
   package-service:
     build:
@@ -80,6 +68,7 @@ services:
     ports:
       - "8081:8081"
     environment:
+      TG_API_TOKEN: 7997289513:AAHM6eRU62wiJmzGxDaTmVlmPVjBiCki2qw
       SPRING_DATASOURCE_URL: jdbc:postgresql://packages_db:5432/packages_db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
@@ -103,6 +92,7 @@ services:
 
 networks:
   service:
+    driver: bridge
   
 volumes:
   packages_data:

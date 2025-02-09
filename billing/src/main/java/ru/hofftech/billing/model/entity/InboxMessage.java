@@ -11,6 +11,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 import java.sql.Timestamp;
 
@@ -27,6 +29,7 @@ public class InboxMessage {
     private String aggregateId;
     private String payload;
     @Enumerated(EnumType.STRING)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     private InboxMessageStatus status;
     private Timestamp createdAt;
     private Timestamp publishedAt;

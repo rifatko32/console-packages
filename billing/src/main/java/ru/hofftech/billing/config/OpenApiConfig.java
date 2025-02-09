@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
                 )
         ),
         servers = {
-                @Server(url = "http://localhost:8080", description = "Локальный сервер")
+                @Server(url = "http://localhost:8082", description = "Локальный сервер")
         }
 )
 public class OpenApiConfig {

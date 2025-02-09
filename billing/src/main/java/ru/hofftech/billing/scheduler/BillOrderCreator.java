@@ -15,6 +15,7 @@ public class BillOrderCreator {
 
     @Scheduled(fixedDelayString = "${spring.scheduler.inbox-messages.fixedDelay}")
     void run() {
+        log.info("Processing inbox messages...");
         inboxMessageService.handleInboxMessages();
     }
 }
