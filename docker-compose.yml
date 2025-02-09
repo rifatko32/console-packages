@@ -10,6 +10,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     networks:
     - service
+
   kafka:
     image: confluentinc/cp-kafka:6.2.1
     ports:
@@ -69,6 +70,36 @@ services:
       - billing_data:/var/lib/postgresql/data
     networks:
     - service
+
+  package-service:
+    build:
+      context: ./package-service
+    restart: always
+    depends_on:
+      - packages_db
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://packages_db:5432/packages_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    networks:
+      - service
+
+  billing-service:
+    build:
+      context: ./billing
+    restart: always
+    depends_on:
+      - billing_db
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://billing_db:5432/billing_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    networks:
+      - service
 
 networks:
   service:
