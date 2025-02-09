@@ -23,7 +23,8 @@ val versions = mapOf(
     "mapstruct" to "1.6.3",
     "lombokMapstructBindingVersion" to "0.2.0",
     "webmvc" to "2.8.3",
-    "cloud" to "2024.0.0"
+    "cloud" to "2024.0.0",
+    "caffeine" to "3.2.0"
 )
 
 
@@ -56,6 +57,9 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:${versions["logback-classic"]}")
     implementation("org.javatuples:javatuples:${versions["javatuples"]}")
     implementation("com.google.code.gson:gson:${versions["gson"]}")
+
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("com.github.ben-manes.caffeine:caffeine:${versions["caffeine"]}")
 
     runtimeOnly ("org.postgresql:postgresql")
 

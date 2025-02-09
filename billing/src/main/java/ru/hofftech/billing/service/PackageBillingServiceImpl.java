@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import ru.hofftech.billing.datastorage.BillingOrderRepository;
 import ru.hofftech.billing.model.dto.BillingResponse;
 import ru.hofftech.billing.model.dto.CreatePackageBillRequest;
@@ -68,6 +69,7 @@ public class PackageBillingServiceImpl implements PackageBillingService {
      * @return a response containing the report
      */
     @Override
+    @Cacheable(value = "billing-cache", key = "#userId + '_' + #fromDate + '_' + #toDate")
     public GenerateReportByPeriodResponse generateReportByPeriod(
             @NotNull
             String userId,
