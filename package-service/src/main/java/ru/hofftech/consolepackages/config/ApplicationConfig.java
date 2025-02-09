@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import ru.hofftech.consolepackages.datastorage.repository.OutboxMessageRepository;
 import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.mapper.billing.BillingMapper;
@@ -147,6 +148,7 @@ public class ApplicationConfig {
         return new OutboxMessageServiceImpl(
                 billingMapper(),
                 outboxMessageRepository,
+                billingStreamer(),
                 gson(),
                 clock());
     }

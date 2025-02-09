@@ -22,190 +22,46 @@
         null,
         null,
         null,
-        "2",
-        "2"
+        null,
+        null
       ],
       [
-        "y",
-        "y",
-        "y",
+        null,
+        null,
+        "x",
+        "x",
+        "x",
+        null
+      ],
+      [
+        null,
+        null,
         "x",
         null,
-        "x"
+        "x",
+        null
       ],
       [
-        "y",
-        "1",
-        "y",
+        null,
+        null,
         "x",
         "x",
-        "x"
-      ],
-      [
-        "y",
-        "y",
-        "y",
         "x",
-        "1",
         "x"
       ]
     ],
     "width": 6,
     "height": 6,
-    "id": "9fa5f836-7280-4574-9460-95ad6813c552",
+    "id": "77b6a22c-5b34-436b-8d26-afbd7797d155",
     "packages": [
       {
-        "id": "12630ac0-15fa-4e6d-8186-bc77af493e33",
+        "id": "cbce64b4-1127-4bd0-b23c-0049204b9053",
         "description": "x",
-        "width": 3,
+        "width": 4,
         "height": 3,
-        "typeName": "type narrow weight",
-        "form": "x x\\nxxx\\nx x"
-      },
-      {
-        "id": "1314d9b5-8c47-47c9-8e38-ecb6e328d176",
-        "description": "y",
-        "width": 3,
-        "height": 3,
-        "typeName": "type wheel",
-        "form": "xxx\\nx x\\nxxx"
-      },
-      {
-        "id": "50260891-f560-4477-a230-fe4688c48515",
-        "description": "2",
-        "width": 2,
-        "height": 1,
-        "typeName": "type 2",
-        "form": "22"
-      },
-      {
-        "id": "978600f8-4c09-48c3-9802-76d435eec1d9",
-        "description": "1",
-        "width": 1,
-        "height": 1,
-        "typeName": "type 1",
-        "form": "1"
-      },
-      {
-        "id": "ddd6da75-0f7a-4bab-9417-ab75dfe2e339",
-        "description": "1",
-        "width": 1,
-        "height": 1,
-        "typeName": "type 1",
-        "form": "1"
+        "typeId": 1,
+        "form": "xxx\\nx x\\nxxxx"
       }
     ]
-  },
-  {
-    "backTruckSlots": [
-      [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ]
-    ],
-    "width": 6,
-    "height": 6,
-    "id": "e8d0b812-1eb6-4fd1-8d5d-df2b90570924",
-    "packages": []
-  },
-  {
-    "backTruckSlots": [
-      [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
-      [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ]
-    ],
-    "width": 6,
-    "height": 6,
-    "id": "9c4222b2-e2bb-4164-b112-788dabae1711",
-    "packages": []
   }
 ]

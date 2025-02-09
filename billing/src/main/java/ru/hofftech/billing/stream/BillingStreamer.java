@@ -2,14 +2,14 @@ package ru.hofftech.billing.stream;
 
 import lombok.RequiredArgsConstructor;
 import ru.hofftech.billing.model.dto.CreatePackageBillRequest;
-import ru.hofftech.billing.service.PackageBillingService;
+import ru.hofftech.billing.service.InboxMessageService;
 
 @RequiredArgsConstructor
 public class BillingStreamer {
     
-    private final PackageBillingService packageBillingService;
+    private final InboxMessageService inboxMessageService;
 
     public void handle(CreatePackageBillRequest request) {
-        packageBillingService.creatPackageBill(request);
+        inboxMessageService.createInboxMessage(request);
     }
 }

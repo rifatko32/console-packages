@@ -10,6 +10,7 @@ import ru.hofftech.consolepackages.datastorage.repository.OutboxMessageRepositor
 import ru.hofftech.consolepackages.mapper.billing.BillingMapper;
 import ru.hofftech.consolepackages.model.Truck;
 import ru.hofftech.consolepackages.model.dto.billing.CreatePackageBillRequest;
+import ru.hofftech.consolepackages.stream.BillingStreamer;
 
 import java.sql.Timestamp;
 import java.time.Clock;
@@ -21,6 +22,7 @@ public class OutboxMessageServiceImpl implements OutboxMessageService {
 
     private final BillingMapper billingMapper;
     private final OutboxMessageRepository outboxMessageRepository;
+    private final BillingStreamer billingStreamer;
     private final Gson gson;
     private final Clock clock;
 
@@ -44,12 +46,26 @@ public class OutboxMessageServiceImpl implements OutboxMessageService {
     }
 
     @Override
-    public List<OutboxMessage> readUnsendMessages() {
-        return outboxMessageRepository.findAllByStatus(OutboxMessageStatus.PENDING);
+    public void updateMessage(OutboxMessage message) {
+        outboxMessageRepository.save(message);
     }
 
     @Override
-    public void updateMessage(OutboxMessage message) {
-        outboxMessageRepository.save(message);
+    public void handleOutboxMessages() {
+        var messages = outboxMessageRepository.findAllByStatus(OutboxMessageStatus.PENDING);
+
+        for (var message : messages) {
+            try {
+                var streamMessage = gson.fromJson(message.getPayload(), CreatePackageBillRequest.class);
+                billingStreamer.publish(streamMessage);
+
+                message.setStatus(OutboxMessageStatus.PROCESSED);
+                message.setPublishedAt(Timestamp.from(clock.instant()));
+                updateMessage(message);
+
+            } catch (Exception e) {
+                log.error("Error while sending message", e);
+            }
+        }
     }
 }

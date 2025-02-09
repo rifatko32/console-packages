@@ -7,8 +7,6 @@ import java.util.List;
 
 public record CreatePackageBillRequest(
         @NotNull
-        String requestId,
-        @NotNull
         String clientId,
         @NotNull
         OperationType operationType,

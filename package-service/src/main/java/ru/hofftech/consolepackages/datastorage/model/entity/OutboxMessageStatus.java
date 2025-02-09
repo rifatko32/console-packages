@@ -5,7 +5,7 @@ import java.util.Map;
 
 public enum OutboxMessageStatus {
     PENDING("Ожидание"),
-    PROCESSED("Обработаны");
+    PROCESSED("Обработано");
 
     OutboxMessageStatus(String label) {
         this.label = label;

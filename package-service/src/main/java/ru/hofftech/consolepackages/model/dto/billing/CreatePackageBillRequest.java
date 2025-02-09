@@ -9,8 +9,6 @@ import java.util.List;
 @Builder
 public record CreatePackageBillRequest(
         @NotNull
-        Long requestId,
-        @NotNull
         String clientId,
         @NotNull
         OperationType operationType,

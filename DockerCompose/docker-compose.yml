@@ -40,7 +40,7 @@ services:
     networks:
     - service
 
-  postgres:
+  packages_db:
     image: postgres:17.1
     container_name: packages_db
     restart: always
@@ -54,9 +54,25 @@ services:
       - packages_data:/var/lib/postgresql/data
     networks:
     - service
+    
+  billing_db:
+    image: postgres:17.1
+    container_name: billing_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: billing_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - billing_data:/var/lib/postgresql/data
+    networks:
+    - service
 
 networks:
   service:
   
 volumes:
   packages_data:
+  billing_data:

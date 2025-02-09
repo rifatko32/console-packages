@@ -19,7 +19,6 @@ public class BillingStreamer {
 
     public void publish(CreatePackageBillRequest billRequest){
         var message = MessageBuilder.withPayload(billRequest)
-                .setHeader(KafkaHeaders.KEY, String.valueOf(billRequest.requestId()).getBytes(StandardCharsets.UTF_8))
                 .setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON)
                 .build();
 

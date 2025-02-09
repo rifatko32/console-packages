@@ -1,4 +1,4 @@
-package ru.hofftech.consolepackages.datastorage.model.entity;
+package ru.hofftech.billing.model.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -20,14 +20,14 @@ import java.sql.Timestamp;
 @Entity
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class OutboxMessage {
+public class InboxMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String aggregateId;
     private String payload;
     @Enumerated(EnumType.STRING)
-    private OutboxMessageStatus status;
+    private InboxMessageStatus status;
     private Timestamp createdAt;
     private Timestamp publishedAt;
 }

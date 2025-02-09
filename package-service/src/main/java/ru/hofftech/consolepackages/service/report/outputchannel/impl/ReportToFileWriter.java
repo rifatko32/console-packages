@@ -69,8 +69,9 @@ public class ReportToFileWriter implements ReportWriter {
     }
 
     private void writeReportToFile(PlaneStringReport report, String fileName) {
+        createReportsFolder();
+
         try (FileWriter writer = new FileWriter(fileName)) {
-            createReportsFolder();
             for (var reportString : report.getReportStrings()) {
                 writer.write(reportString);
             }

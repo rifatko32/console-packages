@@ -10,7 +10,7 @@ public interface OutboxMessageService {
 
     void createOutboxMessage(List<Truck> trucks, String clientId, OperationType operationType);
 
-    List<OutboxMessage> readUnsendMessages();
-
     void updateMessage(OutboxMessage message);
+
+    void handleOutboxMessages();
 }
