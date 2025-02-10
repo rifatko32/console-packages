@@ -65,7 +65,6 @@ public class ApplicationConfig {
         return new InboxMessageServiceImpl(
                 inboxMessageRepository,
                 packageBillingService(),
-                gson(),
                 clock());
     }
 
@@ -80,7 +79,7 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public Consumer<Message<CreatePackageBillRequest>> billingConsumer() {
+    public Consumer<Message<CreatePackageBillRequest>> billing() {
         return message -> billingStreamer().handle(message.getPayload());
     }
 }

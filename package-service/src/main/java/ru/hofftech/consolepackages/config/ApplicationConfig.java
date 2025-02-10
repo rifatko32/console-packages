@@ -149,7 +149,6 @@ public class ApplicationConfig {
                 billingMapper(),
                 outboxMessageRepository,
                 billingStreamer(),
-                gson(),
                 clock());
     }
 

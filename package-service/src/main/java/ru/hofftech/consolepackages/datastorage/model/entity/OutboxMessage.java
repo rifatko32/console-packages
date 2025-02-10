@@ -1,5 +1,6 @@
 package ru.hofftech.consolepackages.datastorage.model.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -12,7 +13,10 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.JdbcType;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
+import org.hibernate.type.SqlTypes;
+import ru.hofftech.consolepackages.model.dto.billing.CreatePackageBillRequest;
 
 import java.sql.Timestamp;
 
@@ -27,7 +31,8 @@ public class OutboxMessage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String aggregateId;
-    private String payload;
+    @JdbcTypeCode(SqlTypes.JSON)
+    private CreatePackageBillRequest payload;
     @Enumerated(EnumType.STRING)
     @JdbcType(PostgreSQLEnumJdbcType.class)
     private OutboxMessageStatus status;
