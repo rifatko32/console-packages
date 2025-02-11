@@ -1,6 +1,5 @@
 package ru.hofftech.billing.service;
 
-import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import ru.hofftech.billing.datastorage.InboxMessageRepository;
@@ -16,7 +15,6 @@ public class InboxMessageServiceImpl implements InboxMessageService{
 
     private final InboxMessageRepository inboxMessageRepository;
     private final PackageBillingService packageBillingService;
-    private final Gson gson;
     private final Clock clock;
 
     @Override
@@ -25,9 +23,9 @@ public class InboxMessageServiceImpl implements InboxMessageService{
         var messages = inboxMessageRepository.findAllByStatus(InboxMessageStatus.PENDING);
 
         messages.forEach(message -> {
-            var request = gson.fromJson(message.getPayload(), CreatePackageBillRequest.class);
-            packageBillingService.creatPackageBill(request);
+            packageBillingService.creatPackageBill(message.getPayload());
             message.setStatus(InboxMessageStatus.PROCESSED);
+            message.setPublishedAt(Timestamp.from(clock.instant()));
             inboxMessageRepository.save(message);
         });
 
@@ -38,8 +36,7 @@ public class InboxMessageServiceImpl implements InboxMessageService{
         var inboxMessage = InboxMessage.builder()
                 .aggregateId(request.clientId())
                 .status(InboxMessageStatus.PENDING)
-                .createdAt(Timestamp.from(clock.instant()))
-                .payload(gson.toJson(request))
+                .payload(request)
                 .build();
 
         inboxMessageRepository.save(inboxMessage);

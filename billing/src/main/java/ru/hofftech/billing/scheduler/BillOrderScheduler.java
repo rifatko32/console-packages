@@ -9,7 +9,7 @@ import ru.hofftech.billing.service.InboxMessageService;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class BillOrderCreator {
+public class BillOrderScheduler {
 
     private final InboxMessageService inboxMessageService;
 

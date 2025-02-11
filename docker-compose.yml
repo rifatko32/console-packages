@@ -7,7 +7,7 @@ services:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://:9092,EXTERNAL://localhost:9094
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
       KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
@@ -65,10 +65,13 @@ services:
     restart: always
     depends_on:
       - packages_db
+      - kafka
     ports:
       - "8081:8081"
     environment:
       TG_API_TOKEN: 7997289513:AAHM6eRU62wiJmzGxDaTmVlmPVjBiCki2qw
+      SPRING_KAFKA_BOOTSTRAP-SERVERS: kafka:9092
+      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: kafka:9092
       SPRING_DATASOURCE_URL: jdbc:postgresql://packages_db:5432/packages_db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
@@ -81,9 +84,12 @@ services:
     restart: always
     depends_on:
       - billing_db
+      - kafka
     ports:
       - "8082:8082"
     environment:
+      SPRING_KAFKA_BOOTSTRAP-SERVERS: kafka:9092
+      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: kafka:9092
       SPRING_DATASOURCE_URL: jdbc:postgresql://billing_db:5432/billing_db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
@@ -92,7 +98,6 @@ services:
 
 networks:
   service:
-    driver: bridge
   
 volumes:
   packages_data:

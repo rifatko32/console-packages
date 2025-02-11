@@ -1,6 +1,5 @@
 package ru.hofftech.consolepackages.service.outbox;
 
-import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.hofftech.consolepackages.datastorage.model.entity.OperationType;
@@ -23,7 +22,6 @@ public class OutboxMessageServiceImpl implements OutboxMessageService {
     private final BillingMapper billingMapper;
     private final OutboxMessageRepository outboxMessageRepository;
     private final BillingStreamer billingStreamer;
-    private final Gson gson;
     private final Clock clock;
 
     @Override
@@ -38,9 +36,8 @@ public class OutboxMessageServiceImpl implements OutboxMessageService {
         outboxMessageRepository.save(
                 OutboxMessage.builder()
                         .aggregateId(clientId)
-                        .payload(gson.toJson(message))
+                        .payload(message)
                         .status(OutboxMessageStatus.PENDING)
-                        .publishedAt(Timestamp.from(clock.instant()))
                         .build()
         );
     }
@@ -56,16 +53,17 @@ public class OutboxMessageServiceImpl implements OutboxMessageService {
 
         for (var message : messages) {
             try {
-                var streamMessage = gson.fromJson(message.getPayload(), CreatePackageBillRequest.class);
-                billingStreamer.publish(streamMessage);
-
-                message.setStatus(OutboxMessageStatus.PROCESSED);
-                message.setPublishedAt(Timestamp.from(clock.instant()));
-                updateMessage(message);
-
+                billingStreamer.publish(message.getPayload());
+                updateMessageStatusToProcessed(message);
             } catch (Exception e) {
                 log.error("Error while sending message", e);
             }
         }
+    }
+
+    private void updateMessageStatusToProcessed(OutboxMessage message) {
+        message.setStatus(OutboxMessageStatus.PROCESSED);
+        message.setPublishedAt(Timestamp.from(clock.instant()));
+        updateMessage(message);
     }
 }

@@ -9,7 +9,7 @@ import ru.hofftech.consolepackages.service.outbox.OutboxMessageService;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class BillMessageSender {
+public class BillMessageScheduler {
 
     private final OutboxMessageService outboxMessageService;
 

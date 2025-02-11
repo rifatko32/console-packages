@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.hofftech.billing.datastorage.BillingOrderRepository;
 import ru.hofftech.billing.model.dto.BillingResponse;
 import ru.hofftech.billing.model.dto.CreatePackageBillRequest;
@@ -52,6 +54,7 @@ public class PackageBillingServiceImpl implements PackageBillingService {
      * @param createPackageBillRequest the request object containing the list of packages to bill
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void creatPackageBill(CreatePackageBillRequest createPackageBillRequest) {
         createBillsByTracks(
                 createPackageBillRequest.packageBillDtos(),
