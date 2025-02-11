@@ -1,5 +1,6 @@
 package ru.hofftech.consolepackages.datastorage.model.entity;
 
+import jakarta.persistence.Column;
 import ru.hofftech.consolepackages.service.packageitem.PackageSizeCalculator;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,10 +39,19 @@ public class PackageType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "form", nullable = false)
     private String form;
+
+    @Column(name = "description_number", nullable = false)
     private String descriptionNumber;
+
+    @Column(name = "width", nullable = false)
     private Integer width;
+
+    @Column(name = "height", nullable = false)
     private Integer height;
 
     private PackageType(String form, String descriptionNumber) {

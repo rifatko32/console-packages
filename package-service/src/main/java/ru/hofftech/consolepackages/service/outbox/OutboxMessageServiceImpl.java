@@ -38,7 +38,6 @@ public class OutboxMessageServiceImpl implements OutboxMessageService {
                         .aggregateId(clientId)
                         .payload(message)
                         .status(OutboxMessageStatus.PENDING)
-                        .publishedAt(Timestamp.from(clock.instant()))
                         .build()
         );
     }
@@ -55,14 +54,16 @@ public class OutboxMessageServiceImpl implements OutboxMessageService {
         for (var message : messages) {
             try {
                 billingStreamer.publish(message.getPayload());
-
-                message.setStatus(OutboxMessageStatus.PROCESSED);
-                message.setPublishedAt(Timestamp.from(clock.instant()));
-                updateMessage(message);
-
+                updateMessageStatusToProcessed(message);
             } catch (Exception e) {
                 log.error("Error while sending message", e);
             }
         }
+    }
+
+    private void updateMessageStatusToProcessed(OutboxMessage message) {
+        message.setStatus(OutboxMessageStatus.PROCESSED);
+        message.setPublishedAt(Timestamp.from(clock.instant()));
+        updateMessage(message);
     }
 }

@@ -25,6 +25,7 @@ public class InboxMessageServiceImpl implements InboxMessageService{
         messages.forEach(message -> {
             packageBillingService.creatPackageBill(message.getPayload());
             message.setStatus(InboxMessageStatus.PROCESSED);
+            message.setPublishedAt(Timestamp.from(clock.instant()));
             inboxMessageRepository.save(message);
         });
 
@@ -35,7 +36,6 @@ public class InboxMessageServiceImpl implements InboxMessageService{
         var inboxMessage = InboxMessage.builder()
                 .aggregateId(request.clientId())
                 .status(InboxMessageStatus.PENDING)
-                .createdAt(Timestamp.from(clock.instant()))
                 .payload(request)
                 .build();
 
