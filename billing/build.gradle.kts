@@ -24,7 +24,10 @@ val versions = mapOf(
     "lombokMapstructBindingVersion" to "0.2.0",
     "webmvc" to "2.8.3",
     "cloud" to "2024.0.0",
-    "caffeine" to "3.2.0"
+    "caffeine" to "3.2.0",
+    "test-containers" to "1.17.6",
+    "test-containers-boot" to "3.4.1",
+    "postgres-test-container" to "1.17.6"
 )
 
 
@@ -63,10 +66,15 @@ dependencies {
 
     runtimeOnly ("org.postgresql:postgresql")
 
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation(platform("org.junit:junit-bom:${versions["junit-bom"]}"))
     testImplementation("org.junit.jupiter:junit-jupiter:${versions["junit-jupiter"]}")
     testImplementation("org.assertj:assertj-core:${versions["assertj-core"]}")
     testImplementation("org.mockito:mockito-core:${versions["mockito-core"]}")
+    testImplementation("org.testcontainers:postgresql:${versions["postgres-test-container"]}")
+    testImplementation("org.testcontainers:junit-jupiter:${versions["test-containers"]}")
+    testImplementation("org.springframework.boot:spring-boot-testcontainers:${versions["test-containers-boot"]}")
+    testImplementation("org.testcontainers:kafka")
 }
 
 tasks.test {
