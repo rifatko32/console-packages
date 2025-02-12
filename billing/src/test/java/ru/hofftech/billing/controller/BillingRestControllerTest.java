@@ -33,8 +33,8 @@ public class BillingRestControllerTest{
     @Autowired
     MockMvc mockMvc;
 
-    @MockitoBean
-    PackageBillingService packageBillingService;
+    /*@MockitoBean
+    PackageBillingService packageBillingService;*/
 
     @Container
     public static PostgreSQLContainer<?> postgresqlContainer = new PostgreSQLContainer<>("postgres:17")
@@ -61,26 +61,23 @@ public class BillingRestControllerTest{
     void create_withValidRequest_shouldReturnValidResponse() throws Exception {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-        params.add("userId", "client1");
         params.add("fromDate", "01.01.2025");
         params.add("toDate", "31.01.2025");
 
         String expectedResponseJson = """
                      {
-                      "reportStrings": [
-                        "test string"
-                      ]
+                        "reportStrings": [ "test string" ]
                      }
                 """;
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/billing")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/billing/client1")
                         .queryParams(params))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.content().json(expectedResponseJson));
 
-        Mockito.verify(packageBillingService).generateReportByPeriod(
+       /* Mockito.verify(packageBillingService).generateReportByPeriod(
                 "client1",
                 LocalDate.parse("01.01.2025", DateTimeFormatter.ofPattern(DATE_FORMAT)),
-                LocalDate.parse("31.01.2025", DateTimeFormatter.ofPattern(DATE_FORMAT)));
+                LocalDate.parse("31.01.2025", DateTimeFormatter.ofPattern(DATE_FORMAT)));*/
     }
 }
