@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -24,6 +25,8 @@ import static ru.hofftech.billing.utils.DateUtils.DATE_FORMAT;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Sql(scripts = "/generate-test-data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "/cleanup-data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class BillingRestControllerTest{
 
     final static String DATABASE_NAME = "billing_db";
@@ -56,7 +59,6 @@ public class BillingRestControllerTest{
     }
 
 
-
     @Test
     void create_withValidRequest_shouldReturnValidResponse() throws Exception {
 
@@ -66,7 +68,9 @@ public class BillingRestControllerTest{
 
         String expectedResponseJson = """
                      {
-                        "reportStrings": [ "test string" ]
+                        "reportStrings": [
+                         "01.01.2025; Погрузка; 2 машин; 20 посылок; 200 рублей",
+                         "01.01.2025; Разгрузка; 1 машин; 10 посылок; 100 рублей"]
                      }
                 """;
 
@@ -74,10 +78,5 @@ public class BillingRestControllerTest{
                         .queryParams(params))
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.content().json(expectedResponseJson));
-
-       /* Mockito.verify(packageBillingService).generateReportByPeriod(
-                "client1",
-                LocalDate.parse("01.01.2025", DateTimeFormatter.ofPattern(DATE_FORMAT)),
-                LocalDate.parse("31.01.2025", DateTimeFormatter.ofPattern(DATE_FORMAT)));*/
     }
 }
