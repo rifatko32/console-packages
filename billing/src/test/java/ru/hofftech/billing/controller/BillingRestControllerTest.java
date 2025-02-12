@@ -36,9 +36,6 @@ public class BillingRestControllerTest{
     @Autowired
     MockMvc mockMvc;
 
-    /*@MockitoBean
-    PackageBillingService packageBillingService;*/
-
     @Container
     public static PostgreSQLContainer<?> postgresqlContainer = new PostgreSQLContainer<>("postgres:17")
             .withDatabaseName(DATABASE_NAME)
