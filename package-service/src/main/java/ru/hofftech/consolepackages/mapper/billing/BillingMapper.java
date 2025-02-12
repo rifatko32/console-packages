@@ -15,7 +15,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface BillingMapper {
 
-
     @Mapping(source = "id", target = "truckId")
     @Mapping(target = "packageVolumes", expression = "java(calculatePackageVolumes(truck.getPackages()))")
     PackageBillDto mapTruckBillDto(Truck truck);

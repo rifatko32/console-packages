@@ -1,5 +1,8 @@
 package ru.hofftech.consolepackages.shellconstants;
 
+/**
+ * Constants for command line options.
+ */
 public class CommandOptions {
     public static final String ID = "--id";
     public static final String FORM = "--form";
