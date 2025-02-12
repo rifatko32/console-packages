@@ -2,7 +2,7 @@ package ru.hofftech.consolepackages.service.packagetype;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
+import ru.hofftech.consolepackages.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.mapper.packagetype.PackageTypeMapper;
 import ru.hofftech.consolepackages.model.dto.packagetype.CreatePackageTypeDto;
 import ru.hofftech.consolepackages.model.dto.packagetype.EditPackageTypeDto;

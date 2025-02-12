@@ -1,9 +1,9 @@
-package ru.hofftech.consolepackages.datastorage.repository;
+package ru.hofftech.consolepackages.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.hofftech.consolepackages.datastorage.model.entity.OutboxMessage;
-import ru.hofftech.consolepackages.datastorage.model.entity.OutboxMessageStatus;
+import ru.hofftech.consolepackages.model.entity.OutboxMessage;
+import ru.hofftech.consolepackages.model.entity.OutboxMessageStatus;
 
 import java.util.List;
 

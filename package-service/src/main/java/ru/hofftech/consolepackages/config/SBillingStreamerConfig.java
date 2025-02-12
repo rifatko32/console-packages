@@ -8,7 +8,7 @@ import ru.hofftech.consolepackages.stream.BillingStreamer;
 
 @Configuration
 @RequiredArgsConstructor
-public class StreamConfig {
+public class SBillingStreamerConfig {
 
     private final StreamBridge streamBridge;
 

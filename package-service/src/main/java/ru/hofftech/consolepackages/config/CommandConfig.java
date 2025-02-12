@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.hofftech.consolepackages.datastorage.repository.OutboxMessageRepository;
-import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
+import ru.hofftech.consolepackages.repository.OutboxMessageRepository;
+import ru.hofftech.consolepackages.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.mapper.billing.BillingMapper;
 import ru.hofftech.consolepackages.mapper.loadpackage.TruckMapper;
 import ru.hofftech.consolepackages.service.command.AbstractFactoryProvider;
@@ -17,6 +17,8 @@ import ru.hofftech.consolepackages.service.command.impl.exit.ExitCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.findpackagetype.FindPackageTypeCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.placepackage.PlacePackageCommandFactory;
 import ru.hofftech.consolepackages.service.command.impl.unloadtruck.UnloadTruckCommandFactory;
+import ru.hofftech.consolepackages.service.outbox.OutboxMessageHandler;
+import ru.hofftech.consolepackages.service.outbox.OutboxMessageHandlerImpl;
 import ru.hofftech.consolepackages.service.outbox.OutboxMessageService;
 import ru.hofftech.consolepackages.service.outbox.OutboxMessageServiceImpl;
 import ru.hofftech.consolepackages.service.packageitem.PackageFactory;
@@ -181,8 +183,12 @@ public class CommandConfig {
         return new OutboxMessageServiceImpl(
                 billingMapper,
                 outboxMessageRepository,
-                billingStreamer,
-                clock);
+                outboxMessageHandler());
+    }
+
+    @Bean
+    public OutboxMessageHandler outboxMessageHandler() {
+        return new OutboxMessageHandlerImpl(outboxMessageRepository, billingStreamer, clock);
     }
 
     @Bean

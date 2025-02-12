@@ -1,8 +1,8 @@
 package ru.hofftech.consolepackages.service.command.impl.findpackagetype;
 
 import lombok.RequiredArgsConstructor;
-import ru.hofftech.consolepackages.datastorage.model.entity.PackageType;
-import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
+import ru.hofftech.consolepackages.model.entity.PackageType;
+import ru.hofftech.consolepackages.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.service.command.Command;
 import ru.hofftech.consolepackages.service.report.PlaneStringReport;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportWriterFactory;

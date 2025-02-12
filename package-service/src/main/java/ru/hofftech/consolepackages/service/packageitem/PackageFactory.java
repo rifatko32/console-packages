@@ -1,8 +1,8 @@
 package ru.hofftech.consolepackages.service.packageitem;
 
 import lombok.RequiredArgsConstructor;
-import ru.hofftech.consolepackages.datastorage.model.entity.PackageType;
-import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
+import ru.hofftech.consolepackages.model.entity.PackageType;
+import ru.hofftech.consolepackages.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.model.Package;
 
 import java.util.ArrayList;
