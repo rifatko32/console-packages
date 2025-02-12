@@ -8,6 +8,18 @@ import ru.hofftech.consolepackages.model.dto.unloadtruck.UnloadPackageDto;
 
 import java.util.List;
 
+/**
+ * Mapper interface for converting between Package and its DTO representations.
+ * <p>
+ * This mapper provides methods to convert a Package to its DTO form for placing packages
+ * and unloading packages, as well as reverse mapping from these DTOs back to Package.
+ * </p>
+ *
+ * <p>
+ * The default method afterPlacePackageMapping is executed after mapping a PlacePackageDto
+ * to a Package, creating a new Package instance with specific fields from PlacePackageDto.
+ * </p>
+ */
 @Mapper(componentModel = "spring")
 public interface PackageMapper {
 

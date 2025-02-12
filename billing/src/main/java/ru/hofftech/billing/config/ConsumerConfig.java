@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 
 @Configuration
 @RequiredArgsConstructor
-public class StreamConfig {
+public class ConsumerConfig {
 
     private final InboxMessageRepository inboxMessageRepository;
     private final PackageBillingService packageBillingService;

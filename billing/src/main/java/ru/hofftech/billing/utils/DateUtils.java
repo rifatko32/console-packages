@@ -3,6 +3,9 @@ package ru.hofftech.billing.utils;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Utility class for working with dates.
+ */
 public class DateUtils {
     public final static String DATE_FORMAT = "dd.MM.yyyy";
 

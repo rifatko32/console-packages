@@ -16,6 +16,9 @@ import ru.hofftech.consolepackages.model.dto.placepackage.PlacePackagesFromTextD
 import ru.hofftech.consolepackages.model.dto.placepackage.PlacePackagesResponse;
 import ru.hofftech.consolepackages.service.packageitem.PlacePackageService;
 
+/**
+ * REST controller for loading packages.
+ */
 @Tag(name = "LoadPackage Controller", description = "REST API для загрузки посылками")
 @RestController
 @RequiredArgsConstructor
@@ -24,12 +27,25 @@ public class LoadPackageRestController {
 
     private final PlacePackageService placePackageService;
 
+    /**
+     * Loads packages from a text description.
+     *
+     * @param loadPackagesFromTextDto the DTO containing the text description of packages
+     * @return a response entity containing the response with the list of loaded packages
+     */
     @Operation(summary = "Грузит посылки по текстовому описанию")
     @PostMapping
     public ResponseEntity<PlacePackagesResponse> placePackagesFromText(@NotNull @RequestBody PlacePackagesFromTextDto loadPackagesFromTextDto) {
         return ResponseEntity.ok(placePackageService.placePackagesFromString(loadPackagesFromTextDto));
     }
 
+    /**
+     * Loads packages from a file.
+     *
+     * @param file the MultipartFile containing the packages data
+     * @param loadPackagesFromFileDto the DTO containing additional package loading parameters
+     * @return a response entity containing the response with the list of loaded packages
+     */
     @Operation(summary = "Грузит посылки из файла")
     @PostMapping("/from-file")
     public ResponseEntity<PlacePackagesResponse> placePackagesFromFile(

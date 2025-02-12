@@ -12,6 +12,12 @@ import ru.hofftech.consolepackages.model.dto.unloadtruck.UnloadTruckDto;
 import ru.hofftech.consolepackages.model.dto.unloadtruck.UnloadTruckResponse;
 import ru.hofftech.consolepackages.service.truck.UnloadTruckService;
 
+/**
+ * REST controller for unloading packages.
+ * <p>
+ * This controller provides the ability to unload packages from a truck.
+ * </p>
+ */
 @Tag(name = "Unload Controller", description = "REST API для разгрузки посылок")
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +26,9 @@ public class UnloadTruckRestController {
 
     private final UnloadTruckService unloadTruckService;
 
+    /**
+     * The service to unload packages from a truck.
+     */
     @PostMapping
     public ResponseEntity<UnloadTruckResponse> unloadTruck(@RequestBody UnloadTruckDto unloadTruckDto) {
         return new ResponseEntity<>(unloadTruckService.unloadTruck(unloadTruckDto), HttpStatus.OK);

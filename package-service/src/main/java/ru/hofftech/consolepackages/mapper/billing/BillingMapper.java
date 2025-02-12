@@ -8,6 +8,10 @@ import ru.hofftech.consolepackages.model.dto.billing.PackageBillDto;
 
 import java.util.List;
 
+/**
+ * Mapper for converting Truck and Package objects to PackageBillDto objects.
+ * PackageBillDto is a data transfer object that is used to represent the packages in a truck when billing.
+ */
 @Mapper(componentModel = "spring")
 public interface BillingMapper {
 

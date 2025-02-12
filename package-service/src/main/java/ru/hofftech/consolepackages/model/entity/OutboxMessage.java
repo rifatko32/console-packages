@@ -19,6 +19,17 @@ import ru.hofftech.consolepackages.model.dto.billing.CreatePackageBillRequest;
 
 import java.sql.Timestamp;
 
+/**
+ * Represents a message that is waiting for sending to the billing service.
+ * <p>
+ * This entity contains the message content in the form of a JSON string, the
+ * message status, the date and time when the message was added to the outbox,
+ * and the date and time when the message was sent or processing failed.
+ * </p>
+ *
+ * @see OutboxMessageStatus
+ * @see CreatePackageBillRequest
+ */
 @Getter
 @Setter
 @Builder

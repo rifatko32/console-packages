@@ -10,13 +10,28 @@ import ru.hofftech.billing.model.entity.InboxMessageStatus;
 import java.sql.Timestamp;
 import java.time.Clock;
 
+/**
+ * Service implementation for handling inbox messages.
+ * <p>
+ * This service provides methods to process and create inbox messages.
+ * </p>
+ */
 @RequiredArgsConstructor
-public class InboxMessageServiceImpl implements InboxMessageService{
+public class InboxMessageServiceImpl implements InboxMessageService {
 
     private final InboxMessageRepository inboxMessageRepository;
     private final PackageBillingService packageBillingService;
     private final Clock clock;
 
+    /**
+     * Processes all pending inbox messages.
+     * <p>
+     * This method retrieves all inbox messages with a status of PENDING from the repository,
+     * processes each message by creating a package bill using the payload, updates the status
+     * to PROCESSED, sets the published timestamp, and saves the changes back to the repository.
+     * The method is transactional to ensure atomicity of operations.
+     * </p>
+     */
     @Override
     @Transactional
     public void handleInboxMessages() {
@@ -31,6 +46,14 @@ public class InboxMessageServiceImpl implements InboxMessageService{
 
     }
 
+    /**
+     * Creates a new inbox message from the given request.
+     * <p>
+     * This method creates a new inbox message with the given request and saves it to the database.
+     * </p>
+     *
+     * @param request the request to create the inbox message
+     */
     @Override
     public void createInboxMessage(CreatePackageBillRequest request) {
         var inboxMessage = InboxMessage.builder()
