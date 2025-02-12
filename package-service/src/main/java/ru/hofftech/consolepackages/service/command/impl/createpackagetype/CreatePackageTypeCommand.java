@@ -2,8 +2,8 @@ package ru.hofftech.consolepackages.service.command.impl.createpackagetype;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.hofftech.consolepackages.datastorage.model.entity.PackageType;
-import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
+import ru.hofftech.consolepackages.model.entity.PackageType;
+import ru.hofftech.consolepackages.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.service.command.Command;
 
 /**

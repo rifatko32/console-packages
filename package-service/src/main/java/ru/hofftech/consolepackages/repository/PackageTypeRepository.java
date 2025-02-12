@@ -1,8 +1,8 @@
-package ru.hofftech.consolepackages.datastorage.repository;
+package ru.hofftech.consolepackages.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.hofftech.consolepackages.datastorage.model.entity.PackageType;
+import ru.hofftech.consolepackages.model.entity.PackageType;
 
 import java.util.Collection;
 import java.util.List;

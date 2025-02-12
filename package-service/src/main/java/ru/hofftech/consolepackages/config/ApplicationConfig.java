@@ -3,7 +3,7 @@ package ru.hofftech.consolepackages.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
+import ru.hofftech.consolepackages.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.mapper.packagetype.PackageTypeMapper;
 import ru.hofftech.consolepackages.service.packagetype.PackageTypeService;
 import ru.hofftech.consolepackages.service.packagetype.PackageTypeServiceImpl;

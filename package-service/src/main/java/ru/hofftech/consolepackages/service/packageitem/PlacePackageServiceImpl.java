@@ -3,7 +3,7 @@ package ru.hofftech.consolepackages.service.packageitem;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
-import ru.hofftech.consolepackages.datastorage.model.entity.OperationType;
+import ru.hofftech.consolepackages.model.entity.OperationType;
 import ru.hofftech.consolepackages.mapper.loadpackage.TruckMapper;
 import ru.hofftech.consolepackages.model.Package;
 import ru.hofftech.consolepackages.model.Truck;

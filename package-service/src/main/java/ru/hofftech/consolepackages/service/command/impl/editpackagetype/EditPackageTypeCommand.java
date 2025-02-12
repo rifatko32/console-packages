@@ -1,7 +1,7 @@
 package ru.hofftech.consolepackages.service.command.impl.editpackagetype;
 
 import lombok.RequiredArgsConstructor;
-import ru.hofftech.consolepackages.datastorage.repository.PackageTypeRepository;
+import ru.hofftech.consolepackages.repository.PackageTypeRepository;
 import ru.hofftech.consolepackages.service.command.Command;
 
 /**

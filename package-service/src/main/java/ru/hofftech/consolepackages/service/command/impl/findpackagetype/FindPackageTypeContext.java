@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import ru.hofftech.consolepackages.datastorage.model.entity.PackageType;
+import ru.hofftech.consolepackages.model.entity.PackageType;
 import ru.hofftech.consolepackages.service.command.CommandContextWithResult;
 import ru.hofftech.consolepackages.service.report.outputchannel.ReportOutputChannelType;
 

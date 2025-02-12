@@ -1,7 +1,7 @@
 package ru.hofftech.consolepackages.mapper.packagetype;
 
 import org.mapstruct.Mapper;
-import ru.hofftech.consolepackages.datastorage.model.entity.PackageType;
+import ru.hofftech.consolepackages.model.entity.PackageType;
 import ru.hofftech.consolepackages.model.dto.packagetype.CreatePackageTypeDto;
 import ru.hofftech.consolepackages.model.dto.packagetype.PackageTypeResponse;
 

@@ -1,4 +1,4 @@
-package ru.hofftech.consolepackages.datastorage.model.entity;
+package ru.hofftech.consolepackages.model.entity;
 
 import java.util.EnumMap;
 import java.util.Map;

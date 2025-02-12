@@ -1,4 +1,4 @@
-package ru.hofftech.consolepackages.datastorage.model.entity;
+package ru.hofftech.consolepackages.model.entity;
 
 import jakarta.persistence.Column;
 import ru.hofftech.consolepackages.service.packageitem.PackageSizeCalculator;
