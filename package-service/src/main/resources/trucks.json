@@ -1,0 +1,67 @@
+[
+  {
+    "backTruckSlots": [
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        "x",
+        "x",
+        "x",
+        null
+      ],
+      [
+        null,
+        null,
+        "x",
+        null,
+        "x",
+        null
+      ],
+      [
+        null,
+        null,
+        "x",
+        "x",
+        "x",
+        "x"
+      ]
+    ],
+    "width": 6,
+    "height": 6,
+    "id": "77b6a22c-5b34-436b-8d26-afbd7797d155",
+    "packages": [
+      {
+        "id": "cbce64b4-1127-4bd0-b23c-0049204b9053",
+        "description": "x",
+        "width": 4,
+        "height": 3,
+        "typeId": 1,
+        "form": "xxx\\nx x\\nxxxx"
+      }
+    ]
+  }
+]

@@ -1,4 +1,0 @@
-package ru.hofftech.consolepackages.service.command.impl;
-
-public class ExitConsoleCommand {
-}
